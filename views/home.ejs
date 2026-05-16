@@ -1,35 +1,271 @@
+<div id="loader">
 
-<div class="app">
-<div class="top-logo">
-  <% if(settings.logoUrl){ %>
-  <img src="<%= settings.logoUrl %>">
-  <% } else { %>
-  <h1>OMTOGEL</h1>
+  <div class="loader-box">
+
+    <% if(settings.logoUrl){ %>
+      <img
+        src="<%= settings.logoUrl %>"
+        class="loader-logo"
+      >
+    <% } %>
+
+    <div class="loader-spin"></div>
+
+    <p>MEMUAT APLIKASI...</p>
+
+  </div>
+
+</div>
+
+
+
+<div
+  class="app"
+  style="
+    background-image:url('<%= settings.backgroundUrl || '' %>');
+  "
+>
+
+  <!-- HEADER -->
+  <header class="top-header">
+
+    <div class="top-logo">
+
+      <% if(settings.logoUrl){ %>
+
+        <img
+          src="<%= settings.logoUrl %>"
+          alt="logo"
+        >
+
+      <% } else { %>
+
+        <h1>OMTOGEL</h1>
+
+      <% } %>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+
+    <marquee>
+      <%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM SPORTSBOOK' %>
+    </marquee>
+
+  </div>
+
+
+
+  <!-- POPUP -->
+  <% if(popup && popup.image){ %>
+
+    <div
+      class="popup-overlay"
+      id="promoPopup"
+    >
+
+      <div class="popup-box">
+
+        <button
+          class="popup-close"
+          onclick="closePopup()"
+        >
+          ×
+        </button>
+
+        <a href="<%= popup.link || '#' %>">
+
+          <img
+            src="<%= popup.image %>"
+            class="popup-image"
+          >
+
+        </a>
+
+        <div class="popup-content">
+
+          <h2>
+            <%= popup.title || '' %>
+          </h2>
+
+          <p>
+            <%= popup.description || '' %>
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
   <% } %>
+
+
+
+  <!-- SLIDER -->
+  <section class="slider-section">
+
+    <% if(sliders.length > 0){ %>
+
+      <div class="slider-wrapper">
+
+        <% sliders.forEach(item=>{ %>
+
+          <a
+            href="<%= item.link || '#' %>"
+            class="slider-item"
+          >
+
+            <img
+              src="<%= item.image %>"
+              alt="<%= item.title %>"
+            >
+
+          </a>
+
+        <% }) %>
+
+      </div>
+
+    <% } else { %>
+
+      <div class="placeholder-banner">
+        PREMIUM SPORTSBOOK
+      </div>
+
+    <% } %>
+
+  </section>
+
+
+
+  <!-- MENU -->
+  <section class="menu-section">
+
+    <div class="menu-grid">
+
+      <% menus.forEach(menu=>{ %>
+
+        <a
+          href="<%= menu.url %>"
+          class="menu-card"
+        >
+
+          <span>
+            <%= menu.title %>
+          </span>
+
+        </a>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- PROMO CARD -->
+  <section class="promo-section">
+
+    <div class="promo-card">
+
+      <div class="promo-badge">
+        PREMIUM
+      </div>
+
+      <h2>
+        OMTOGEL OFFICIAL
+      </h2>
+
+      <p>
+        Situs sportsbook premium dengan tampilan modern,
+        akses cepat, dan pengalaman mobile terbaik.
+      </p>
+
+      <a
+        href="/daftar"
+        class="promo-btn"
+      >
+        DAFTAR SEKARANG
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <p>
+      <%= settings.footer || 'OMTOGEL OFFICIAL' %>
+    </p>
+
+  </footer>
+
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <a href="/">
+      <span>HOME</span>
+    </a>
+
+    <a href="/daftar">
+      <span>DAFTAR</span>
+    </a>
+
+    <a href="/whatsapp">
+      <span>WHATSAPP</span>
+    </a>
+
+    <a href="/livechat">
+      <span>LIVECHAT</span>
+    </a>
+
+  </nav>
+
 </div>
 
-<div class="ticker"><marquee><%= settings.ticker %></marquee></div>
 
-<div class="slider">
-  <% if(sliders.length){ sliders.forEach(item=>{ %>
-    <img src="<%= item.image %>">
-  <% }) } else { %>
-  <div class="placeholder-banner">PREMIUM SPORTSBOOK</div>
-  <% } %>
-</div>
 
-<div class="menu-grid">
-  <% menus.forEach(menu=>{ %>
-  <a href="<%= menu.url %>" class="menu-card"><%= menu.title %></a>
-  <% }) %>
-</div>
+<script>
 
-<div class="footer"><%= settings.footer || 'OMTOGEL' %></div>
+window.addEventListener(
+  'load',
+  () => {
 
-<div class="bottom-nav">
-<a href="/">HOME</a>
-<a href="/daftar">DAFTAR</a>
-<a href="/whatsapp">WHATSAPP</a>
-<a href="/livechat">LIVECHAT</a>
-</div>
-</div>
+    const loader =
+      document.getElementById('loader');
+
+    setTimeout(() => {
+
+      loader.classList.add('hide');
+
+    }, 1200);
+
+  }
+);
+
+function closePopup(){
+
+  const popup =
+    document.getElementById('promoPopup');
+
+  if(popup){
+
+    popup.style.display = 'none';
+
+  }
+
+}
+
+</script>
