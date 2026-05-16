@@ -1,0 +1,7 @@
+
+module.exports = (req,res,next)=>{
+  if(req.session && req.session.admin){
+    return next();
+  }
+  return res.redirect('/itsiregar8008/login');
+};

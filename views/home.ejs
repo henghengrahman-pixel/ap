@@ -1,0 +1,35 @@
+
+<div class="app">
+<div class="top-logo">
+  <% if(settings.logoUrl){ %>
+  <img src="<%= settings.logoUrl %>">
+  <% } else { %>
+  <h1>OMTOGEL</h1>
+  <% } %>
+</div>
+
+<div class="ticker"><marquee><%= settings.ticker %></marquee></div>
+
+<div class="slider">
+  <% if(sliders.length){ sliders.forEach(item=>{ %>
+    <img src="<%= item.image %>">
+  <% }) } else { %>
+  <div class="placeholder-banner">PREMIUM SPORTSBOOK</div>
+  <% } %>
+</div>
+
+<div class="menu-grid">
+  <% menus.forEach(menu=>{ %>
+  <a href="<%= menu.url %>" class="menu-card"><%= menu.title %></a>
+  <% }) %>
+</div>
+
+<div class="footer"><%= settings.footer || 'OMTOGEL' %></div>
+
+<div class="bottom-nav">
+<a href="/">HOME</a>
+<a href="/daftar">DAFTAR</a>
+<a href="/whatsapp">WHATSAPP</a>
+<a href="/livechat">LIVECHAT</a>
+</div>
+</div>

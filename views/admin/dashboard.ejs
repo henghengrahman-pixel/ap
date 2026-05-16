@@ -1,0 +1,29 @@
+
+<div class="admin-wrap">
+<h1>OMTOGEL ADMIN</h1>
+
+<form action="/itsiregar8008/settings" method="POST" enctype="multipart/form-data" class="admin-card">
+<h2>Settings</h2>
+<input type="text" name="siteName" placeholder="Nama aplikasi" value="<%= settings.siteName || '' %>">
+<input type="text" name="ticker" placeholder="Ticker">
+<input type="text" name="footer" placeholder="Footer">
+<input type="text" name="loginUrl" placeholder="Login URL">
+<input type="text" name="registerUrl" placeholder="Daftar URL">
+<input type="text" name="whatsappUrl" placeholder="Whatsapp URL">
+<input type="text" name="livechatUrl" placeholder="Livechat URL">
+<label>Logo</label>
+<input type="file" name="logo">
+<label>Background</label>
+<input type="file" name="background">
+<button type="submit">SAVE SETTINGS</button>
+</form>
+
+<form action="/itsiregar8008/broadcast" method="POST" class="admin-card">
+<h2>Push Notification</h2>
+<input type="text" name="title" placeholder="Title">
+<textarea name="message" placeholder="Message"></textarea>
+<button type="submit">KIRIM NOTIFIKASI</button>
+</form>
+
+<a href="/itsiregar8008/logout" class="logout-btn">LOGOUT</a>
+</div>
