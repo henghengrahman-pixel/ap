@@ -3,10 +3,12 @@
   <div class="loader-box">
 
     <% if(settings.logoUrl){ %>
+
       <img
         src="<%= settings.logoUrl %>"
         class="loader-logo"
       >
+
     <% } %>
 
     <div class="loader-spin"></div>
@@ -144,25 +146,24 @@
 
 
 
-  <!-- MENU -->
-  <section class="menu-section">
+  <!-- QUICK LOGIN DAFTAR -->
+  <section class="quick-button-section">
 
-    <div class="menu-grid">
+    <div class="quick-button-grid">
 
-      <% menus.forEach(menu=>{ %>
+      <a
+        href="/login"
+        class="quick-btn silver-btn"
+      >
+        LOGIN
+      </a>
 
-        <a
-          href="<%= menu.url %>"
-          class="menu-card"
-        >
-
-          <span>
-            <%= menu.title %>
-          </span>
-
-        </a>
-
-      <% }) %>
+      <a
+        href="/daftar"
+        class="quick-btn red-btn"
+      >
+        DAFTAR
+      </a>
 
     </div>
 
@@ -170,30 +171,32 @@
 
 
 
-  <!-- PROMO CARD -->
-  <section class="promo-section">
+  <!-- MENU -->
+  <section class="menu-section">
 
-    <div class="promo-card">
+    <div class="menu-grid">
 
-      <div class="promo-badge">
-        PREMIUM
-      </div>
+      <% menus.forEach(menu=>{ %>
 
-      <h2>
-        OMTOGEL OFFICIAL
-      </h2>
+        <% if(
+          menu.title !== 'LOGIN' &&
+          menu.title !== 'DAFTAR'
+        ){ %>
 
-      <p>
-        Situs sportsbook premium dengan tampilan modern,
-        akses cepat, dan pengalaman mobile terbaik.
-      </p>
+          <a
+            href="<%= menu.url %>"
+            class="menu-card"
+          >
 
-      <a
-        href="/daftar"
-        class="promo-btn"
-      >
-        DAFTAR SEKARANG
-      </a>
+            <span>
+              <%= menu.title %>
+            </span>
+
+          </a>
+
+        <% } %>
+
+      <% }) %>
 
     </div>
 
