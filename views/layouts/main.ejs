@@ -6,57 +6,62 @@
 <meta charset="UTF-8">
 
 <meta
-  name="viewport"
-  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
->
+name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+/>
 
 <title>
 <%= settings?.siteName || title || 'OMTOGEL' %>
 </title>
 
 <meta
-  name="description"
-  content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
->
+name="description"
+content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
+/>
 
 <meta
-  name="keywords"
-  content="<%= settings?.siteKeywords || 'omtogel' %>"
->
+name="keywords"
+content="<%= settings?.siteKeywords || 'omtogel' %>"
+/>
 
 <meta
-  name="theme-color"
-  content="#050505"
->
+name="theme-color"
+content="#050505"
+/>
 
 <meta
-  property="og:title"
-  content="<%= settings?.siteName || 'OMTOGEL' %>"
->
+property="og:title"
+content="<%= settings?.siteName || 'OMTOGEL' %>"
+/>
 
 <meta
-  property="og:description"
-  content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
->
+property="og:description"
+content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
+/>
 
 <meta
-  property="og:image"
-  content="<%= settings?.logoUrl || settings?.heroImageUrl || '' %>"
->
+property="og:image"
+content="<%= settings?.logoUrl || settings?.heroImageUrl || '' %>"
+/>
 
 <% if(settings?.faviconUrl || settings?.logoUrl){ %>
 
 <link
-  rel="icon"
-  href="<%= settings.faviconUrl || settings.logoUrl %>"
->
+rel="icon"
+href="<%= settings.faviconUrl || settings.logoUrl %>"
+/>
 
 <% } %>
 
 <link
-  rel="stylesheet"
-  href="/assets/css/style.css"
->
+rel="stylesheet"
+href="/assets/css/style.css"
+/>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -96,7 +101,8 @@ WEBVIEW FULL
 
 position:fixed;
 
-inset:0;
+top:0;
+left:0;
 
 width:100%;
 height:100%;
@@ -137,12 +143,12 @@ height:78px;
 background:
 linear-gradient(
 to bottom,
-#d9d9d9,
+#e7e7e7,
 #9f9f9f
 );
 
 border-top:
-2px solid #f2f2f2;
+1px solid rgba(255,255,255,.45);
 
 display:flex;
 
@@ -151,6 +157,8 @@ align-items:center;
 justify-content:space-around;
 
 z-index:999999999;
+
+backdrop-filter:blur(10px);
 
 box-shadow:
 0 -5px 20px rgba(0,0,0,.45);
@@ -190,12 +198,11 @@ letter-spacing:.3px;
 
 }
 
-.bottom-item img{
+.bottom-item i{
 
-width:26px;
-height:26px;
+font-size:22px;
 
-object-fit:contain;
+color:#111;
 
 }
 
@@ -208,13 +215,13 @@ height:72px;
 
 border-radius:50%;
 
-margin-top:-26px;
+margin-top:-24px;
 
 background:
 linear-gradient(
 145deg,
-#f5f5f5,
-#8d8d8d
+#f8f8f8,
+#9a9a9a
 );
 
 border:
@@ -227,7 +234,7 @@ align-items:center;
 justify-content:center;
 
 box-shadow:
-0 0 20px rgba(255,255,255,.25);
+0 0 18px rgba(255,255,255,.28);
 
 cursor:pointer;
 
@@ -252,10 +259,9 @@ height:74px;
 
 }
 
-.bottom-item img{
+.bottom-item i{
 
-width:24px;
-height:24px;
+font-size:20px;
 
 }
 
@@ -267,8 +273,15 @@ font-size:10px;
 
 .bottom-center{
 
-width:68px;
-height:68px;
+width:66px;
+height:66px;
+
+}
+
+.bottom-center img{
+
+width:34px;
+height:34px;
 
 }
 
@@ -286,24 +299,18 @@ style="
 >
 
 <!-- =========================
-WEBVIEW / IFRAME
+WEBVIEW
 ========================= -->
 
 <div class="mobile-webview">
 
 <iframe
-  src="<%= settings?.mobileWebviewUrl || 'https://google.com' %>"
-  allowfullscreen
-  loading="lazy"
+src="<%= settings?.mobileWebviewUrl || '/home' %>"
+allowfullscreen
+loading="lazy"
 ></iframe>
 
 </div>
-
-<!-- =========================
-BODY CONTENT
-========================= -->
-
-<%- body %>
 
 <!-- =========================
 BOTTOM MENU
@@ -312,104 +319,75 @@ BOTTOM MENU
 <div class="bottom-nav">
 
 <a
-  href="<%= settings?.bottomMenu1Link || '#' %>"
-  class="bottom-item"
+href="<%= settings?.bottomMenu1Link || '#' %>"
+class="bottom-item"
 >
 
-  <img
-    src="<%= settings?.bottomMenu1Icon || '/images/menu.png' %>"
-  >
+<i class="fas fa-bars"></i>
 
-  <span>
-    <%= settings?.bottomMenu1Text || 'MENU' %>
-  </span>
+<span>
+<%= settings?.bottomMenu1Text || 'MENU' %>
+</span>
 
 </a>
 
 <a
-  href="<%= settings?.bottomMenu2Link || '#' %>"
-  class="bottom-item"
+href="<%= settings?.bottomMenu2Link || '#' %>"
+class="bottom-item"
 >
 
-  <img
-    src="<%= settings?.bottomMenu2Icon || '/images/live.png' %>"
-  >
+<i class="fas fa-tv"></i>
 
-  <span>
-    <%= settings?.bottomMenu2Text || 'LIVEDRAW' %>
-  </span>
+<span>
+<%= settings?.bottomMenu2Text || 'LIVEDRAW' %>
+</span>
 
 </a>
 
 <!-- CENTER REFRESH -->
 
 <button
-  type="button"
-  class="bottom-center"
-  onclick="window.location.reload()"
+type="button"
+class="bottom-center"
+onclick="window.location.reload()"
 >
 
-  <img
-    src="<%= settings?.logoUrl || '/images/logo.png' %>"
-    alt="logo"
-  >
+<img
+src="<%= settings?.logoUrl || '/images/logo.png' %>"
+alt="logo"
+/>
 
 </button>
 
 <a
-  href="<%= settings?.whatsappUrl || '#' %>"
-  class="bottom-item"
+href="<%= settings?.whatsappUrl || '#' %>"
+class="bottom-item"
 >
 
-  <img
-    src="<%= settings?.whatsappIcon || '/images/whatsapp.png' %>"
-  >
+<i class="fab fa-whatsapp"></i>
 
-  <span>
-    WHATSAPP
-  </span>
+<span>
+WHATSAPP
+</span>
 
 </a>
 
 <a
-  href="<%= settings?.bottomMenu4Link || '#' %>"
-  class="bottom-item"
+href="<%= settings?.bottomMenu4Link || '#' %>"
+class="bottom-item"
 >
 
-  <img
-    src="<%= settings?.bottomMenu4Icon || '/images/inbox.png' %>"
-  >
+<i class="fas fa-envelope"></i>
 
-  <span>
-    <%= settings?.bottomMenu4Text || 'INBOX' %>
-  </span>
+<span>
+<%= settings?.bottomMenu4Text || 'INBOX' %>
+</span>
 
 </a>
 
 </div>
 
 <script>
-
-/* =========================
-LOADER
-========================= */
-
-window.addEventListener('load',()=>{
-
-const loader =
-document.getElementById('loader');
-
-if(loader){
-
-setTimeout(()=>{
-
-loader.classList.add('hide')
-
-},350)
-
-}
-
-});
 
 /* =========================
 SOCKET
@@ -443,6 +421,24 @@ badge.style.display =
 });
 
 }catch(e){}
+
+/* =========================
+ANTI DOUBLE TAP ZOOM
+========================= */
+
+document.addEventListener(
+'touchstart',
+function(event){
+
+if(event.touches.length > 1){
+
+event.preventDefault();
+
+}
+
+},
+{ passive:false }
+);
 
 </script>
 
