@@ -1,0 +1,232 @@
+<div
+  class="inbox-page"
+  style="
+    background-image:
+      linear-gradient(rgba(5,5,5,.92),rgba(5,5,5,.98)),
+      url('<%= settings.backgroundUrl || '' %>');
+  "
+>
+
+  <!-- TOPBAR -->
+
+  <header class="inbox-topbar">
+
+    <div class="inbox-left">
+
+      <a href="/" class="back-button">
+        ←
+      </a>
+
+      <div class="inbox-heading">
+
+        <small>
+          MEMBER CENTER
+        </small>
+
+        <h1>
+          Inbox Pesan
+        </h1>
+
+      </div>
+
+    </div>
+
+    <% const unreadTotal = messages.filter(m=>!m.read).length; %>
+
+    <% if(unreadTotal){ %>
+
+      <div class="inbox-counter">
+
+        <span>
+          <%= unreadTotal %>
+        </span>
+
+      </div>
+
+    <% } %>
+
+  </header>
+
+  <!-- HERO -->
+
+  <section class="inbox-hero">
+
+    <div class="hero-strip"></div>
+
+    <div class="inbox-hero-content">
+
+      <h2>
+        Informasi Resmi Member
+      </h2>
+
+      <p>
+        Semua update promo, maintenance, bonus, prediksi dan informasi penting langsung dari admin resmi <%= settings.siteName || 'OMTOGEL' %>.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- MESSAGE LIST -->
+
+  <section class="inbox-wrapper">
+
+    <% if(messages.length){ %>
+
+      <% messages.forEach(msg=>{ %>
+
+        <article
+          class="
+            inbox-item
+            <%= msg.read ? '' : 'new-message' %>
+          "
+        >
+
+          <div class="message-line"></div>
+
+          <div class="inbox-item-top">
+
+            <div class="message-category">
+
+              <span></span>
+
+              <small>
+                <%= msg.category || 'INFO MEMBER' %>
+              </small>
+
+            </div>
+
+            <time>
+              <%= msg.date || '' %>
+            </time>
+
+          </div>
+
+          <% if(msg.imageUrl){ %>
+
+            <div class="message-banner">
+
+              <img
+                src="<%= msg.imageUrl %>"
+                alt="<%= msg.title %>"
+                onerror="this.style.display='none'"
+              >
+
+            </div>
+
+          <% } %>
+
+          <div class="message-body">
+
+            <h3>
+              <%= msg.title %>
+            </h3>
+
+            <p>
+              <%= msg.message %>
+            </p>
+
+          </div>
+
+          <% if(msg.link){ %>
+
+            <div class="message-action">
+
+              <a
+                href="<%= msg.link %>"
+                target="_blank"
+                class="message-button"
+              >
+                BUKA INFORMASI
+              </a>
+
+            </div>
+
+          <% } %>
+
+        </article>
+
+      <% }) %>
+
+    <% } else { %>
+
+      <div class="empty-inbox">
+
+        <div class="empty-icon">
+          ✉
+        </div>
+
+        <h3>
+          Belum Ada Pesan
+        </h3>
+
+        <p>
+          Semua informasi terbaru dari admin akan muncul di halaman ini.
+        </p>
+
+      </div>
+
+    <% } %>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer class="inbox-footer">
+
+    <p>
+      © <%= settings.siteName || 'OMTOGEL' %> OFFICIAL
+    </p>
+
+  </footer>
+
+  <!-- BOTTOM NAV -->
+
+  <nav class="mobile-dock">
+
+    <a href="/">
+
+      <i>⌂</i>
+
+      <span>Home</span>
+
+    </a>
+
+    <a href="/daftar">
+
+      <i>◎</i>
+
+      <span>Daftar</span>
+
+    </a>
+
+    <a href="/inbox" class="active">
+
+      <i>✉</i>
+
+      <span>Inbox</span>
+
+    </a>
+
+    <a href="/livechat">
+
+      <i>◉</i>
+
+      <span>Livechat</span>
+
+    </a>
+
+  </nav>
+
+</div>
+
+<script>
+
+fetch(
+  '/api/messages/read-all',
+  {
+    method:'POST'
+  }
+).catch(()=>{});
+
+</script>
