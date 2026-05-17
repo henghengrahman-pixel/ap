@@ -82,10 +82,24 @@
       href="/livechat"
       class="header-box"
     >
-      ◉
+      ☏
     </a>
 
   </header>
+
+
+
+  <!-- TICKER -->
+
+  <div class="top-running">
+
+    <marquee>
+
+      <%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM OFFICIAL • LIVECHAT ONLINE 24 JAM • PROMO MEMBER TERBARU TERSEDIA' %>
+
+    </marquee>
+
+  </div>
 
 
 
@@ -152,7 +166,7 @@
         </strong>
 
         <small>
-          AKSES MEMBER
+          MEMBER AREA
         </small>
 
       </div>
@@ -175,7 +189,7 @@
         </strong>
 
         <small>
-          BUAT AKUN BARU
+          AKUN BARU
         </small>
 
       </div>
@@ -216,10 +230,6 @@
                 <%= menu.title %>
               </strong>
 
-              <small>
-                <%= menu.subtitle || 'AKSES CEPAT' %>
-              </small>
-
             </div>
 
           </a>
@@ -236,25 +246,25 @@
 
   <!-- MESSAGE -->
 
-  <section class="mini-message">
+  <% const latestMessages =
+    messages.slice(0,2);
+  %>
 
-    <div class="mini-head">
+  <% if(latestMessages.length){ %>
 
-      <h3>
-        PESAN TERBARU
-      </h3>
+    <section class="mini-message">
 
-      <a href="/inbox">
-        LIHAT
-      </a>
+      <div class="mini-head">
 
-    </div>
+        <h3>
+          PESAN
+        </h3>
 
-    <% const latestMessages =
-      messages.slice(0,2);
-    %>
+        <a href="/inbox">
+          SEMUA
+        </a>
 
-    <% if(latestMessages.length){ %>
+      </div>
 
       <% latestMessages.forEach(msg=>{ %>
 
@@ -275,17 +285,9 @@
 
       <% }) %>
 
-    <% } else { %>
+    </section>
 
-      <div class="mini-empty">
-
-        BELUM ADA PESAN
-
-      </div>
-
-    <% } %>
-
-  </section>
+  <% } %>
 
 
 
