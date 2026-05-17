@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="login-page">
+<form method="POST" class="login-box">
+<h1>ADMIN LOGIN</h1>
+<input type="text" name="username" placeholder="ID">
+<input type="password" name="password" placeholder="PASSWORD">
+<button type="submit">LOGIN</button>
+<% if(error){ %><p><%= error %></p><% } %>
+</form>
+</body>
+</html>

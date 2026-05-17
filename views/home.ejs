@@ -1,0 +1,274 @@
+<div id="loader">
+
+  <div class="loader-box">
+
+    <% if(settings.logoUrl){ %>
+
+      <img
+        src="<%= settings.logoUrl %>"
+        class="loader-logo"
+      >
+
+    <% } %>
+
+    <div class="loader-spin"></div>
+
+    <p>MEMUAT APLIKASI...</p>
+
+  </div>
+
+</div>
+
+
+
+<div
+  class="app"
+  style="
+    background-image:url('<%= settings.backgroundUrl || '' %>');
+  "
+>
+
+  <!-- HEADER -->
+  <header class="top-header">
+
+    <div class="top-logo">
+
+      <% if(settings.logoUrl){ %>
+
+        <img
+          src="<%= settings.logoUrl %>"
+          alt="logo"
+        >
+
+      <% } else { %>
+
+        <h1>OMTOGEL</h1>
+
+      <% } %>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+
+    <marquee>
+      <%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM SPORTSBOOK' %>
+    </marquee>
+
+  </div>
+
+
+
+  <!-- POPUP -->
+  <% if(popup && popup.image){ %>
+
+    <div
+      class="popup-overlay"
+      id="promoPopup"
+    >
+
+      <div class="popup-box">
+
+        <button
+          class="popup-close"
+          onclick="closePopup()"
+        >
+          ×
+        </button>
+
+        <a href="<%= popup.link || '#' %>">
+
+          <img
+            src="<%= popup.image %>"
+            class="popup-image"
+          >
+
+        </a>
+
+        <div class="popup-content">
+
+          <h2>
+            <%= popup.title || '' %>
+          </h2>
+
+          <p>
+            <%= popup.description || '' %>
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  <% } %>
+
+
+
+  <!-- SLIDER -->
+  <section class="slider-section">
+
+    <% if(sliders.length > 0){ %>
+
+      <div class="slider-wrapper">
+
+        <% sliders.forEach(item=>{ %>
+
+          <a
+            href="<%= item.link || '#' %>"
+            class="slider-item"
+          >
+
+            <img
+              src="<%= item.image %>"
+              alt="<%= item.title %>"
+            >
+
+          </a>
+
+        <% }) %>
+
+      </div>
+
+    <% } else { %>
+
+      <div class="placeholder-banner">
+        PREMIUM SPORTSBOOK
+      </div>
+
+    <% } %>
+
+  </section>
+
+
+
+  <!-- QUICK LOGIN DAFTAR -->
+  <section class="quick-button-section">
+
+    <div class="quick-button-grid">
+
+      <a
+        href="/login"
+        class="quick-btn silver-btn"
+      >
+        LOGIN
+      </a>
+
+      <a
+        href="/daftar"
+        class="quick-btn red-btn"
+      >
+        DAFTAR
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- MENU -->
+  <section class="menu-section">
+
+    <div class="menu-grid">
+
+      <% menus.forEach(menu=>{ %>
+
+        <% if(
+          menu.title !== 'LOGIN' &&
+          menu.title !== 'DAFTAR'
+        ){ %>
+
+          <a
+            href="<%= menu.url %>"
+            class="menu-card"
+          >
+
+            <span>
+              <%= menu.title %>
+            </span>
+
+          </a>
+
+        <% } %>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <p>
+      <%= settings.footer || 'OMTOGEL OFFICIAL' %>
+    </p>
+
+  </footer>
+
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <a href="/">
+      <span>HOME</span>
+    </a>
+
+    <a href="/daftar">
+      <span>DAFTAR</span>
+    </a>
+
+    <a href="/whatsapp">
+      <span>WHATSAPP</span>
+    </a>
+
+    <a href="/livechat">
+      <span>LIVECHAT</span>
+    </a>
+
+  </nav>
+
+</div>
+
+
+
+<script>
+
+window.addEventListener(
+  'load',
+  () => {
+
+    const loader =
+      document.getElementById('loader');
+
+    setTimeout(() => {
+
+      loader.classList.add('hide');
+
+    }, 1200);
+
+  }
+);
+
+function closePopup(){
+
+  const popup =
+    document.getElementById('promoPopup');
+
+  if(popup){
+
+    popup.style.display = 'none';
+
+  }
+
+}
+
+</script>
