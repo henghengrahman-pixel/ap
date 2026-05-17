@@ -1,0 +1,20 @@
+{
+  "siteName": "OMTOGEL",
+  "subtitle": "Premium Webview App",
+  "siteDescription": "Aplikasi webview premium dengan menu bawah permanen.",
+  "siteKeywords": "omtogel, webview, live draw, whatsapp, inbox",
+  "logoUrl": "",
+  "faviconUrl": "",
+  "backgroundUrl": "",
+  "footer": "© OMTOGEL OFFICIAL",
+  "mainWebviewUrl": "https://omtogelblue.com/",
+  "bottomMenuUrl": "https://omtogelblue.com/",
+  "liveDrawUrl": "#",
+  "whatsappUrl": "#",
+  "inboxUrl": "/inbox-frame",
+  "loginUrl": "#",
+  "registerUrl": "#",
+  "livechatUrl": "#",
+  "primaryColor": "#c0c0c0",
+  "accentColor": "#111111"
+}

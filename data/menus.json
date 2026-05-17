@@ -1,0 +1,34 @@
+[
+  {
+    "id": "m1",
+    "title": "RTP SLOT GACOR",
+    "subtitle": "Provider Terlengkap",
+    "url": "/rtp",
+    "icon": "▦",
+    "imageUrl": ""
+  },
+  {
+    "id": "m2",
+    "title": "PREDIKSI",
+    "subtitle": "Togel Jitu",
+    "url": "/prediksi-togel",
+    "icon": "◎",
+    "imageUrl": ""
+  },
+  {
+    "id": "m3",
+    "title": "BUKTI JACKPOT",
+    "subtitle": "Pasti Bayar",
+    "url": "#",
+    "icon": "♛",
+    "imageUrl": ""
+  },
+  {
+    "id": "m4",
+    "title": "JADWAL PASARAN",
+    "subtitle": "Live Update",
+    "url": "#",
+    "icon": "◈",
+    "imageUrl": ""
+  }
+]

@@ -1,0 +1,26 @@
+<section class="inbox-frame-page">
+  <header class="inbox-head">
+    <h1>INBOX</h1>
+    <p>Pesan terbaru dari admin.</p>
+  </header>
+
+  <% if(messages.length){ %>
+    <div class="inbox-list">
+      <% messages.forEach(msg => { %>
+        <article class="inbox-card">
+          <small><%= msg.category || 'INFO' %> • <%= msg.date || '' %></small>
+          <h3><%= msg.title || 'Pesan' %></h3>
+          <% if(msg.imageUrl){ %>
+            <img src="<%= msg.imageUrl %>" alt="<%= msg.title || 'Pesan' %>" onerror="this.style.display='none'">
+          <% } %>
+          <p><%= msg.message || '' %></p>
+          <% if(msg.link){ %>
+            <a href="<%= msg.link %>" target="_blank" rel="noopener">Buka Link</a>
+          <% } %>
+        </article>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="empty-inbox">Belum ada pesan.</div>
+  <% } %>
+</section>
