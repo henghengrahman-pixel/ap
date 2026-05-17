@@ -1,372 +1,95 @@
 <div id="loader">
-
   <div class="loader-box">
-
-    <% if(settings.logoUrl){ %>
-
-      <img
-        src="<%= settings.logoUrl %>"
-        class="loader-logo"
-        alt="logo"
-      >
-
-    <% } %>
-
-    <div class="loader-ring"></div>
-
-    <div class="loader-info">
-
-      <strong>
-        <%= settings.siteName || 'OMTOGEL' %>
-      </strong>
-
-      <span>
-        MEMUAT APLIKASI...
-      </span>
-
-    </div>
-
+    <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" class="loader-logo" onerror="this.style.display='none'"><% } %>
+    <div class="loader-spin"></div>
+    <p>MEMUAT APLIKASI...</p>
   </div>
-
 </div>
 
-
-
-<div
-  class="sportsbook-app"
-  style="
-    background-image:
-      linear-gradient(rgba(0,0,0,.88),rgba(0,0,0,.96)),
-      url('<%= settings.backgroundUrl || '' %>');
-  "
->
-
-  <!-- HEADER -->
-
-  <header class="sportsbook-header">
-
-    <div class="header-logo">
-
-      <% if(settings.logoUrl){ %>
-
-        <img
-          src="<%= settings.logoUrl %>"
-          alt="logo"
-        >
-
-      <% } else { %>
-
-        <h1>
-          <%= settings.siteName || 'OMTOGEL' %>
-        </h1>
-
-      <% } %>
-
+<div class="app" style="background-image:url('<%= settings.backgroundUrl || '' %>')">
+  <header class="premium-header">
+    <div class="brand-mark">
+      <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" alt="<%= settings.siteName %>" onerror="this.style.display='none'"><% } else { %><strong><%= settings.siteName || 'OMTOGEL' %></strong><% } %>
     </div>
-
-    <a
-      href="/inbox"
-      class="header-inbox"
-    >
-
-      ✉
-
-      <% const unreadCount = messages.filter(m=>!m.read).length; %>
-
-      <% if(unreadCount){ %>
-
-        <span>
-          <%= unreadCount %>
-        </span>
-
-      <% } %>
-
+    <a href="/inbox" class="inbox-pill">
+      <span>Inbox</span>
+      <b data-inbox-badge style="display:<%= messages.filter(m=>!m.read).length ? 'grid' : 'none' %>"><%= messages.filter(m=>!m.read).length %></b>
     </a>
-
   </header>
 
-
-
-  <!-- TICKER -->
-
-  <div class="ticker-bar">
-
-    <div class="ticker-badge">
-      LIVE
+  <section class="hero-premium">
+    <div class="hero-copy">
+      <span class="eyebrow">PREMIUM MEMBER AREA</span>
+      <h1><%= settings.siteName || 'OMTOGEL' %></h1>
+      <p><%= settings.subtitle || 'Akses cepat, info terbaru, promo, livechat, dan inbox pesan member dalam satu aplikasi.' %></p>
     </div>
+    <% if(settings.heroImageUrl){ %><img class="hero-img" src="<%= settings.heroImageUrl %>" onerror="this.style.display='none'"><% } %>
+  </section>
 
-    <marquee>
+  <div class="ticker-wrap"><marquee><%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM OFFICIAL' %></marquee></div>
 
-      <%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM SPORTSBOOK • LIVECHAT ONLINE 24 JAM • BONUS MEMBER TERSEDIA' %>
-
-    </marquee>
-
-  </div>
-
-
-
-  <!-- POPUP -->
-
-  <% if(popup && popup.image){ %>
-
-    <div
-      class="popup-overlay"
-      id="promoPopup"
-    >
-
-      <div class="popup-card">
-
-        <button
-          class="popup-close"
-          onclick="closePopup()"
-        >
-          ×
-        </button>
-
-        <a
-          href="<%= popup.link || '#' %>"
-          class="popup-image-wrap"
-        >
-
-          <img
-            src="<%= popup.image %>"
-            class="popup-image"
-          >
-
-        </a>
-
-        <div class="popup-body">
-
-          <h2>
-            <%= popup.title || 'PROMO MEMBER' %>
-          </h2>
-
-          <p>
-            <%= popup.description || '' %>
-          </p>
-
-        </div>
-
+  <% if(popup && popup.active && (popup.title || popup.imageUrl)){ %>
+  <div class="popup-overlay" id="popupBox">
+    <div class="popup-box">
+      <button class="popup-close" onclick="document.getElementById('popupBox').remove()">×</button>
+      <% if(popup.imageUrl){ %><img src="<%= popup.imageUrl %>" class="popup-image"><% } %>
+      <div class="popup-content">
+        <h2><%= popup.title %></h2>
+        <p><%= popup.description %></p>
+        <% if(popup.link){ %><a href="<%= popup.link %>" class="promo-btn">BUKA INFO</a><% } %>
       </div>
-
     </div>
-
+  </div>
   <% } %>
 
-
-
-  <!-- SLIDER -->
-
-  <section class="banner-section">
-
-    <% if(sliders.length > 0){ %>
-
-      <div class="banner-slider">
-
-        <% sliders.forEach(item=>{ %>
-
-          <a
-            href="<%= item.link || '#' %>"
-            class="banner-card"
-          >
-
-            <img
-              src="<%= item.image %>"
-              alt="<%= item.title %>"
-            >
-
-          </a>
-
-        <% }) %>
-
-      </div>
-
-    <% } else { %>
-
-      <div class="empty-banner">
-
-        PREMIUM SPORTSBOOK
-
-      </div>
-
-    <% } %>
-
+  <section class="quick-actions">
+    <a href="/login" class="action-login">LOGIN</a>
+    <a href="/daftar" class="action-register">DAFTAR</a>
   </section>
 
-
-
-  <!-- LOGIN DAFTAR -->
-
-  <section class="auth-section">
-
-    <div class="auth-grid">
-
-      <a
-        href="/login"
-        class="auth-btn silver-auth"
-      >
-        LOGIN
-      </a>
-
-      <a
-        href="/daftar"
-        class="auth-btn red-auth"
-      >
-        DAFTAR
-      </a>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- MENU -->
-
-  <section class="sportsbook-menu">
-
-    <div class="sportsbook-grid">
-
-      <% menus.forEach((menu,index)=>{ %>
-
-        <% if(
-          menu.title !== 'LOGIN' &&
-          menu.title !== 'DAFTAR'
-        ){ %>
-
-          <a
-            href="<%= menu.url %>"
-            class="
-              sportsbook-card
-              <%= index === 2 ? 'main-card' : '' %>
-            "
-          >
-
-            <% if(menu.icon){ %>
-
-              <div class="sportsbook-icon">
-
-                <%= menu.icon %>
-
-              </div>
-
-            <% } %>
-
-            <span>
-
-              <%= menu.title %>
-
-            </span>
-
-          </a>
-
-        <% } %>
-
+  <section class="slider-section">
+    <% if(sliders.length){ %>
+      <div class="slider-wrapper">
+      <% sliders.forEach(item=>{ %>
+        <a href="<%= item.link || '#' %>" class="slider-item">
+          <img src="<%= item.imageUrl || item.image %>" alt="<%= item.title || 'Banner' %>" onerror="this.closest('.slider-item').style.display='none'">
+          <% if(item.title){ %><span><%= item.title %></span><% } %>
+        </a>
       <% }) %>
-
-    </div>
-
+      </div>
+    <% } else { %>
+      <div class="placeholder-banner">PREMIUM SPORTSBOOK</div>
+    <% } %>
   </section>
 
+  <section class="message-preview">
+    <div class="section-title"><h2>Pesan Terbaru</h2><a href="/inbox">Lihat semua</a></div>
+    <% const latest = messages.slice(0,3); %>
+    <% if(latest.length){ latest.forEach(msg=>{ %>
+      <a class="message-card" href="/inbox">
+        <small><%= msg.category || 'INFO' %> • <%= msg.date || '' %></small>
+        <strong><%= msg.title %></strong>
+        <p><%= msg.message %></p>
+      </a>
+    <% }) } else { %>
+      <div class="empty-state">Belum ada pesan dari admin.</div>
+    <% } %>
+  </section>
 
+  <section class="menu-section">
+    <div class="menu-grid">
+      <% menus.forEach(menu=>{ %>
+        <a href="<%= menu.url || '#' %>" class="menu-card"><i><%= menu.icon || '◆' %></i><span><%= menu.title %></span></a>
+      <% }) %>
+    </div>
+  </section>
 
-  <!-- FOOTER -->
+  <footer class="footer"><p><%= settings.footer || '© OMTOGEL OFFICIAL' %></p></footer>
 
-  <footer class="sportsbook-footer">
-
-    <p>
-
-      <%= settings.footer || '© OMTOGEL OFFICIAL ALL RIGHTS RESERVED' %>
-
-    </p>
-
-  </footer>
-
-
-
-  <!-- BOTTOM NAV -->
-
-  <nav class="dock-nav">
-
-    <a href="/" class="active">
-
-      <i>⌂</i>
-
-      <span>HOME</span>
-
-    </a>
-
-    <a href="/daftar">
-
-      <i>◎</i>
-
-      <span>DAFTAR</span>
-
-    </a>
-
-    <a href="/whatsapp">
-
-      <i>◉</i>
-
-      <span>WHATSAPP</span>
-
-    </a>
-
-    <a href="/livechat">
-
-      <i>✦</i>
-
-      <span>LIVECHAT</span>
-
-    </a>
-
+  <nav class="bottom-nav">
+    <a href="/">HOME</a>
+    <a href="/daftar">DAFTAR</a>
+    <a href="/inbox">PESAN</a>
+    <a href="/livechat">LIVECHAT</a>
   </nav>
-
 </div>
-
-
-
-<script>
-
-window.addEventListener(
-  'load',
-  () => {
-
-    const loader =
-      document.getElementById(
-        'loader'
-      );
-
-    setTimeout(() => {
-
-      loader.classList.add(
-        'hide'
-      );
-
-    }, 1000);
-
-  }
-);
-
-function closePopup(){
-
-  const popup =
-    document.getElementById(
-      'promoPopup'
-    );
-
-  if(popup){
-
-    popup.style.opacity = '0';
-
-    setTimeout(() => {
-
-      popup.remove();
-
-    }, 250);
-
-  }
-
-}
-
-</script>
