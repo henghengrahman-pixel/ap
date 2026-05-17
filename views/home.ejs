@@ -1,0 +1,113 @@
+<% const unreadCount = messages.filter(m => !m.read).length; %>
+<% const fallbackImg = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#111"/><stop offset="1" stop-color="#000"/></linearGradient></defs><rect width="900" height="300" fill="url(#g)"/><rect x="18" y="18" width="864" height="264" rx="34" fill="none" stroke="#d7b400" stroke-width="5"/><text x="50" y="130" fill="#ffd400" font-family="Arial" font-size="54" font-weight="900">OMTOGEL MENU</text><text x="54" y="190" fill="#fff" font-family="Arial" font-size="32" font-weight="700">Atur gambar ini dari admin</text></svg>'); %>
+
+<div id="loader" class="loader-screen">
+  <div class="loader-box">
+    <% if(settings.logoUrl){ %>
+      <img src="<%= settings.logoUrl %>" alt="<%= settings.siteName || 'OMTOGEL' %>" onerror="this.style.display='none'">
+    <% } else { %>
+      <strong><%= settings.siteName || 'OMTOGEL' %></strong>
+    <% } %>
+    <div class="loader-ring"></div>
+    <p>MEMUAT APLIKASI...</p>
+  </div>
+</div>
+
+<div class="webview-app">
+  <main class="webview-area">
+    <iframe
+      id="mainFrame"
+      src="<%= settings.mainWebviewUrl || '/blank-frame' %>"
+      title="<%= settings.siteName || 'OMTOGEL' %>"
+      loading="eager"
+      referrerpolicy="no-referrer-when-downgrade"
+      allow="clipboard-read; clipboard-write; fullscreen; payment; autoplay"
+    ></iframe>
+  </main>
+
+  <section id="menuPopup" class="menu-popup" aria-label="Menu popup">
+    <div class="menu-popup-scroll">
+      <a href="<%= settings.menuCard1Link || '#' %>" data-menu-link="<%= settings.menuCard1Link || '#' %>" class="menu-card" style="background-image:url('<%= settings.menuCard1Image || fallbackImg %>')">
+        <div class="menu-shade"></div><div class="menu-copy"><h3><%= settings.menuCard1Title || 'RTP SLOT GACOR' %></h3><p><%= settings.menuCard1Desc || 'Provider Lengkap' %></p></div>
+      </a>
+      <a href="<%= settings.menuCard2Link || '#' %>" data-menu-link="<%= settings.menuCard2Link || '#' %>" class="menu-card" style="background-image:url('<%= settings.menuCard2Image || fallbackImg %>')">
+        <div class="menu-shade"></div><div class="menu-copy"><h3><%= settings.menuCard2Title || 'PREDIKSI' %></h3><p><%= settings.menuCard2Desc || 'Togel Jitu' %></p></div>
+      </a>
+      <a href="<%= settings.menuCard3Link || '#' %>" data-menu-link="<%= settings.menuCard3Link || '#' %>" class="menu-card" style="background-image:url('<%= settings.menuCard3Image || fallbackImg %>')">
+        <div class="menu-shade"></div><div class="menu-copy"><h3><%= settings.menuCard3Title || 'BUKTI JACKPOT' %></h3><p><%= settings.menuCard3Desc || 'Pasti Bayar' %></p></div>
+      </a>
+      <a href="<%= settings.menuCard4Link || '#' %>" data-menu-link="<%= settings.menuCard4Link || '#' %>" class="menu-card" style="background-image:url('<%= settings.menuCard4Image || fallbackImg %>')">
+        <div class="menu-shade"></div><div class="menu-copy"><h3><%= settings.menuCard4Title || 'JADWAL PASARAN' %></h3><p><%= settings.menuCard4Desc || 'Live Update' %></p></div>
+      </a>
+    </div>
+  </section>
+
+  <nav class="bottom-nav" aria-label="Menu bawah">
+    <button type="button" id="openMenuBtn" class="bottom-item">
+      <span class="nav-icon">☰</span>
+      <span class="nav-text">MENU</span>
+    </button>
+    <button type="button" class="bottom-item" data-frame-url="<%= settings.liveDrawUrl || '#' %>">
+      <span class="nav-icon">▦</span>
+      <span class="nav-text">LIVEDRAW</span>
+    </button>
+    <button type="button" class="bottom-logo" id="refreshFrame" aria-label="Refresh halaman atas">
+      <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" alt="Refresh" onerror="this.outerHTML='<span>⟳</span>'"><% } else { %><span>⟳</span><% } %>
+    </button>
+    <button type="button" class="bottom-item" data-frame-url="<%= settings.whatsappUrl || '#' %>">
+      <span class="nav-icon">☎</span>
+      <span class="nav-text">WHATSAPP</span>
+    </button>
+    <button type="button" class="bottom-item" data-frame-url="<%= settings.inboxUrl || '/inbox-frame' %>">
+      <span class="nav-icon">✉</span>
+      <span class="nav-text">INBOX</span>
+      <em data-inbox-badge style="<%= unreadCount ? '' : 'display:none' %>"><%= unreadCount %></em>
+    </button>
+  </nav>
+</div>
+
+<script>
+(function(){
+  const loader = document.getElementById('loader');
+  const frame = document.getElementById('mainFrame');
+  const menuPopup = document.getElementById('menuPopup');
+  const openMenuBtn = document.getElementById('openMenuBtn');
+  const refresh = document.getElementById('refreshFrame');
+  const frameButtons = document.querySelectorAll('[data-frame-url]');
+  const cardLinks = document.querySelectorAll('[data-menu-link]');
+
+  function usable(url){ return url && url !== '#'; }
+  function loadFrame(url){ if(usable(url)){ frame.src = url; } }
+
+  openMenuBtn.addEventListener('click', function(){ menuPopup.classList.toggle('active'); });
+
+  frameButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      menuPopup.classList.remove('active');
+      document.querySelectorAll('.bottom-item').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+      loadFrame(this.dataset.frameUrl);
+    });
+  });
+
+  cardLinks.forEach(function(link){
+    link.addEventListener('click', function(e){
+      const url = this.dataset.menuLink;
+      if(usable(url)){
+        e.preventDefault();
+        loadFrame(url);
+        menuPopup.classList.remove('active');
+      }
+    });
+  });
+
+  refresh.addEventListener('click', function(){
+    try{ frame.contentWindow.location.reload(); }
+    catch(e){ frame.src = frame.src; }
+  });
+
+  frame.addEventListener('load', function(){ if(loader){ loader.classList.add('hide'); } });
+  setTimeout(function(){ if(loader){ loader.classList.add('hide'); } }, 1800);
+  if(location.hash === '#inbox'){ loadFrame('<%= settings.inboxUrl || '/inbox-frame' %>'); }
+})();
+</script>
