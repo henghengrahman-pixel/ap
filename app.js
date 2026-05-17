@@ -8,42 +8,112 @@ const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
 const cors = require('cors');
 const http = require('http');
+const compression = require('compression');
+const helmet = require('helmet');
+
 const { Server } = require('socket.io');
 
 const webRoutes = require('./routes/web');
 const adminRoutes = require('./routes/admin');
-const { initFirebase } = require('./services/fcm');
+
+const {
+  initFirebase
+} = require('./services/fcm');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  }
+});
 
 global.io = io;
 
+/*
+|--------------------------------------------------------------------------
+| FIREBASE INIT
+|--------------------------------------------------------------------------
+*/
+
 initFirebase();
 
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
+/*
+|--------------------------------------------------------------------------
+| PATH
+|--------------------------------------------------------------------------
+*/
+
+const ROOT_DIR = process.cwd();
+
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
+
 const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
-const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 
-if (!fs.existsSync(PUBLIC_DIR)) {
-  fs.mkdirSync(PUBLIC_DIR, { recursive: true });
-}
+const DATA_DIR = process.env.DATA_DIR
+  ? process.env.DATA_DIR
+  : path.join(ROOT_DIR, 'data');
 
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-}
+/*
+|--------------------------------------------------------------------------
+| CREATE DIRECTORY
+|--------------------------------------------------------------------------
+*/
 
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
+[
+  PUBLIC_DIR,
+  UPLOAD_DIR,
+  DATA_DIR
+].forEach((dir) => {
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, {
+      recursive: true
+    });
+  }
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| VIEW ENGINE
+|--------------------------------------------------------------------------
+*/
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(process.cwd(), 'views'));
+
+app.set(
+  'views',
+  path.join(ROOT_DIR, 'views')
+);
 
 app.use(expressLayouts);
 
-app.set('layout', 'layouts/main');
+app.set(
+  'layout',
+  'layouts/main'
+);
+
+/*
+|--------------------------------------------------------------------------
+| SECURITY
+|--------------------------------------------------------------------------
+*/
+
+app.disable('x-powered-by');
+
+app.use(helmet({
+  contentSecurityPolicy: false
+}));
+
+app.use(compression());
+
+/*
+|--------------------------------------------------------------------------
+| MIDDLEWARE
+|--------------------------------------------------------------------------
+*/
 
 app.use(cors());
 
@@ -58,70 +128,245 @@ app.use(express.json({
 
 app.use(methodOverride('_method'));
 
+/*
+|--------------------------------------------------------------------------
+| SESSION
+|--------------------------------------------------------------------------
+*/
+
+app.set('trust proxy', 1);
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'omtogel',
+
+  name: 'omtogel.sid',
+
+  secret:
+    process.env.SESSION_SECRET ||
+    'omtogel_super_secret',
+
   resave: false,
+
   saveUninitialized: false,
+
   cookie: {
-    secure: false,
-    maxAge: 1000 * 60 * 60 * 24 * 7
+
+    secure:
+      process.env.NODE_ENV === 'production',
+
+    httpOnly: true,
+
+    sameSite: 'lax',
+
+    maxAge:
+      1000 * 60 * 60 * 24 * 7
+
   }
+
 }));
 
-app.use(express.static(PUBLIC_DIR));
+/*
+|--------------------------------------------------------------------------
+| STATIC
+|--------------------------------------------------------------------------
+*/
+
+app.use(express.static(PUBLIC_DIR, {
+
+  maxAge: '7d',
+
+  etag: true,
+
+  index: false
+
+}));
+
+/*
+|--------------------------------------------------------------------------
+| GLOBAL
+|--------------------------------------------------------------------------
+*/
 
 app.use((req, res, next) => {
-  res.locals.baseUrl = process.env.BASE_URL || '';
+
+  res.locals.baseUrl =
+    process.env.BASE_URL || '';
+
+  res.locals.siteName =
+    process.env.SITE_NAME || 'OMTOGEL';
+
   next();
+
 });
+
+/*
+|--------------------------------------------------------------------------
+| SOCKET
+|--------------------------------------------------------------------------
+*/
 
 io.on('connection', (socket) => {
-  console.log('USER CONNECTED');
-});
 
-app.use('/', webRoutes);
-app.use('/itsiregar8008', adminRoutes);
+  console.log(
+    'SOCKET CONNECTED:',
+    socket.id
+  );
 
-app.use((req, res) => {
+  socket.on('disconnect', () => {
 
-  if (req.originalUrl.startsWith('/api')) {
-    return res.status(404).json({
-      success: false,
-      message: 'API NOT FOUND'
-    });
-  }
+    console.log(
+      'SOCKET DISCONNECTED:',
+      socket.id
+    );
 
-  return res.status(404).render('simple', {
-    layout: 'layouts/main',
-    title: '404 PAGE'
   });
 
 });
 
+/*
+|--------------------------------------------------------------------------
+| ROUTES
+|--------------------------------------------------------------------------
+*/
+
+app.get('/ping', (req, res) => {
+  return res.send('OK');
+});
+
+app.use('/', webRoutes);
+
+app.use(
+  '/itsiregar8008',
+  adminRoutes
+);
+
+/*
+|--------------------------------------------------------------------------
+| 404
+|--------------------------------------------------------------------------
+*/
+
+app.use((req, res) => {
+
+  if (
+    req.originalUrl.startsWith('/api')
+  ) {
+
+    return res.status(404).json({
+      success: false,
+      message: 'API NOT FOUND'
+    });
+
+  }
+
+  return res.status(404).render(
+    'simple',
+    {
+      layout: 'layouts/main',
+      title: '404 PAGE'
+    }
+  );
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| ERROR HANDLER
+|--------------------------------------------------------------------------
+*/
+
 app.use((err, req, res, next) => {
 
-  console.error(err);
+  console.error(
+    'SERVER ERROR:',
+    err
+  );
 
   return res.status(500).send(`
-    <div style="
-      background:#050505;
-      color:#fff;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      font-family:Arial;
-    ">
-      <h1>SERVER ERROR</h1>
-      <p>${err.message}</p>
-    </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SERVER ERROR</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#050505;
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+  padding:20px;
+}
+
+.error-box{
+  width:100%;
+  max-width:700px;
+  background:#111;
+  border:1px solid #222;
+  border-radius:20px;
+  padding:40px;
+  text-align:center;
+}
+
+.error-box h1{
+  font-size:40px;
+  margin-bottom:20px;
+  color:#ff4d4d;
+}
+
+.error-box p{
+  font-size:16px;
+  line-height:1.7;
+  color:#ccc;
+  word-break:break-word;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="error-box">
+
+<h1>SERVER ERROR</h1>
+
+<p>${err.message}</p>
+
+</div>
+
+</body>
+</html>
   `);
 
 });
 
-const PORT = process.env.PORT || 8080;
+/*
+|--------------------------------------------------------------------------
+| START SERVER
+|--------------------------------------------------------------------------
+*/
+
+const PORT =
+  process.env.PORT || 8080;
 
 server.listen(PORT, () => {
-  console.log('RUNNING ON ' + PORT);
+
+  console.log(`
+===================================
+ OMTOGEL SERVER RUNNING
+ PORT : ${PORT}
+ MODE : ${process.env.NODE_ENV || 'development'}
+===================================
+  `);
+
 });
