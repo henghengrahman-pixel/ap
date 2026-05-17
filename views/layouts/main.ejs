@@ -1,32 +1,747 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title><%= settings?.siteName || title || 'OMTOGEL' %></title>
-<meta name="description" content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>">
-<meta name="keywords" content="<%= settings?.siteKeywords || 'omtogel' %>">
-<meta name="theme-color" content="#050505">
-<meta property="og:title" content="<%= settings?.siteName || 'OMTOGEL' %>">
-<meta property="og:description" content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>">
-<meta property="og:image" content="<%= settings?.logoUrl || '' %>">
-<% if(settings?.faviconUrl || settings?.logoUrl){ %><link rel="icon" href="<%= settings.faviconUrl || settings.logoUrl %>"><% } %>
-<link rel="stylesheet" href="/assets/css/style.css">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+/>
+
+<title>
+<%= settings?.siteName || title || 'OMTOGEL' %>
+</title>
+
+<meta
+name="description"
+content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
+/>
+
+<meta
+name="keywords"
+content="<%= settings?.siteKeywords || 'omtogel' %>"
+/>
+
+<meta
+name="theme-color"
+content="#050505"
+/>
+
+<meta
+property="og:title"
+content="<%= settings?.siteName || 'OMTOGEL' %>"
+/>
+
+<meta
+property="og:description"
+content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
+/>
+
+<meta
+property="og:image"
+content="<%= settings?.logoUrl || '' %>"
+/>
+
+<% if(settings?.faviconUrl || settings?.logoUrl){ %>
+
+<link
+rel="icon"
+href="<%= settings.faviconUrl || settings.logoUrl %>"
+/>
+
+<% } %>
+
+<link
+rel="stylesheet"
+href="/assets/css/style.css"
+/>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
 <script src="/socket.io/socket.io.js"></script>
+
+<style>
+
+/* =========================
+RESET
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,
+body{
+
+width:100%;
+height:100%;
+
+overflow:hidden;
+
+background:#000;
+
+font-family:
+Arial,
+sans-serif;
+
+}
+
+/* =========================
+WEBVIEW
+========================= */
+
+.mobile-webview{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+
+height:calc(100% - 78px);
+
+background:#000;
+
+z-index:1;
+
+overflow:hidden;
+
+}
+
+.mobile-webview iframe{
+
+width:100%;
+height:100%;
+
+border:none;
+
+background:#000;
+
+}
+
+/* =========================
+POPUP MENU
+========================= */
+
+.menu-popup{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:#000;
+
+padding:
+18px
+14px
+110px;
+
+overflow-y:auto;
+
+z-index:99999999;
+
+display:none;
+
+}
+
+.menu-popup.active{
+
+display:block;
+
+}
+
+.menu-wrap{
+
+display:flex;
+
+flex-direction:column;
+
+gap:16px;
+
+}
+
+/* CARD */
+
+.menu-card{
+
+position:relative;
+
+width:100%;
+
+height:180px;
+
+border-radius:22px;
+
+overflow:hidden;
+
+background-size:cover;
+
+background-position:center;
+
+border:
+2px solid rgba(255,215,0,.25);
+
+box-shadow:
+0 8px 25px rgba(0,0,0,.45);
+
+text-decoration:none;
+
+}
+
+.menu-overlay{
+
+position:absolute;
+
+inset:0;
+
+background:
+linear-gradient(
+to top,
+rgba(0,0,0,.88),
+rgba(0,0,0,.18)
+);
+
+}
+
+.menu-info{
+
+position:absolute;
+
+left:18px;
+bottom:18px;
+
+z-index:2;
+
+}
+
+.menu-info h3{
+
+font-size:28px;
+
+font-weight:900;
+
+color:#ffd000;
+
+}
+
+.menu-info p{
+
+margin-top:4px;
+
+font-size:17px;
+
+font-weight:600;
+
+color:#fff;
+
+}
+
+/* =========================
+BOTTOM MENU
+========================= */
+
+.bottom-nav{
+
+position:fixed !important;
+
+left:0;
+right:0;
+bottom:0;
+
+width:100%;
+
+height:78px;
+
+background:
+linear-gradient(
+to bottom,
+#efefef,
+#9d9d9d
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-around;
+
+border-top:
+1px solid rgba(255,255,255,.45);
+
+box-shadow:
+0 -5px 20px rgba(0,0,0,.45);
+
+z-index:9999999999;
+
+}
+
+/* ITEM */
+
+.bottom-item{
+
+width:20%;
+
+height:100%;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+gap:4px;
+
+background:none;
+
+border:none;
+
+text-decoration:none;
+
+color:#111;
+
+font-size:11px;
+
+font-weight:800;
+
+}
+
+.bottom-item i{
+
+font-size:22px;
+
+}
+
+/* CENTER */
+
+.bottom-center{
+
+width:72px;
+height:72px;
+
+margin-top:-24px;
+
+border-radius:50%;
+
+border:
+4px solid #111;
+
+background:
+linear-gradient(
+145deg,
+#ffffff,
+#9c9c9c
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+0 0 18px rgba(255,255,255,.25);
+
+cursor:pointer;
+
+}
+
+.bottom-center img{
+
+width:38px;
+height:38px;
+
+object-fit:contain;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.bottom-nav{
+
+height:74px;
+
+}
+
+.bottom-item i{
+
+font-size:20px;
+
+}
+
+.bottom-item span{
+
+font-size:10px;
+
+}
+
+.bottom-center{
+
+width:66px;
+height:66px;
+
+}
+
+.bottom-center img{
+
+width:34px;
+height:34px;
+
+}
+
+.menu-card{
+
+height:160px;
+
+}
+
+.menu-info h3{
+
+font-size:24px;
+
+}
+
+.menu-info p{
+
+font-size:15px;
+
+}
+
+}
+
+</style>
+
 </head>
-<body style="--primary:<%= settings?.primaryColor || '#c0c0c0' %>;--accent:<%= settings?.accentColor || '#111111' %>;">
+
+<body
+style="
+--primary:<%= settings?.primaryColor || '#c0c0c0' %>;
+--accent:<%= settings?.accentColor || '#111111' %>;
+"
+>
+
+<!-- =========================
+WEBVIEW
+========================= -->
+
+<div class="mobile-webview">
+
+<iframe
+id="mainWebview"
+src="<%= settings?.mobileWebviewUrl || '/home' %>"
+allowfullscreen
+loading="lazy"
+></iframe>
+
+</div>
+
+<!-- =========================
+POPUP MENU
+========================= -->
+
+<div id="menuPopup" class="menu-popup">
+
+<div class="menu-wrap">
+
+<a
+href="<%= settings?.menuCard1Link || '#' %>"
+class="menu-card"
+style="
+background-image:
+url('<%= settings?.menuCard1Image || '/images/menu1.jpg' %>');
+"
+>
+
+<div class="menu-overlay"></div>
+
+<div class="menu-info">
+
+<h3>
+<%= settings?.menuCard1Title || 'RTP SLOT GACOR' %>
+</h3>
+
+<p>
+<%= settings?.menuCard1Desc || 'Provider Lengkap' %>
+</p>
+
+</div>
+
+</a>
+
+<a
+href="<%= settings?.menuCard2Link || '#' %>"
+class="menu-card"
+style="
+background-image:
+url('<%= settings?.menuCard2Image || '/images/menu2.jpg' %>');
+"
+>
+
+<div class="menu-overlay"></div>
+
+<div class="menu-info">
+
+<h3>
+<%= settings?.menuCard2Title || 'PREDIKSI' %>
+</h3>
+
+<p>
+<%= settings?.menuCard2Desc || 'Togel Jitu' %>
+</p>
+
+</div>
+
+</a>
+
+<a
+href="<%= settings?.menuCard3Link || '#' %>"
+class="menu-card"
+style="
+background-image:
+url('<%= settings?.menuCard3Image || '/images/menu3.jpg' %>');
+"
+>
+
+<div class="menu-overlay"></div>
+
+<div class="menu-info">
+
+<h3>
+<%= settings?.menuCard3Title || 'BUKTI JACKPOT' %>
+</h3>
+
+<p>
+<%= settings?.menuCard3Desc || 'Pasti Bayar' %>
+</p>
+
+</div>
+
+</a>
+
+<a
+href="<%= settings?.menuCard4Link || '#' %>"
+class="menu-card"
+style="
+background-image:
+url('<%= settings?.menuCard4Image || '/images/menu4.jpg' %>');
+"
+>
+
+<div class="menu-overlay"></div>
+
+<div class="menu-info">
+
+<h3>
+<%= settings?.menuCard4Title || 'JADWAL PASARAN' %>
+</h3>
+
+<p>
+<%= settings?.menuCard4Desc || 'Live Update' %>
+</p>
+
+</div>
+
+</a>
+
+</div>
+
+</div>
+
+<!-- =========================
+BOTTOM NAV
+========================= -->
+
+<div class="bottom-nav">
+
+<button
+type="button"
+class="bottom-item"
+id="openMenuBtn"
+>
+
+<i class="fas fa-bars"></i>
+
+<span>MENU</span>
+
+</button>
+
+<a
+href="<%= settings?.bottomMenu2Link || '#' %>"
+class="bottom-item"
+>
+
+<i class="fas fa-tv"></i>
+
+<span>LIVEDRAW</span>
+
+</a>
+
+<button
+type="button"
+class="bottom-center"
+onclick="goHomeWebview()"
+>
+
+<img
+src="<%= settings?.logoUrl || '/images/logo.png' %>"
+alt="logo"
+/>
+
+</button>
+
+<a
+href="<%= settings?.whatsappUrl || '#' %>"
+class="bottom-item"
+>
+
+<i class="fab fa-whatsapp"></i>
+
+<span>WHATSAPP</span>
+
+</a>
+
+<a
+href="<%= settings?.bottomMenu4Link || '#' %>"
+class="bottom-item"
+>
+
+<i class="fas fa-envelope"></i>
+
+<span>INBOX</span>
+
+</a>
+
+</div>
+
 <%- body %>
+
 <script>
+
+/* =========================
+ELEMENT
+========================= */
+
+const openMenuBtn =
+document.getElementById(
+'openMenuBtn'
+);
+
+const menuPopup =
+document.getElementById(
+'menuPopup'
+);
+
+const mainWebview =
+document.getElementById(
+'mainWebview'
+);
+
+/* =========================
+OPEN MENU
+========================= */
+
+if(openMenuBtn){
+
+openMenuBtn.addEventListener(
+'click',
+()=>{
+
+menuPopup.classList.toggle(
+'active'
+);
+
+}
+);
+
+}
+
+/* =========================
+CLOSE MENU
+========================= */
+
+if(menuPopup){
+
+menuPopup.addEventListener(
+'click',
+(e)=>{
+
+if(e.target === menuPopup){
+
+menuPopup.classList.remove(
+'active'
+);
+
+}
+
+}
+);
+
+}
+
+/* =========================
+HOME WEBVIEW
+========================= */
+
+function goHomeWebview(){
+
+if(mainWebview){
+
+mainWebview.src =
+"<%= settings?.mobileWebviewUrl || '/home' %>";
+
+}
+
+}
+
+/* =========================
+SOCKET
+========================= */
+
 try{
-  const socket = io();
-  socket.on('messages:update', (data)=>{
-    const badge = document.querySelector('[data-inbox-badge]');
-    if(badge){
-      badge.textContent = data.unread || 0;
-      badge.style.display = (data.unread || 0) > 0 ? 'grid' : 'none';
-    }
-  });
+
+const socket = io();
+
+socket.on(
+'messages:update',
+(data)=>{
+
+const badge =
+document.querySelector(
+'[data-inbox-badge]'
+);
+
+if(badge){
+
+badge.textContent =
+data.unread || 0;
+
+badge.style.display =
+(data.unread || 0) > 0
+? 'grid'
+: 'none';
+
+}
+
+});
+
 }catch(e){}
+
 </script>
+
 </body>
 </html>
