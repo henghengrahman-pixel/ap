@@ -78,21 +78,21 @@ body{
 width:100%;
 height:100%;
 
-background:#050505;
+overflow:hidden;
+
+background:#000;
 
 font-family:
 Arial,
 sans-serif;
 
-overflow:hidden;
-
 }
 
 /* =========================
-WEBVIEW / CONTENT
+WEBVIEW FULL
 ========================= */
 
-.app-frame{
+.mobile-webview{
 
 position:fixed;
 
@@ -103,9 +103,11 @@ height:100%;
 
 background:#000;
 
+z-index:1;
+
 }
 
-.app-frame iframe{
+.mobile-webview iframe{
 
 width:100%;
 height:100%;
@@ -129,6 +131,7 @@ right:0;
 bottom:0;
 
 width:100%;
+
 height:78px;
 
 background:
@@ -138,19 +141,19 @@ to bottom,
 #9f9f9f
 );
 
+border-top:
+2px solid #f2f2f2;
+
 display:flex;
 
 align-items:center;
 
 justify-content:space-around;
 
-border-top:
-2px solid #f5f5f5;
-
-z-index:999999;
+z-index:999999999;
 
 box-shadow:
-0 -5px 18px rgba(0,0,0,.45);
+0 -5px 20px rgba(0,0,0,.45);
 
 padding-bottom:
 env(safe-area-inset-bottom);
@@ -187,8 +190,6 @@ letter-spacing:.3px;
 
 }
 
-/* ICON */
-
 .bottom-item img{
 
 width:26px;
@@ -198,7 +199,7 @@ object-fit:contain;
 
 }
 
-/* CENTER BUTTON */
+/* CENTER */
 
 .bottom-center{
 
@@ -207,17 +208,17 @@ height:72px;
 
 border-radius:50%;
 
-border:
-4px solid #111;
+margin-top:-26px;
 
 background:
 linear-gradient(
 145deg,
 #f5f5f5,
-#969696
+#8d8d8d
 );
 
-margin-top:-26px;
+border:
+4px solid #111;
 
 display:flex;
 
@@ -231,8 +232,6 @@ box-shadow:
 cursor:pointer;
 
 }
-
-/* CENTER LOGO */
 
 .bottom-center img{
 
@@ -253,16 +252,16 @@ height:74px;
 
 }
 
-.bottom-item{
+.bottom-item img{
 
-font-size:10px;
+width:24px;
+height:24px;
 
 }
 
-.bottom-item img{
+.bottom-item span{
 
-width:23px;
-height:23px;
+font-size:10px;
 
 }
 
@@ -270,13 +269,6 @@ height:23px;
 
 width:68px;
 height:68px;
-
-}
-
-.bottom-center img{
-
-width:34px;
-height:34px;
 
 }
 
@@ -294,18 +286,24 @@ style="
 >
 
 <!-- =========================
-WEBVIEW
+WEBVIEW / IFRAME
 ========================= -->
 
-<div class="app-frame">
+<div class="mobile-webview">
 
 <iframe
-src="<%= settings?.mobileWebviewUrl || 'https://google.com' %>"
-allowfullscreen
-loading="lazy"
+  src="<%= settings?.mobileWebviewUrl || 'https://google.com' %>"
+  allowfullscreen
+  loading="lazy"
 ></iframe>
 
 </div>
+
+<!-- =========================
+BODY CONTENT
+========================= -->
+
+<%- body %>
 
 <!-- =========================
 BOTTOM MENU
@@ -313,96 +311,78 @@ BOTTOM MENU
 
 <div class="bottom-nav">
 
-<!-- MENU -->
-
 <a
-href="<%= settings?.bottomMenu1Link || '#' %>"
-class="bottom-item"
+  href="<%= settings?.bottomMenu1Link || '#' %>"
+  class="bottom-item"
 >
 
-<img
-src="<%= settings?.bottomMenu1Icon || '/images/menu.png' %>"
-alt="menu"
->
+  <img
+    src="<%= settings?.bottomMenu1Icon || '/images/menu.png' %>"
+  >
 
-<span>
-<%= settings?.bottomMenu1Text || 'MENU' %>
-</span>
+  <span>
+    <%= settings?.bottomMenu1Text || 'MENU' %>
+  </span>
 
 </a>
 
-<!-- LIVE DRAW -->
-
 <a
-href="<%= settings?.bottomMenu2Link || '#' %>"
-class="bottom-item"
+  href="<%= settings?.bottomMenu2Link || '#' %>"
+  class="bottom-item"
 >
 
-<img
-src="<%= settings?.bottomMenu2Icon || '/images/live.png' %>"
-alt="live"
->
+  <img
+    src="<%= settings?.bottomMenu2Icon || '/images/live.png' %>"
+  >
 
-<span>
-<%= settings?.bottomMenu2Text || 'LIVEDRAW' %>
-</span>
+  <span>
+    <%= settings?.bottomMenu2Text || 'LIVEDRAW' %>
+  </span>
 
 </a>
 
 <!-- CENTER REFRESH -->
 
 <button
-type="button"
-class="bottom-center"
-onclick="
-document
-.querySelector('.app-frame iframe')
-.contentWindow
-.location
-.reload();
-"
+  type="button"
+  class="bottom-center"
+  onclick="window.location.reload()"
 >
 
-<img
-src="<%= settings?.logoUrl || '/images/logo.png' %>"
-alt="logo"
->
+  <img
+    src="<%= settings?.logoUrl || '/images/logo.png' %>"
+    alt="logo"
+  >
 
 </button>
 
-<!-- WHATSAPP -->
-
 <a
-href="<%= settings?.whatsappUrl || '#' %>"
-class="bottom-item"
+  href="<%= settings?.whatsappUrl || '#' %>"
+  class="bottom-item"
 >
 
-<img
-src="<%= settings?.bottomMenu3Icon || '/images/wa.png' %>"
-alt="wa"
->
+  <img
+    src="<%= settings?.whatsappIcon || '/images/whatsapp.png' %>"
+  >
 
-<span>
-<%= settings?.bottomMenu3Text || 'WHATSAPP' %>
-</span>
+  <span>
+    WHATSAPP
+  </span>
 
 </a>
 
-<!-- INBOX -->
-
 <a
-href="<%= settings?.bottomMenu4Link || '/inbox' %>"
-class="bottom-item"
+  href="<%= settings?.bottomMenu4Link || '#' %>"
+  class="bottom-item"
 >
 
-<img
-src="<%= settings?.bottomMenu4Icon || '/images/inbox.png' %>"
-alt="inbox"
->
+  <img
+    src="<%= settings?.bottomMenu4Icon || '/images/inbox.png' %>"
+  >
 
-<span>
-<%= settings?.bottomMenu4Text || 'INBOX' %>
-</span>
+  <span>
+    <%= settings?.bottomMenu4Text || 'INBOX' %>
+  </span>
 
 </a>
 
@@ -410,9 +390,13 @@ alt="inbox"
 
 <script>
 
+/* =========================
+LOADER
+========================= */
+
 window.addEventListener('load',()=>{
 
-const loader=
+const loader =
 document.getElementById('loader');
 
 if(loader){
@@ -427,24 +411,32 @@ loader.classList.add('hide')
 
 });
 
+/* =========================
+SOCKET
+========================= */
+
 try{
 
-const socket=io();
+const socket = io();
 
-socket.on('messages:update',(data)=>{
+socket.on(
+'messages:update',
+(data)=>{
 
-const badge=
-document.querySelector('[data-inbox-badge]');
+const badge =
+document.querySelector(
+'[data-inbox-badge]'
+);
 
 if(badge){
 
-badge.textContent=
-data.unread||0;
+badge.textContent =
+data.unread || 0;
 
-badge.style.display=
-(data.unread||0)>0
-?'grid'
-:'none';
+badge.style.display =
+(data.unread || 0) > 0
+? 'grid'
+: 'none';
 
 }
 
