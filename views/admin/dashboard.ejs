@@ -1,0 +1,118 @@
+<div class="admin-wrap">
+  <aside class="admin-side">
+    <h1>OMTOGEL</h1>
+    <p>Premium Control Center</p>
+    <a href="/" target="_blank">Buka Website</a>
+    <a href="/inbox" target="_blank">Preview Inbox</a>
+    <a href="/itsiregar8008/logout">Logout</a>
+  </aside>
+
+  <main class="admin-main">
+    <section class="admin-hero">
+      <div><span>ADMIN PANEL</span><h2>Kontrol semua tampilan dari sini</h2><p>Logo, background, slider, menu, popup, link, warna, dan pesan member disimpan di DATA_DIR.</p></div>
+      <div class="admin-stats"><b><%= sliders.length %></b><small>Slider</small></div>
+      <div class="admin-stats"><b><%= messages.length %></b><small>Pesan</small></div>
+    </section>
+
+    <form action="/itsiregar8008/settings" method="POST" class="admin-card">
+      <h2>Settings Website</h2>
+      <div class="admin-grid">
+        <label>Nama Aplikasi<input name="siteName" value="<%= settings.siteName || '' %>" placeholder="OMTOGEL"></label>
+        <label>Subtitle<input name="subtitle" value="<%= settings.subtitle || '' %>" placeholder="Premium Sportsbook Experience"></label>
+        <label>Meta Description<textarea name="siteDescription" placeholder="Deskripsi SEO"><%= settings.siteDescription || '' %></textarea></label>
+        <label>Meta Keywords<textarea name="siteKeywords" placeholder="keyword1, keyword2"><%= settings.siteKeywords || '' %></textarea></label>
+        <label>Text Berjalan<input name="ticker" value="<%= settings.ticker || '' %>" placeholder="Ticker berjalan"></label>
+        <label>Footer<input name="footer" value="<%= settings.footer || '' %>" placeholder="Footer"></label>
+        <label>Link Login<input name="loginUrl" value="<%= settings.loginUrl || '' %>" placeholder="https://..."></label>
+        <label>Link Daftar<input name="registerUrl" value="<%= settings.registerUrl || '' %>" placeholder="https://..."></label>
+        <label>Link WhatsApp<input name="whatsappUrl" value="<%= settings.whatsappUrl || '' %>" placeholder="https://..."></label>
+        <label>Link Livechat<input name="livechatUrl" value="<%= settings.livechatUrl || '' %>" placeholder="https://..."></label>
+        <label>Logo URL<input name="logoUrl" value="<%= settings.logoUrl || '' %>" placeholder="https://domain/logo.png"></label>
+        <label>Favicon URL<input name="faviconUrl" value="<%= settings.faviconUrl || '' %>" placeholder="https://domain/favicon.png"></label>
+        <label>Background URL<input name="backgroundUrl" value="<%= settings.backgroundUrl || '' %>" placeholder="https://domain/bg.webp"></label>
+        <label>Hero Image URL<input name="heroImageUrl" value="<%= settings.heroImageUrl || '' %>" placeholder="https://domain/hero.webp"></label>
+        <label>Warna Utama<input name="primaryColor" value="<%= settings.primaryColor || '#c0c0c0' %>" placeholder="#c0c0c0"></label>
+        <label>Warna Aksen<input name="accentColor" value="<%= settings.accentColor || '#f5c542' %>" placeholder="#f5c542"></label>
+      </div>
+      <button class="save-btn">Simpan Settings</button>
+    </form>
+
+    <form action="/itsiregar8008/slider/add" method="POST" class="admin-card">
+      <h2>Slider / Banner URL</h2>
+      <div class="admin-grid">
+        <label>Judul Banner<input name="title" placeholder="Promo terbaru"></label>
+        <label>Link Banner<input name="link" placeholder="https://..."></label>
+        <label class="full">Image URL<input name="imageUrl" placeholder="https://domain/banner.webp" required></label>
+      </div>
+      <button class="save-btn">Tambah Slider</button>
+    </form>
+
+    <section class="admin-card">
+      <h2>List Slider</h2>
+      <div class="slider-admin-list">
+      <% if(sliders.length){ sliders.forEach(slider=>{ %>
+        <div class="slider-admin-item">
+          <img src="<%= slider.imageUrl || slider.image %>" onerror="this.style.display='none'">
+          <div><strong><%= slider.title || 'Banner' %></strong><small><%= slider.link || '#' %></small></div>
+          <form action="/itsiregar8008/slider/delete/<%= slider.id %>" method="POST"><button class="delete-btn">Hapus</button></form>
+        </div>
+      <% }) } else { %><div class="empty-box">Belum ada slider.</div><% } %>
+      </div>
+    </section>
+
+    <form action="/itsiregar8008/popup" method="POST" class="admin-card">
+      <h2>Popup Promo</h2>
+      <div class="admin-grid">
+        <label>Aktifkan Popup <select name="active"><option value="false" <%= popup.active ? '' : 'selected' %>>Tidak</option><option value="on" <%= popup.active ? 'selected' : '' %>>Ya</option></select></label>
+        <label>Judul Popup<input name="title" value="<%= popup.title || '' %>"></label>
+        <label>Link Popup<input name="link" value="<%= popup.link || '' %>" placeholder="https://..."></label>
+        <label>Image URL<input name="imageUrl" value="<%= popup.imageUrl || popup.image || '' %>" placeholder="https://domain/popup.webp"></label>
+        <label class="full">Deskripsi<textarea name="description"><%= popup.description || '' %></textarea></label>
+      </div>
+      <button class="save-btn">Simpan Popup</button>
+    </form>
+
+    <form action="/itsiregar8008/message/add" method="POST" class="admin-card priority-card">
+      <h2>Pesan Inbox Member</h2>
+      <div class="admin-grid">
+        <label>Kategori<input name="category" placeholder="INFO / PROMO / UPDATE"></label>
+        <label>Judul Pesan<input name="title" placeholder="Judul pesan" required></label>
+        <label>Image URL<input name="imageUrl" placeholder="Opsional: https://..."></label>
+        <label>Link<input name="link" placeholder="Opsional: https://..."></label>
+        <label class="full">Isi Pesan<textarea name="message" placeholder="Tulis pesan untuk member" required></textarea></label>
+      </div>
+      <button class="save-btn gold">Kirim ke Inbox</button>
+    </form>
+
+    <section class="admin-card">
+      <div class="card-head"><h2>Riwayat Pesan</h2><form action="/itsiregar8008/messages/clear" method="POST"><button class="delete-btn">Hapus Semua</button></form></div>
+      <div class="message-admin-list">
+        <% if(messages.length){ messages.forEach(msg=>{ %>
+          <div class="message-admin-item">
+            <div><small><%= msg.category || 'INFO' %> • <%= msg.date || '' %></small><strong><%= msg.title %></strong><p><%= msg.message %></p></div>
+            <form action="/itsiregar8008/message/delete/<%= msg.id %>" method="POST"><button class="delete-btn">Hapus</button></form>
+          </div>
+        <% }) } else { %><div class="empty-box">Belum ada pesan.</div><% } %>
+      </div>
+    </section>
+
+    <form action="/itsiregar8008/menu/add" method="POST" class="admin-card">
+      <h2>Tambah Menu Cepat</h2>
+      <div class="admin-grid three">
+        <label>Icon<input name="icon" placeholder="⚽"></label>
+        <label>Judul<input name="title" placeholder="PREDIKSI BOLA"></label>
+        <label>URL<input name="url" placeholder="/prediksi-bola"></label>
+      </div>
+      <button class="save-btn">Tambah Menu</button>
+    </form>
+
+    <section class="admin-card">
+      <h2>List Menu</h2>
+      <div class="menu-admin-list">
+      <% if(menus.length){ menus.forEach(menu=>{ %>
+        <div class="menu-admin-item"><span><%= menu.icon || '◆' %></span><strong><%= menu.title %></strong><small><%= menu.url %></small><form action="/itsiregar8008/menu/delete/<%= menu.id %>" method="POST"><button class="delete-btn">Hapus</button></form></div>
+      <% }) } else { %><div class="empty-box">Belum ada menu.</div><% } %>
+      </div>
+    </section>
+  </main>
+</div>

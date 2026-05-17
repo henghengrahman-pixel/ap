@@ -1,0 +1,27 @@
+<div class="app inbox-app" style="background-image:url('<%= settings.backgroundUrl || '' %>')">
+  <header class="page-head">
+    <a href="/" class="back-btn">‹</a>
+    <div><h1>Inbox Pesan</h1><p>Info resmi langsung dari admin.</p></div>
+  </header>
+
+  <section class="inbox-list">
+    <% if(messages.length){ messages.forEach(msg=>{ %>
+      <article class="inbox-card <%= msg.read ? '' : 'unread' %>">
+        <div class="inbox-meta"><span><%= msg.category || 'INFO' %></span><small><%= msg.date || '' %></small></div>
+        <% if(msg.imageUrl){ %><img src="<%= msg.imageUrl %>" onerror="this.style.display='none'"><% } %>
+        <h2><%= msg.title %></h2>
+        <p><%= msg.message %></p>
+        <% if(msg.link){ %><a class="promo-btn" href="<%= msg.link %>">BUKA LINK</a><% } %>
+      </article>
+    <% }) } else { %>
+      <div class="empty-state big">Belum ada pesan masuk.</div>
+    <% } %>
+  </section>
+
+  <nav class="bottom-nav">
+    <a href="/">HOME</a><a href="/daftar">DAFTAR</a><a href="/inbox">PESAN</a><a href="/livechat">LIVECHAT</a>
+  </nav>
+</div>
+<script>
+fetch('/api/messages/read-all',{method:'POST'}).catch(()=>{});
+</script>

@@ -1,0 +1,10 @@
+[
+  { "id": "m1", "title": "RTP SLOT", "url": "/rtp", "icon": "◆" },
+  { "id": "m2", "title": "PROMOSI", "url": "#", "icon": "★" },
+  { "id": "m3", "title": "PREDIKSI BOLA", "url": "/prediksi-bola", "icon": "⚽" },
+  { "id": "m4", "title": "PREDIKSI TOGEL", "url": "/prediksi-togel", "icon": "♛" },
+  { "id": "m5", "title": "LINK ALTERNATIF", "url": "#", "icon": "↗" },
+  { "id": "m6", "title": "INBOX PESAN", "url": "/inbox", "icon": "✉" },
+  { "id": "m7", "title": "WHATSAPP", "url": "/whatsapp", "icon": "☏" },
+  { "id": "m8", "title": "LIVECHAT", "url": "/livechat", "icon": "●" }
+]
