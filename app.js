@@ -5,7 +5,6 @@ const path = require('path');
 const fs = require('fs');
 
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
 
 const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
@@ -120,7 +119,7 @@ app.use(
 );
 
 /* =========================
-   SESSION FIX PRODUCTION
+   SESSION FIX FINAL
 ========================= */
 
 app.use(session({
@@ -134,16 +133,6 @@ app.use(session({
   resave: false,
 
   saveUninitialized: false,
-
-  store: MongoStore.create({
-
-    mongoUrl:
-      process.env.MONGO_URL,
-
-    ttl:
-      60 * 60 * 24 * 7
-
-  }),
 
   cookie: {
 
