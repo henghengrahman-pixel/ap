@@ -879,12 +879,30 @@ body{
 
   scroll-snap-align:start;
 }
+.slider-card{
+  min-width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  scroll-snap-align:start;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
 .slider-card img{
   width:100%;
-  height:220px;
-  object-fit:cover;
+  height:auto;
+
+  max-height:240px;
+
+  object-fit:contain;
+
   display:block;
+
+  background:#000;
 }
 
 .empty-banner{
