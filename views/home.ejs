@@ -299,51 +299,53 @@
 
   </section>
 
-  <!-- MENU -->
+<!-- SIMPLE PREMIUM MENU -->
 
-  <section class="menu-section">
+<section class="simple-menu-wrap">
 
-    <div class="section-head">
+  <div class="simple-head">
 
-      <div>
-        <small>QUICK ACCESS</small>
-        <h3>Menu Utama</h3>
-      </div>
+    <small>
+      MEMBER MENU
+    </small>
 
-    </div>
+    <h3>
+      Akses Cepat
+    </h3>
 
-    <div class="menu-grid">
+  </div>
 
-      <% menus.forEach(menu=>{ %>
+  <div class="simple-menu">
 
-        <a
-          href="<%= menu.url || '#' %>"
-          class="menu-box"
-        >
+    <% menus.forEach((menu,index)=>{ %>
 
-          <div class="menu-icon">
-            <%= menu.icon || '✦' %>
+      <a
+        href="<%= menu.url || '#' %>"
+        class="
+          simple-btn
+          <%= index === 4 ? 'primary' : '' %>
+        "
+      >
+
+        <% if(menu.icon){ %>
+
+          <div class="simple-icon">
+            <%= menu.icon %>
           </div>
 
-          <div class="menu-info">
+        <% } %>
 
-            <strong>
-              <%= menu.title %>
-            </strong>
+        <span>
+          <%= menu.title %>
+        </span>
 
-            <small>
-              <%= menu.subtitle || 'Akses cepat member area' %>
-            </small>
+      </a>
 
-          </div>
+    <% }) %>
 
-        </a>
+  </div>
 
-      <% }) %>
-
-    </div>
-
-  </section>
+</section>
 
   <!-- FOOTER -->
 
