@@ -1,4 +1,19 @@
 const admin = require('firebase-admin');
+
+let initialized = false;
+
+function initFirebase() {
+
+  try {
+
+    if (initialized) return;
+
+    if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+      console.log('FIREBASE_SERVICE_ACCOUNT belum ada');
+      return;
+    }
+
+    const serviceAccount = JSON.parse(
       process.env.FIREBASE_SERVICE_ACCOUNT
     );
 
@@ -6,44 +21,52 @@ const admin = require('firebase-admin');
       credential: admin.credential.cert(serviceAccount)
     });
 
-    firebaseReady = true;
+    initialized = true;
 
-    console.log('Firebase connected');
+    console.log('Firebase siap');
 
   } catch (err) {
-    console.log('Firebase error:', err.message);
+
+    console.log('Firebase init error:', err.message);
+
   }
+
 }
 
-async function sendBroadcast(title, body, url = '/') {
+async function sendBroadcast(title, body, link = '/') {
 
   try {
 
-    if (!firebaseReady) {
-      console.log('Firebase belum aktif');
+    if (!initialized) {
+      console.log('Firebase belum initialized');
       return false;
     }
 
     const message = {
       topic: 'all',
+
       notification: {
         title,
         body
       },
+
       webpush: {
+        fcmOptions: {
+          link
+        },
+
         notification: {
           title,
           body,
           icon: '/uploads/icon-192.png',
           badge: '/uploads/icon-192.png'
-        },
-        fcmOptions: {
-          link: url
         }
       }
     };
 
-    const response = await admin.messaging().send(message);
+    const response = await admin
+      .messaging()
+      .send(message);
 
     console.log('NOTIF TERKIRIM:', response);
 
@@ -51,11 +74,12 @@ async function sendBroadcast(title, body, url = '/') {
 
   } catch (err) {
 
-    console.log('SEND NOTIF ERROR:', err.message);
+    console.log('SEND ERROR:', err.message);
 
     return false;
 
   }
+
 }
 
 module.exports = {
