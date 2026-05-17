@@ -1,48 +1,91 @@
 const admin = require('firebase-admin');
 
-let initialized = false;
+let firebaseReady = false;
+
+/*
+|--------------------------------------------------------------------------
+| INIT FIREBASE
+|--------------------------------------------------------------------------
+*/
 
 function initFirebase() {
 
   try {
 
-    if (initialized) return;
+    if (firebaseReady) {
+      return;
+    }
 
     if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-      console.log('FIREBASE_SERVICE_ACCOUNT belum ada');
+
+      console.log(
+        'FIREBASE_SERVICE_ACCOUNT BELUM ADA'
+      );
+
       return;
+
     }
 
     const serviceAccount = JSON.parse(
       process.env.FIREBASE_SERVICE_ACCOUNT
     );
 
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount)
-    });
+    if (!admin.apps.length) {
 
-    initialized = true;
+      admin.initializeApp({
 
-    console.log('Firebase siap');
+        credential:
+          admin.credential.cert(
+            serviceAccount
+          )
+
+      });
+
+    }
+
+    firebaseReady = true;
+
+    console.log(
+      'FIREBASE CONNECTED'
+    );
 
   } catch (err) {
 
-    console.log('Firebase init error:', err.message);
+    console.log(
+      'FIREBASE INIT ERROR:',
+      err.message
+    );
 
   }
 
 }
 
-async function sendBroadcast(title, body, link = '/') {
+/*
+|--------------------------------------------------------------------------
+| SEND BROADCAST
+|--------------------------------------------------------------------------
+*/
+
+async function sendBroadcast(
+  title,
+  body,
+  link = '/'
+) {
 
   try {
 
-    if (!initialized) {
-      console.log('Firebase belum initialized');
+    if (!firebaseReady) {
+
+      console.log(
+        'FIREBASE BELUM READY'
+      );
+
       return false;
+
     }
 
     const message = {
+
       topic: 'all',
 
       notification: {
@@ -51,30 +94,128 @@ async function sendBroadcast(title, body, link = '/') {
       },
 
       webpush: {
-        fcmOptions: {
-          link
+
+        headers: {
+          Urgency: 'high'
         },
 
         notification: {
+
           title,
           body,
-          icon: '/uploads/icon-192.png',
-          badge: '/uploads/icon-192.png'
+
+          requireInteraction: true,
+
+          icon:
+            '/uploads/icon-192.png',
+
+          badge:
+            '/uploads/icon-192.png'
+
+        },
+
+        fcmOptions: {
+          link
         }
+
       }
+
     };
 
-    const response = await admin
-      .messaging()
-      .send(message);
+    const response =
+      await admin
+        .messaging()
+        .send(message);
 
-    console.log('NOTIF TERKIRIM:', response);
+    console.log(
+      'NOTIF BERHASIL:',
+      response
+    );
 
     return true;
 
   } catch (err) {
 
-    console.log('SEND ERROR:', err.message);
+    console.log(
+      'SEND NOTIF ERROR:',
+      err.message
+    );
+
+    return false;
+
+  }
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| SEND TOKEN
+|--------------------------------------------------------------------------
+*/
+
+async function sendToToken(
+  token,
+  title,
+  body,
+  link = '/'
+) {
+
+  try {
+
+    if (!firebaseReady) {
+      return false;
+    }
+
+    const message = {
+
+      token,
+
+      notification: {
+        title,
+        body
+      },
+
+      webpush: {
+
+        notification: {
+
+          title,
+          body,
+
+          icon:
+            '/uploads/icon-192.png',
+
+          badge:
+            '/uploads/icon-192.png'
+
+        },
+
+        fcmOptions: {
+          link
+        }
+
+      }
+
+    };
+
+    const response =
+      await admin
+        .messaging()
+        .send(message);
+
+    console.log(
+      'TOKEN NOTIF:',
+      response
+    );
+
+    return true;
+
+  } catch (err) {
+
+    console.log(
+      'TOKEN ERROR:',
+      err.message
+    );
 
     return false;
 
@@ -83,6 +224,11 @@ async function sendBroadcast(title, body, link = '/') {
 }
 
 module.exports = {
+
   initFirebase,
-  sendBroadcast
+
+  sendBroadcast,
+
+  sendToToken
+
 };
