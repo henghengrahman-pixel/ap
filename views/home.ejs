@@ -1,95 +1,441 @@
 <div id="loader">
   <div class="loader-box">
-    <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" class="loader-logo" onerror="this.style.display='none'"><% } %>
-    <div class="loader-spin"></div>
-    <p>MEMUAT APLIKASI...</p>
+
+    <% if(settings.logoUrl){ %>
+      <img
+        src="<%= settings.logoUrl %>"
+        class="loader-logo"
+        onerror="this.style.display='none'"
+      >
+    <% } %>
+
+    <div class="loader-ring"></div>
+
+    <div class="loader-text">
+      <strong><%= settings.siteName || 'OMTOGEL' %></strong>
+      <span>MEMUAT PREMIUM APP...</span>
+    </div>
+
   </div>
 </div>
 
-<div class="app" style="background-image:url('<%= settings.backgroundUrl || '' %>')">
-  <header class="premium-header">
-    <div class="brand-mark">
-      <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" alt="<%= settings.siteName %>" onerror="this.style.display='none'"><% } else { %><strong><%= settings.siteName || 'OMTOGEL' %></strong><% } %>
+<div
+  class="app-shell"
+  style="
+    background-image:
+      linear-gradient(rgba(5,5,5,.88),rgba(5,5,5,.96)),
+      url('<%= settings.backgroundUrl || '' %>');
+  "
+>
+
+  <!-- TOP HEADER -->
+
+  <header class="topbar">
+
+    <div class="brand-area">
+
+      <% if(settings.logoUrl){ %>
+
+        <img
+          src="<%= settings.logoUrl %>"
+          class="brand-logo"
+          alt="<%= settings.siteName %>"
+          onerror="this.style.display='none'"
+        >
+
+      <% } %>
+
+      <div class="brand-text">
+
+        <small>
+          PREMIUM SPORTSBOOK
+        </small>
+
+        <h1>
+          <%= settings.siteName || 'OMTOGEL' %>
+        </h1>
+
+      </div>
+
     </div>
-    <a href="/inbox" class="inbox-pill">
-      <span>Inbox</span>
-      <b data-inbox-badge style="display:<%= messages.filter(m=>!m.read).length ? 'grid' : 'none' %>"><%= messages.filter(m=>!m.read).length %></b>
+
+    <a href="/inbox" class="inbox-button">
+
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M4 5H20V19H4V5Z" stroke="currentColor" stroke-width="2"/>
+        <path d="M4 7L12 13L20 7" stroke="currentColor" stroke-width="2"/>
+      </svg>
+
+      <% const unreadCount = messages.filter(m=>!m.read).length; %>
+
+      <% if(unreadCount){ %>
+        <span><%= unreadCount %></span>
+      <% } %>
+
     </a>
+
   </header>
 
-  <section class="hero-premium">
-    <div class="hero-copy">
-      <span class="eyebrow">PREMIUM MEMBER AREA</span>
-      <h1><%= settings.siteName || 'OMTOGEL' %></h1>
-      <p><%= settings.subtitle || 'Akses cepat, info terbaru, promo, livechat, dan inbox pesan member dalam satu aplikasi.' %></p>
+  <!-- HERO -->
+
+  <section class="hero-card">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        MEMBER EXCLUSIVE AREA
+      </div>
+
+      <h2>
+        <%= settings.siteName || 'OMTOGEL' %>
+      </h2>
+
+      <p>
+        <%= settings.subtitle || 'Platform premium dengan akses cepat, inbox pesan member, promo eksklusif, livechat, prediksi bola dan layanan profesional.' %>
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          href="<%= settings.loginUrl || '/login' %>"
+          class="hero-login"
+        >
+          LOGIN
+        </a>
+
+        <a
+          href="<%= settings.registerUrl || '/daftar' %>"
+          class="hero-register"
+        >
+          DAFTAR
+        </a>
+
+      </div>
+
     </div>
-    <% if(settings.heroImageUrl){ %><img class="hero-img" src="<%= settings.heroImageUrl %>" onerror="this.style.display='none'"><% } %>
+
+    <% if(settings.heroImageUrl){ %>
+
+      <img
+        src="<%= settings.heroImageUrl %>"
+        class="hero-visual"
+        onerror="this.style.display='none'"
+      >
+
+    <% } %>
+
   </section>
 
-  <div class="ticker-wrap"><marquee><%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM OFFICIAL' %></marquee></div>
+  <!-- TICKER -->
 
-  <% if(popup && popup.active && (popup.title || popup.imageUrl)){ %>
-  <div class="popup-overlay" id="popupBox">
-    <div class="popup-box">
-      <button class="popup-close" onclick="document.getElementById('popupBox').remove()">×</button>
-      <% if(popup.imageUrl){ %><img src="<%= popup.imageUrl %>" class="popup-image"><% } %>
-      <div class="popup-content">
-        <h2><%= popup.title %></h2>
-        <p><%= popup.description %></p>
-        <% if(popup.link){ %><a href="<%= popup.link %>" class="promo-btn">BUKA INFO</a><% } %>
-      </div>
+  <section class="ticker-box">
+
+    <div class="ticker-label">
+      LIVE INFO
     </div>
+
+    <marquee>
+      <%= settings.ticker || 'SELAMAT DATANG DI OMTOGEL PREMIUM OFFICIAL • LIVECHAT ONLINE 24 JAM • CLAIM BONUS MEMBER SEKARANG' %>
+    </marquee>
+
+  </section>
+
+  <!-- POPUP -->
+
+  <% if(popup && popup.active){ %>
+
+  <div class="popup-overlay" id="popupPromo">
+
+    <div class="popup-card">
+
+      <button
+        class="popup-close"
+        onclick="document.getElementById('popupPromo').remove()"
+      >
+        ×
+      </button>
+
+      <% if(popup.imageUrl){ %>
+
+        <img
+          src="<%= popup.imageUrl %>"
+          class="popup-banner"
+        >
+
+      <% } %>
+
+      <div class="popup-body">
+
+        <h3>
+          <%= popup.title || 'PROMO TERBARU' %>
+        </h3>
+
+        <p>
+          <%= popup.description || '' %>
+        </p>
+
+        <% if(popup.link){ %>
+
+          <a
+            href="<%= popup.link %>"
+            class="popup-action"
+          >
+            LIHAT SEKARANG
+          </a>
+
+        <% } %>
+
+      </div>
+
+    </div>
+
   </div>
+
   <% } %>
 
-  <section class="quick-actions">
-    <a href="/login" class="action-login">LOGIN</a>
-    <a href="/daftar" class="action-register">DAFTAR</a>
-  </section>
+  <!-- SLIDER -->
 
   <section class="slider-section">
+
     <% if(sliders.length){ %>
-      <div class="slider-wrapper">
-      <% sliders.forEach(item=>{ %>
-        <a href="<%= item.link || '#' %>" class="slider-item">
-          <img src="<%= item.imageUrl || item.image %>" alt="<%= item.title || 'Banner' %>" onerror="this.closest('.slider-item').style.display='none'">
-          <% if(item.title){ %><span><%= item.title %></span><% } %>
-        </a>
-      <% }) %>
+
+      <div class="slider-scroll">
+
+        <% sliders.forEach(slide=>{ %>
+
+          <a
+            href="<%= slide.link || '#' %>"
+            class="slide-card"
+          >
+
+            <img
+              src="<%= slide.imageUrl || slide.image %>"
+              alt="<%= slide.title || 'Banner' %>"
+            >
+
+            <% if(slide.title){ %>
+
+              <div class="slide-title">
+                <%= slide.title %>
+              </div>
+
+            <% } %>
+
+          </a>
+
+        <% }) %>
+
       </div>
-    <% } else { %>
-      <div class="placeholder-banner">PREMIUM SPORTSBOOK</div>
+
     <% } %>
+
   </section>
 
-  <section class="message-preview">
-    <div class="section-title"><h2>Pesan Terbaru</h2><a href="/inbox">Lihat semua</a></div>
-    <% const latest = messages.slice(0,3); %>
-    <% if(latest.length){ latest.forEach(msg=>{ %>
-      <a class="message-card" href="/inbox">
-        <small><%= msg.category || 'INFO' %> • <%= msg.date || '' %></small>
-        <strong><%= msg.title %></strong>
-        <p><%= msg.message %></p>
+  <!-- MESSAGE -->
+
+  <section class="message-section">
+
+    <div class="section-head">
+
+      <div>
+        <small>MEMBER CENTER</small>
+        <h3>Pesan Terbaru</h3>
+      </div>
+
+      <a href="/inbox">
+        Lihat Semua
       </a>
-    <% }) } else { %>
-      <div class="empty-state">Belum ada pesan dari admin.</div>
+
+    </div>
+
+    <% const latestMessages = messages.slice(0,3); %>
+
+    <% if(latestMessages.length){ %>
+
+      <div class="message-list">
+
+        <% latestMessages.forEach(msg=>{ %>
+
+          <a
+            href="/inbox"
+            class="message-item"
+          >
+
+            <div class="message-top">
+
+              <span>
+                <%= msg.category || 'INFO' %>
+              </span>
+
+              <small>
+                <%= msg.date || '' %>
+              </small>
+
+            </div>
+
+            <strong>
+              <%= msg.title %>
+            </strong>
+
+            <p>
+              <%= msg.message %>
+            </p>
+
+          </a>
+
+        <% }) %>
+
+      </div>
+
+    <% } else { %>
+
+      <div class="empty-message">
+        Belum ada pesan terbaru dari admin.
+      </div>
+
     <% } %>
+
   </section>
+
+  <!-- MENU -->
 
   <section class="menu-section">
-    <div class="menu-grid">
-      <% menus.forEach(menu=>{ %>
-        <a href="<%= menu.url || '#' %>" class="menu-card"><i><%= menu.icon || '◆' %></i><span><%= menu.title %></span></a>
-      <% }) %>
+
+    <div class="section-head">
+
+      <div>
+        <small>QUICK ACCESS</small>
+        <h3>Menu Utama</h3>
+      </div>
+
     </div>
+
+    <div class="menu-grid">
+
+      <% menus.forEach(menu=>{ %>
+
+        <a
+          href="<%= menu.url || '#' %>"
+          class="menu-box"
+        >
+
+          <div class="menu-icon">
+            <%= menu.icon || '✦' %>
+          </div>
+
+          <div class="menu-info">
+
+            <strong>
+              <%= menu.title %>
+            </strong>
+
+            <small>
+              <%= menu.subtitle || 'Akses cepat member area' %>
+            </small>
+
+          </div>
+
+        </a>
+
+      <% }) %>
+
+    </div>
+
   </section>
 
-  <footer class="footer"><p><%= settings.footer || '© OMTOGEL OFFICIAL' %></p></footer>
+  <!-- FOOTER -->
 
-  <nav class="bottom-nav">
-    <a href="/">HOME</a>
-    <a href="/daftar">DAFTAR</a>
-    <a href="/inbox">PESAN</a>
-    <a href="/livechat">LIVECHAT</a>
+  <footer class="footer">
+
+    <div class="footer-logo">
+
+      <% if(settings.logoUrl){ %>
+
+        <img
+          src="<%= settings.logoUrl %>"
+          onerror="this.style.display='none'"
+        >
+
+      <% } %>
+
+      <strong>
+        <%= settings.siteName || 'OMTOGEL' %>
+      </strong>
+
+    </div>
+
+    <p>
+      <%= settings.footer || '© 2026 OMTOGEL PREMIUM OFFICIAL ALL RIGHTS RESERVED' %>
+    </p>
+
+  </footer>
+
+  <!-- BOTTOM NAV -->
+
+  <nav class="bottom-navigation">
+
+    <a href="/" class="active">
+
+      <i>⌂</i>
+
+      <span>Home</span>
+
+    </a>
+
+    <a href="/daftar">
+
+      <i>◎</i>
+
+      <span>Daftar</span>
+
+    </a>
+
+    <a href="/inbox">
+
+      <i>✉</i>
+
+      <span>Inbox</span>
+
+    </a>
+
+    <a href="/livechat">
+
+      <i>◉</i>
+
+      <span>Livechat</span>
+
+    </a>
+
   </nav>
+
 </div>
+
+<script>
+
+window.addEventListener(
+  'load',
+  () => {
+
+    const loader =
+      document.getElementById(
+        'loader'
+      );
+
+    if(loader){
+
+      loader.style.opacity = '0';
+
+      setTimeout(() => {
+
+        loader.style.display = 'none';
+
+      }, 500);
+
+    }
+
+  }
+);
+
+</script>
