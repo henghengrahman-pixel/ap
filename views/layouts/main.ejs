@@ -1,30 +1,458 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title><%= settings?.siteName || title || 'OMTOGEL' %></title>
-<meta name="description" content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>">
-<meta name="keywords" content="<%= settings?.siteKeywords || 'omtogel' %>">
-<meta name="theme-color" content="#050505">
-<meta property="og:title" content="<%= settings?.siteName || 'OMTOGEL' %>">
-<meta property="og:description" content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>">
-<meta property="og:image" content="<%= settings?.logoUrl || settings?.heroImageUrl || '' %>">
-<% if(settings?.faviconUrl || settings?.logoUrl){ %><link rel="icon" href="<%= settings.faviconUrl || settings.logoUrl %>"><% } %>
-<link rel="stylesheet" href="/assets/css/style.css">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+>
+
+<title>
+<%= settings?.siteName || title || 'OMTOGEL' %>
+</title>
+
+<meta
+  name="description"
+  content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
+>
+
+<meta
+  name="keywords"
+  content="<%= settings?.siteKeywords || 'omtogel' %>"
+>
+
+<meta
+  name="theme-color"
+  content="#050505"
+>
+
+<meta
+  property="og:title"
+  content="<%= settings?.siteName || 'OMTOGEL' %>"
+>
+
+<meta
+  property="og:description"
+  content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>"
+>
+
+<meta
+  property="og:image"
+  content="<%= settings?.logoUrl || settings?.heroImageUrl || '' %>"
+>
+
+<% if(settings?.faviconUrl || settings?.logoUrl){ %>
+
+<link
+  rel="icon"
+  href="<%= settings.faviconUrl || settings.logoUrl %>"
+>
+
+<% } %>
+
+<link
+  rel="stylesheet"
+  href="/assets/css/style.css"
+>
+
 <script src="/socket.io/socket.io.js"></script>
+
+<style>
+
+/* =========================
+RESET
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,
+body{
+
+width:100%;
+height:100%;
+
+background:#050505;
+
+font-family:
+Arial,
+sans-serif;
+
+overflow:hidden;
+
+}
+
+/* =========================
+WEBVIEW / CONTENT
+========================= */
+
+.app-frame{
+
+position:fixed;
+
+inset:0;
+
+width:100%;
+height:100%;
+
+background:#000;
+
+}
+
+.app-frame iframe{
+
+width:100%;
+height:100%;
+
+border:none;
+
+background:#000;
+
+}
+
+/* =========================
+BOTTOM MENU
+========================= */
+
+.bottom-nav{
+
+position:fixed;
+
+left:0;
+right:0;
+bottom:0;
+
+width:100%;
+height:78px;
+
+background:
+linear-gradient(
+to bottom,
+#d9d9d9,
+#9f9f9f
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-around;
+
+border-top:
+2px solid #f5f5f5;
+
+z-index:999999;
+
+box-shadow:
+0 -5px 18px rgba(0,0,0,.45);
+
+padding-bottom:
+env(safe-area-inset-bottom);
+
+}
+
+/* ITEM */
+
+.bottom-item{
+
+width:20%;
+
+height:100%;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+text-decoration:none;
+
+color:#111;
+
+font-size:11px;
+
+font-weight:800;
+
+gap:4px;
+
+letter-spacing:.3px;
+
+}
+
+/* ICON */
+
+.bottom-item img{
+
+width:26px;
+height:26px;
+
+object-fit:contain;
+
+}
+
+/* CENTER BUTTON */
+
+.bottom-center{
+
+width:72px;
+height:72px;
+
+border-radius:50%;
+
+border:
+4px solid #111;
+
+background:
+linear-gradient(
+145deg,
+#f5f5f5,
+#969696
+);
+
+margin-top:-26px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+0 0 20px rgba(255,255,255,.25);
+
+cursor:pointer;
+
+}
+
+/* CENTER LOGO */
+
+.bottom-center img{
+
+width:38px;
+height:38px;
+
+object-fit:contain;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.bottom-nav{
+
+height:74px;
+
+}
+
+.bottom-item{
+
+font-size:10px;
+
+}
+
+.bottom-item img{
+
+width:23px;
+height:23px;
+
+}
+
+.bottom-center{
+
+width:68px;
+height:68px;
+
+}
+
+.bottom-center img{
+
+width:34px;
+height:34px;
+
+}
+
+}
+
+</style>
+
 </head>
-<body style="--primary:<%= settings?.primaryColor || '#c0c0c0' %>;--accent:<%= settings?.accentColor || '#f5c542' %>;">
-<%- body %>
+
+<body
+style="
+--primary:<%= settings?.primaryColor || '#c0c0c0' %>;
+--accent:<%= settings?.accentColor || '#f5c542' %>;
+"
+>
+
+<!-- =========================
+WEBVIEW
+========================= -->
+
+<div class="app-frame">
+
+<iframe
+src="<%= settings?.mobileWebviewUrl || 'https://google.com' %>"
+allowfullscreen
+loading="lazy"
+></iframe>
+
+</div>
+
+<!-- =========================
+BOTTOM MENU
+========================= -->
+
+<div class="bottom-nav">
+
+<!-- MENU -->
+
+<a
+href="<%= settings?.bottomMenu1Link || '#' %>"
+class="bottom-item"
+>
+
+<img
+src="<%= settings?.bottomMenu1Icon || '/images/menu.png' %>"
+alt="menu"
+>
+
+<span>
+<%= settings?.bottomMenu1Text || 'MENU' %>
+</span>
+
+</a>
+
+<!-- LIVE DRAW -->
+
+<a
+href="<%= settings?.bottomMenu2Link || '#' %>"
+class="bottom-item"
+>
+
+<img
+src="<%= settings?.bottomMenu2Icon || '/images/live.png' %>"
+alt="live"
+>
+
+<span>
+<%= settings?.bottomMenu2Text || 'LIVEDRAW' %>
+</span>
+
+</a>
+
+<!-- CENTER REFRESH -->
+
+<button
+type="button"
+class="bottom-center"
+onclick="
+document
+.querySelector('.app-frame iframe')
+.contentWindow
+.location
+.reload();
+"
+>
+
+<img
+src="<%= settings?.logoUrl || '/images/logo.png' %>"
+alt="logo"
+>
+
+</button>
+
+<!-- WHATSAPP -->
+
+<a
+href="<%= settings?.whatsappUrl || '#' %>"
+class="bottom-item"
+>
+
+<img
+src="<%= settings?.bottomMenu3Icon || '/images/wa.png' %>"
+alt="wa"
+>
+
+<span>
+<%= settings?.bottomMenu3Text || 'WHATSAPP' %>
+</span>
+
+</a>
+
+<!-- INBOX -->
+
+<a
+href="<%= settings?.bottomMenu4Link || '/inbox' %>"
+class="bottom-item"
+>
+
+<img
+src="<%= settings?.bottomMenu4Icon || '/images/inbox.png' %>"
+alt="inbox"
+>
+
+<span>
+<%= settings?.bottomMenu4Text || 'INBOX' %>
+</span>
+
+</a>
+
+</div>
+
 <script>
-window.addEventListener('load',()=>{const loader=document.getElementById('loader');if(loader){setTimeout(()=>loader.classList.add('hide'),350)}});
+
+window.addEventListener('load',()=>{
+
+const loader=
+document.getElementById('loader');
+
+if(loader){
+
+setTimeout(()=>{
+
+loader.classList.add('hide')
+
+},350)
+
+}
+
+});
+
 try{
-  const socket=io();
-  socket.on('messages:update',(data)=>{
-    const badge=document.querySelector('[data-inbox-badge]');
-    if(badge){badge.textContent=data.unread||0;badge.style.display=(data.unread||0)>0?'grid':'none'}
-  });
+
+const socket=io();
+
+socket.on('messages:update',(data)=>{
+
+const badge=
+document.querySelector('[data-inbox-badge]');
+
+if(badge){
+
+badge.textContent=
+data.unread||0;
+
+badge.style.display=
+(data.unread||0)>0
+?'grid'
+:'none';
+
+}
+
+});
+
 }catch(e){}
+
 </script>
+
 </body>
 </html>
