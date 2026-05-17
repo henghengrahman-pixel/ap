@@ -577,3 +577,138 @@ body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle 
   }
 
 }
+/* =========================
+   SIMPLE SPORTSBOOK MENU
+========================= */
+
+.simple-menu-wrap{
+  margin-top:18px;
+}
+
+.simple-head{
+  margin-bottom:14px;
+}
+
+.simple-head small{
+  display:block;
+  font-size:10px;
+  color:#f5c542;
+  font-weight:1000;
+  letter-spacing:1px;
+  margin-bottom:4px;
+}
+
+.simple-head h3{
+  font-size:24px;
+}
+
+.simple-menu{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.simple-btn{
+  height:88px;
+
+  border-radius:26px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #5c5c5c,
+      #151515
+    );
+
+  border:
+    2px solid rgba(255,255,255,.16);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  gap:8px;
+
+  position:relative;
+
+  overflow:hidden;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 10px 24px rgba(0,0,0,.45);
+
+  transition:.2s;
+}
+
+.simple-btn:active{
+  transform:scale(.98);
+}
+
+.simple-btn:before{
+  content:"";
+
+  position:absolute;
+
+  inset:-120% auto auto -60%;
+
+  width:80%;
+  height:260%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.14),
+      transparent
+    );
+
+  transform:rotate(24deg);
+}
+
+.simple-icon{
+  font-size:20px;
+  color:#ffe49a;
+}
+
+.simple-btn span{
+  font-size:15px;
+  font-weight:1000;
+  color:#f1f1f1;
+  letter-spacing:.3px;
+}
+
+.simple-btn.primary{
+
+  background:
+    linear-gradient(
+      180deg,
+      #d50000,
+      #650000
+    );
+
+  border:
+    2px solid rgba(255,255,255,.2);
+
+}
+
+.simple-btn.primary span{
+  color:#fff;
+}
+
+.simple-btn.primary .simple-icon{
+  color:#fff;
+}
+
+@media(max-width:430px){
+
+  .simple-btn{
+    height:82px;
+    border-radius:22px;
+  }
+
+  .simple-btn span{
+    font-size:14px;
+  }
+
+}
