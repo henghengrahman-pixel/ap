@@ -453,6 +453,78 @@ router.post(
 
       /*
       =========================
+      FEATURE CARD
+      =========================
+      */
+
+      const featureCards =
+        readCollection(
+          'feature',
+          req.body,
+          12,
+          (n) => ({
+
+            id:
+
+              cleanText(
+                req.body[
+                  `feature${n}Id`
+                ]
+              ) ||
+
+              `feature-${Date.now()}-${n}`,
+
+            title:
+              cleanText(
+                req.body[
+                  `feature${n}Title`
+                ]
+              ),
+
+            image:
+              cleanUrl(
+                req.body[
+                  `feature${n}Image`
+                ]
+              ),
+
+            link:
+              cleanUrl(
+                req.body[
+                  `feature${n}Link`
+                ],
+                '#'
+              ),
+
+            order:
+              toInt(
+                req.body[
+                  `feature${n}Order`
+                ],
+                n
+              ),
+
+            active:
+              toBool(
+                req.body[
+                  `feature${n}Active`
+                ]
+              )
+
+          })
+        )
+
+        .filter(item =>
+          item.title
+        )
+
+        .sort(
+          (a, b) =>
+            a.order - b.order
+        );
+
+      /*
+      =========================
       BOTTOM NAV
       =========================
       */
@@ -672,6 +744,11 @@ router.post(
           buttons.length
             ? buttons
             : old.buttons,
+
+        featureCards:
+          featureCards.length
+            ? featureCards
+            : old.featureCards,
 
         bottomNav:
           bottomNav.length
