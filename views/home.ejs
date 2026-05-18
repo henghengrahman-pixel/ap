@@ -11,6 +11,12 @@ const buttons = Array.isArray(settings?.buttons)
       .sort((a,b)=>(a.order||0)-(b.order||0))
   : [];
 
+const featureCards = Array.isArray(settings?.featureCards)
+  ? settings.featureCards
+      .filter(item => item?.active !== false)
+      .sort((a,b)=>(a.order||0)-(b.order||0))
+  : [];
+
 const navs = Array.isArray(settings?.bottomNav)
   ? settings.bottomNav
       .filter(item => item?.active !== false)
@@ -19,6 +25,9 @@ const navs = Array.isArray(settings?.bottomNav)
 
 const fallbackBanner =
 'https://dummyimage.com/900x320/111111/ffffff&text=OMTOGEL';
+
+const fallbackFeature =
+'https://dummyimage.com/400x220/111111/ffffff&text=OMTOGEL';
 %>
 
 <div
@@ -100,6 +109,10 @@ const fallbackBanner =
 
   <main class="mobile-shell">
 
+    <!-- ========================= -->
+    <!-- SLIDER -->
+    <!-- ========================= -->
+
     <section class="promo-slider">
 
       <div class="slider-window">
@@ -133,6 +146,10 @@ const fallbackBanner =
 
     </section>
 
+    <!-- ========================= -->
+    <!-- MAIN BUTTON -->
+    <!-- ========================= -->
+
     <section class="main-buttons">
 
       <% buttons.forEach((btn)=>{ %>
@@ -164,6 +181,60 @@ const fallbackBanner =
 
     </section>
 
+    <!-- ========================= -->
+    <!-- FEATURE CARD -->
+    <!-- ========================= -->
+
+    <% if(featureCards.length){ %>
+
+    <section class="feature-section">
+
+      <div class="section-title">
+
+        <h2>
+          PROMO & INFORMASI
+        </h2>
+
+      </div>
+
+      <div class="feature-grid">
+
+        <% featureCards.forEach((card)=>{ %>
+
+          <a
+            href="<%= card.link || '#' %>"
+            class="feature-card"
+          >
+
+            <div class="feature-thumb">
+
+              <img
+                src="<%= card.image || fallbackFeature %>"
+                alt="<%= card.title || 'Feature' %>"
+                loading="lazy"
+                onerror="this.src='<%= fallbackFeature %>'"
+              >
+
+            </div>
+
+            <div class="feature-content">
+
+              <span>
+                <%= card.title || 'OMTOGEL' %>
+              </span>
+
+            </div>
+
+          </a>
+
+        <% }) %>
+
+      </div>
+
+    </section>
+
+    <% } %>
+
   </main>
 
   <footer class="app-footer">
@@ -171,6 +242,10 @@ const fallbackBanner =
     <%= settings?.footerText || '' %>
 
   </footer>
+
+  <!-- ========================= -->
+  <!-- BOTTOM NAV -->
+  <!-- ========================= -->
 
   <nav class="fixed-bottom-nav">
 
@@ -198,6 +273,10 @@ const fallbackBanner =
   </nav>
 
 </div>
+
+<!-- ========================= -->
+<!-- POPUP -->
+<!-- ========================= -->
 
 <% if(settings?.popupActive && settings?.popupImageUrl){ %>
 
