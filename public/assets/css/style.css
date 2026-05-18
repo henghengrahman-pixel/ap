@@ -13,3 +13,407 @@
 @media (max-width:860px){.admin-wrap{display:block}.admin-side{position:relative;height:auto}.admin-main{padding:16px}.admin-hero{display:block}.admin-grid,.admin-repeat{grid-template-columns:1fr}.admin-hero h2{font-size:28px}}
 @media (max-width:380px){.mobile-shell{padding:0 7px}.main-buttons{gap:18px 14px}.app-btn{height:72px;font-size:17px}.app-footer{font-size:13px}.nav-entry i{font-size:27px}.nav-entry span{font-size:9px;letter-spacing:1.5px}.app-logo-head{height:108px}.slide-item img{min-height:158px}}
 .login-overlay{position:absolute;inset:0;pointer-events:none}.login-box{position:relative;z-index:1;width:100%;max-width:430px;padding:30px 24px;border-radius:26px;background:linear-gradient(180deg,#141414,#050505);border:1px solid rgba(255,255,255,.1);box-shadow:0 25px 65px rgba(0,0,0,.86)}.login-logo{display:flex;justify-content:center;margin-bottom:18px}.login-logo img{max-width:220px;max-height:80px;object-fit:contain}.login-logo h1{font-size:38px;font-weight:900}.login-head{text-align:center;margin-bottom:22px}.login-head h2{font-size:25px;font-weight:900}.login-head p{color:#9c9c9c;margin-top:6px}.login-form label{display:block;margin-bottom:15px}.login-form label span{display:block;font-size:12px;font-weight:900;color:#aaa;margin-bottom:8px;letter-spacing:1px}.login-input{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:#060606;padding:0 13px}.login-input i{color:#aaa}.login-input input{border:0;background:transparent;padding:15px 0}.login-btn{width:100%;height:54px;border:0;border-radius:17px;background:linear-gradient(180deg,#e0e0e0,#4b4b4b 52%,#070707);color:#fff;font-size:17px;font-weight:900;box-shadow:inset 0 2px 4px rgba(255,255,255,.5),0 12px 24px rgba(0,0,0,.65)}
+/*
+=====================================
+PREMIUM WEBVIEW EFFECT
+=====================================
+*/
+
+body{
+
+  position: relative;
+
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255,255,255,.06),
+      transparent 22%
+    ),
+    #000;
+
+}
+
+/*
+=====================================
+GLOBAL PREMIUM GLOW
+=====================================
+*/
+
+.app-home:before{
+
+  content:"";
+
+  position:fixed;
+
+  top:-30%;
+
+  left:-20%;
+
+  width:500px;
+
+  height:500px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.08),
+      transparent 70%
+    );
+
+  filter: blur(40px);
+
+  pointer-events:none;
+
+  z-index:0;
+
+}
+
+/*
+=====================================
+APP CONTENT
+=====================================
+*/
+
+.mobile-shell{
+
+  position:relative;
+
+  z-index:2;
+
+}
+
+/*
+=====================================
+LOGO EFFECT
+=====================================
+*/
+
+.app-logo-head img{
+
+  filter:
+    drop-shadow(0 0 12px rgba(255,255,255,.15))
+    drop-shadow(0 10px 30px rgba(0,0,0,.9));
+
+  animation:
+    logoFloat 4s ease-in-out infinite;
+
+}
+
+@keyframes logoFloat{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-3px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
+
+/*
+=====================================
+SLIDER PREMIUM
+=====================================
+*/
+
+.slider-window{
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.75);
+
+}
+
+/*
+=====================================
+BUTTON PREMIUM
+=====================================
+*/
+
+.app-btn{
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease;
+
+}
+
+.app-btn:hover{
+
+  transform:
+    translateY(-2px)
+    scale(1.01);
+
+  filter:
+    brightness(1.08);
+
+}
+
+.app-btn:active{
+
+  transform:
+    scale(.98);
+
+}
+
+/*
+=====================================
+BUTTON SHINE
+=====================================
+*/
+
+.app-btn:after{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+
+  left:-120%;
+
+  width:60%;
+
+  height:100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.25),
+      transparent
+    );
+
+  transform:skewX(-20deg);
+
+}
+
+.app-btn:hover:after{
+
+  animation:
+    shine .9s linear;
+
+}
+
+@keyframes shine{
+
+  100%{
+    left:160%;
+  }
+
+}
+
+/*
+=====================================
+FEATURE CARD
+=====================================
+*/
+
+.feature-card{
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+
+}
+
+.feature-card:hover{
+
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(255,255,255,.2);
+
+}
+
+/*
+=====================================
+BOTTOM NAVBAR FINAL
+=====================================
+*/
+
+.fixed-bottom-nav{
+
+  backdrop-filter:
+    blur(18px);
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 -10px 30px rgba(0,0,0,.9);
+
+}
+
+/*
+=====================================
+BOTTOM ITEM
+=====================================
+*/
+
+.nav-entry{
+
+  transition:
+    transform .18s ease,
+    opacity .18s ease;
+
+}
+
+.nav-entry:hover{
+
+  transform:
+    translateY(-2px);
+
+}
+
+.nav-entry:active{
+
+  transform:
+    scale(.95);
+
+}
+
+.nav-entry i{
+
+  transition:
+    .18s ease;
+
+}
+
+.nav-entry:hover i{
+
+  color:#ff2d2d;
+
+  text-shadow:
+    0 0 10px rgba(255,0,0,.45);
+
+}
+
+/*
+=====================================
+LOADER
+=====================================
+*/
+
+.loader-screen{
+
+  backdrop-filter:
+    blur(10px);
+
+}
+
+.loader-box{
+
+  animation:
+    fadeLoader .5s ease;
+
+}
+
+@keyframes fadeLoader{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      scale(.92);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      scale(1);
+
+  }
+
+}
+
+/*
+=====================================
+SCROLLBAR
+=====================================
+*/
+
+::-webkit-scrollbar{
+
+  width:0;
+
+  height:0;
+
+}
+
+/*
+=====================================
+SMOOTH
+=====================================
+*/
+
+*{
+
+  scroll-behavior:smooth;
+
+}
+
+/*
+=====================================
+PREMIUM LOGIN
+=====================================
+*/
+
+.login-box{
+
+  overflow:hidden;
+
+}
+
+.login-box:before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255,255,255,.08),
+      transparent 30%
+    );
+
+  pointer-events:none;
+
+}
+
+/*
+=====================================
+SAFE IOS
+=====================================
+*/
+
+body{
+
+  padding-bottom:
+    env(safe-area-inset-bottom);
+
+}
