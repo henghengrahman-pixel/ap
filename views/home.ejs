@@ -248,13 +248,9 @@ function navIcon(key){
         type="button"
         class="nav-entry nav-btn"
         onclick="window.location.href='/'"
-        style="
-          --active-color:
-          <%= nav.colorActive || '#b31116' %>
-        "
       >
 
-        <i class="<%= navIcon(nav.key) %>"></i>
+        <i class="fa-solid fa-house"></i>
 
         <span>
           <%= nav.title || 'HOME' %>
@@ -262,22 +258,54 @@ function navIcon(key){
 
       </button>
 
-    <% } else { %>
+    <% } else if(nav.key === 'daftar'){ %>
+
+      <a
+        href="<%= nav.link || '#' %>"
+        class="nav-entry center-nav"
+        target="_blank"
+      >
+
+        <div class="center-circle">
+
+          <i class="fa-solid fa-user-plus"></i>
+
+        </div>
+
+        <span>
+          <%= nav.title || 'DAFTAR' %>
+        </span>
+
+      </a>
+
+    <% } else if(nav.key === 'whatsapp'){ %>
 
       <a
         href="<%= nav.link || '#' %>"
         class="nav-entry"
-        style="
-          --active-color:
-          <%= nav.colorActive || '#b31116' %>
-        "
-        target="<%= nav.link?.startsWith('http') ? '_blank' : '_self' %>"
+        target="_blank"
       >
 
-        <i class="<%= navIcon(nav.key) %>"></i>
+        <i class="fa-brands fa-whatsapp"></i>
 
         <span>
-          <%= nav.title || 'MENU' %>
+          <%= nav.title || 'WHATSAPP' %>
+        </span>
+
+      </a>
+
+    <% } else if(nav.key === 'livechat'){ %>
+
+      <a
+        href="<%= nav.link || '#' %>"
+        class="nav-entry"
+        target="_blank"
+      >
+
+        <i class="fa-solid fa-headset"></i>
+
+        <span>
+          <%= nav.title || 'LIVECHAT' %>
         </span>
 
       </a>
@@ -287,7 +315,6 @@ function navIcon(key){
   <% }) %>
 
 </nav>
-
 </div>
 
 <!-- POPUP -->
