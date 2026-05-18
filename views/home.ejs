@@ -1,4 +1,5 @@
 <% const unreadCount = Array.isArray(messages) ? messages.filter(m => !m.read).length : 0; %>
+
 <% const bgDesktop = settings.backgroundDesktopUrl || ''; %>
 <% const bgMobile = settings.backgroundMobileUrl || bgDesktop; %>
 
@@ -14,179 +15,471 @@ encodeURIComponent(`
 <stop offset="1" stop-color="#050505"/>
 </linearGradient>
 </defs>
+
 <rect width="900" height="320" fill="url(#g)"/>
-<rect x="18" y="18" width="864" height="284" rx="34" fill="none" stroke="#bfc3c8" stroke-width="4" opacity=".7"/>
-<text x="50" y="150" fill="#ffffff" font-family="Arial" font-size="54" font-weight="900">OMTOGEL MENU</text>
-<text x="54" y="205" fill="#bfc3c8" font-family="Arial" font-size="28" font-weight="700">Atur gambar dan link dari admin</text>
+
+<rect
+x="18"
+y="18"
+width="864"
+height="284"
+rx="34"
+fill="none"
+stroke="#bfc3c8"
+stroke-width="4"
+opacity=".7"
+/>
+
+<text
+x="50"
+y="150"
+fill="#ffffff"
+font-family="Arial"
+font-size="54"
+font-weight="900"
+>
+OMTOGEL MENU
+</text>
+
+<text
+x="54"
+y="205"
+fill="#bfc3c8"
+font-family="Arial"
+font-size="28"
+font-weight="700"
+>
+Atur gambar dan link dari admin
+</text>
+
 </svg>
 `);
 %>
 
-<% const menuCards = Array.isArray(settings.menuCards) ? settings.menuCards.filter(c => c && c.active !== false) : []; %>
+<%
+const menuCards =
+Array.isArray(settings.menuCards)
+? settings.menuCards.filter(
+c => c && c.active !== false
+)
+: [];
+%>
 
-<div id="loader" class="loader-screen">
-  <div class="loader-box">
-    <% if(settings.splashImageUrl || settings.logoUrl){ %>
-      <img
-        src="<%= settings.splashImageUrl || settings.logoUrl %>"
-        alt="<%= settings.siteName || 'OMTOGEL' %>"
-        onerror="this.style.display='none'"
-      >
-    <% } else { %>
-      <strong><%= settings.siteName || 'OMTOGEL' %></strong>
-    <% } %>
-
-    <div class="loader-line">
-      <span></span>
-    </div>
-  </div>
-</div>
+<!-- LOADER -->
 
 <div
-  class="webview-app"
-  style="--bg-desktop:url('<%= bgDesktop %>');--bg-mobile:url('<%= bgMobile %>')"
+id="loader"
+class="loader-screen"
 >
-  <div id="frameSkeleton" class="frame-skeleton">
-    <span></span>
-    <b></b>
-    <i></i>
-  </div>
 
-  <main class="webview-area">
-    <iframe
-      id="mainFrame"
-      src="<%= settings.mainWebviewUrl || '/blank-frame' %>"
-      title="<%= settings.siteName || 'OMTOGEL' %>"
-      loading="eager"
-      referrerpolicy="no-referrer-when-downgrade"
-      allow="clipboard-read; clipboard-write; fullscreen; payment; autoplay; geolocation"
-    ></iframe>
-  </main>
+<div class="loader-box">
 
-  <div id="popupBackdrop" class="popup-backdrop" aria-hidden="true"></div>
+<% if(
+settings.splashImageUrl ||
+settings.logoUrl
+){ %>
 
-  <aside id="menuPopup" class="menu-popup" aria-label="Menu popup">
-    <div class="popup-head">
-      <div class="brand-mini">
-        <% if(settings.logoUrl){ %>
-          <img src="<%= settings.logoUrl %>" alt="logo">
-        <% } else { %>
-          <i class="fa-solid fa-gem"></i>
-        <% } %>
+<img
+src="<%= settings.splashImageUrl || settings.logoUrl %>"
+alt="<%= settings.siteName || 'OMTOGEL' %>"
+onerror="this.style.display='none'"
+>
 
-        <div>
-          <b><%= settings.siteName || 'OMTOGEL' %></b>
-          <span>Premium Menu</span>
-        </div>
-      </div>
+<% } else { %>
 
-      <button type="button" id="closeMenuBtn" aria-label="Tutup menu">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
+<strong>
+<%= settings.siteName || 'OMTOGEL' %>
+</strong>
 
-    <div class="menu-grid">
-      <% if(menuCards.length){ %>
-        <% for(let i = 0; i < menuCards.length; i++){ const card = menuCards[i] || {}; %>
-          <a
-            href="<%= card.link || '#' %>"
-            data-track="menu:<%= card.title || ('Menu ' + (i + 1)) %>"
-            data-menu-link="<%= card.link || '#' %>"
-            class="menu-card"
-          >
-            <img
-              src="<%= card.image || fallbackImg %>"
-              alt="<%= card.title || ('Menu ' + (i + 1)) %>"
-              loading="lazy"
-              onerror="this.src='<%= fallbackImg %>'"
-            >
+<% } %>
 
-            <div class="menu-card-copy">
-              <h3><%= card.title || ('MENU ' + (i + 1)) %></h3>
-              <p><%= card.desc || 'Atur dari admin' %></p>
-            </div>
-          </a>
-        <% } %>
-      <% } else { %>
-        <a href="#" class="menu-card">
-          <img src="<%= fallbackImg %>" alt="Menu">
-          <div class="menu-card-copy">
-            <h3>MENU UTAMA</h3>
-            <p>Atur menu dari admin</p>
-          </div>
-        </a>
-      <% } %>
-    </div>
-  </aside>
+<div class="loader-line">
+<span></span>
+</div>
 
-  <% if(settings.popupPromoImageUrl){ %>
-    <div id="promoPopup" class="promo-popup">
-      <button type="button" id="promoClose" aria-label="Tutup promo">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+</div>
 
-      <a
-        href="<%= settings.popupPromoLink || '#' %>"
-        data-menu-link="<%= settings.popupPromoLink || '#' %>"
-      >
-        <img src="<%= settings.popupPromoImageUrl %>" alt="Promo">
-      </a>
-    </div>
-  <% } %>
+</div>
 
-  <nav class="bottom-nav" aria-label="Menu bawah">
-    <button type="button" id="openMenuBtn" class="bottom-item">
-      <i class="fa-solid fa-bars-staggered nav-icon"></i>
-      <span>MENU</span>
-    </button>
+<!-- APP -->
 
-    <button
-      type="button"
-      class="bottom-item"
-      data-track="bottom:livedraw"
-      data-frame-url="<%= settings.liveDrawUrl || '#' %>"
-    >
-      <i class="fa-solid fa-table-cells-large nav-icon"></i>
-      <span>LIVE</span>
-    </button>
+<div
+class="webview-app"
+style="
+--bg-desktop:url('<%= bgDesktop %>');
+--bg-mobile:url('<%= bgMobile %>');
+"
+>
 
-    <button type="button" class="bottom-logo" id="homeFrame" aria-label="Home">
-      <% if(settings.logoUrl){ %>
-        <img
-          src="<%= settings.logoUrl %>"
-          alt="Home"
-          onerror="this.outerHTML='<i class=&quot;fa-solid fa-house&quot;></i>'"
-        >
-      <% } else { %>
-        <i class="fa-solid fa-house"></i>
-      <% } %>
-    </button>
+<!-- SKELETON -->
 
-    <button
-      type="button"
-      class="bottom-item"
-      data-track="bottom:whatsapp"
-      data-frame-url="<%= settings.whatsappUrl || '#' %>"
-    >
-      <i class="fa-brands fa-whatsapp nav-icon"></i>
-      <span>WA</span>
-    </button>
+<div
+id="frameSkeleton"
+class="frame-skeleton"
+>
+<span></span>
+<b></b>
+<i></i>
+</div>
 
-    <button
-      type="button"
-      class="bottom-item"
-      data-track="bottom:inbox"
-      data-frame-url="<%= settings.inboxUrl || '/inbox-frame' %>"
-    >
-      <i class="fa-solid fa-envelope nav-icon"></i>
-      <span>INBOX</span>
+<!-- WEBVIEW -->
 
-      <em
-        data-inbox-badge
-        style="<%= unreadCount ? '' : 'display:none' %>"
-      >
-        <%= unreadCount %>
-      </em>
-    </button>
-  </nav>
+<main class="webview-area">
+
+<iframe
+
+id="mainFrame"
+
+src="<%= settings.mainWebviewUrl || '/blank-frame' %>"
+
+title="<%= settings.siteName || 'OMTOGEL' %>"
+
+loading="auto"
+
+referrerpolicy="no-referrer-when-downgrade"
+
+allow="
+clipboard-read;
+clipboard-write;
+fullscreen;
+payment;
+autoplay;
+geolocation
+"
+
+sandbox="
+allow-same-origin
+allow-scripts
+allow-forms
+allow-popups
+allow-downloads
+allow-modals
+allow-top-navigation-by-user-activation
+"
+
+></iframe>
+
+</main>
+
+<!-- BACKDROP -->
+
+<div
+id="popupBackdrop"
+class="popup-backdrop"
+aria-hidden="true"
+></div>
+
+<!-- POPUP MENU -->
+
+<aside
+id="menuPopup"
+class="menu-popup"
+aria-label="Menu popup"
+>
+
+<div class="popup-head">
+
+<div class="brand-mini">
+
+<% if(settings.logoUrl){ %>
+
+<img
+src="<%= settings.logoUrl %>"
+alt="logo"
+>
+
+<% } else { %>
+
+<i class="fa-solid fa-gem"></i>
+
+<% } %>
+
+<div>
+
+<b>
+<%= settings.siteName || 'OMTOGEL' %>
+</b>
+
+<span>
+Premium Menu
+</span>
+
+</div>
+
+</div>
+
+<button
+type="button"
+id="closeMenuBtn"
+aria-label="Tutup menu"
+>
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+</div>
+
+<!-- GRID -->
+
+<div class="menu-grid">
+
+<% if(menuCards.length){ %>
+
+<%
+for(
+let i = 0;
+i < menuCards.length;
+i++
+){
+
+const card =
+menuCards[i] || {};
+%>
+
+<a
+
+href="<%= card.link || '#' %>"
+
+data-track="
+menu:<%= card.title || ('Menu ' + (i + 1)) %>
+"
+
+data-menu-link="
+<%= card.link || '#' %>
+"
+
+class="menu-card"
+>
+
+<img
+
+src="<%= card.image || fallbackImg %>"
+
+alt="
+<%= card.title || ('Menu ' + (i + 1)) %>
+"
+
+loading="lazy"
+
+onerror="
+this.src='<%= fallbackImg %>'
+"
+
+>
+
+<div class="menu-card-copy">
+
+<h3>
+<%= card.title || ('MENU ' + (i + 1)) %>
+</h3>
+
+<p>
+<%= card.desc || 'Atur dari admin' %>
+</p>
+
+</div>
+
+</a>
+
+<% } %>
+
+<% } else { %>
+
+<a href="#" class="menu-card">
+
+<img
+src="<%= fallbackImg %>"
+alt="Menu"
+>
+
+<div class="menu-card-copy">
+
+<h3>MENU UTAMA</h3>
+
+<p>Atur menu dari admin</p>
+
+</div>
+
+</a>
+
+<% } %>
+
+</div>
+
+</aside>
+
+<!-- PROMO -->
+
+<% if(false && settings.popupPromoImageUrl){ %>
+
+<div
+id="promoPopup"
+class="promo-popup"
+>
+
+<button
+type="button"
+id="promoClose"
+aria-label="Tutup promo"
+>
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+<a
+
+href="
+<%= settings.popupPromoLink || '#' %>
+"
+
+data-menu-link="
+<%= settings.popupPromoLink || '#' %>
+"
+>
+
+<img
+src="<%= settings.popupPromoImageUrl %>"
+alt="Promo"
+>
+
+</a>
+
+</div>
+
+<% } %>
+
+<!-- NAVBAR -->
+
+<nav
+class="bottom-nav"
+aria-label="Menu bawah"
+>
+
+<!-- MENU -->
+
+<button
+type="button"
+id="openMenuBtn"
+class="bottom-item"
+>
+
+<i class="fa-solid fa-bars-staggered nav-icon"></i>
+
+<span>MENU</span>
+
+</button>
+
+<!-- LIVE -->
+
+<button
+
+type="button"
+
+class="bottom-item"
+
+data-track="bottom:livedraw"
+
+data-frame-url="
+<%= settings.liveDrawUrl || '#' %>
+"
+>
+
+<i class="fa-solid fa-table-cells-large nav-icon"></i>
+
+<span>LIVE</span>
+
+</button>
+
+<!-- HOME -->
+
+<button
+
+type="button"
+
+class="bottom-logo"
+
+id="homeFrame"
+
+aria-label="Home"
+>
+
+<% if(settings.logoUrl){ %>
+
+<img
+
+src="<%= settings.logoUrl %>"
+
+alt="Home"
+
+onerror="
+this.outerHTML='<i class=&quot;fa-solid fa-house&quot;></i>'
+"
+
+>
+
+<% } else { %>
+
+<i class="fa-solid fa-house"></i>
+
+<% } %>
+
+</button>
+
+<!-- WHATSAPP -->
+
+<button
+
+type="button"
+
+class="bottom-item"
+
+data-track="bottom:whatsapp"
+
+data-frame-url="
+<%= settings.whatsappUrl || '#' %>
+"
+>
+
+<i class="fa-brands fa-whatsapp nav-icon"></i>
+
+<span>WA</span>
+
+</button>
+
+<!-- INBOX -->
+
+<button
+
+type="button"
+
+class="bottom-item"
+
+data-track="bottom:inbox"
+
+data-frame-url="
+<%= settings.inboxUrl || '/inbox-frame' %>
+"
+>
+
+<i class="fa-solid fa-envelope nav-icon"></i>
+
+<span>INBOX</span>
+
+<em
+data-inbox-badge
+style="
+<%= unreadCount ? '' : 'display:none' %>
+"
+>
+
+<%= unreadCount %>
+
+</em>
+
+</button>
+
+</nav>
+
 </div>
