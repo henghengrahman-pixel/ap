@@ -203,7 +203,7 @@ const sessionOptions = {
 
   secret:
     process.env.SESSION_SECRET ||
-    'omtogel_super_secret_change_me',
+    'omtogel_super_secure_session_2026',
 
   resave:false,
 
@@ -219,7 +219,7 @@ const sessionOptions = {
 
     httpOnly:true,
 
-    sameSite:'none',
+    sameSite:'lax',
 
     maxAge:
       1000 *
@@ -261,7 +261,6 @@ if(process.env.MONGO_URI){
 WARNING:
 MONGO_URI BELUM DIISI
 SESSION MASIH MEMORYSTORE
-LOGIN BISA MEMBAL DI RAILWAY
 ==================================================
 `);
 
@@ -293,6 +292,8 @@ function shouldBypassCsrf(req){
     String(req.method || 'GET')
       .toUpperCase();
 
+  /* GET SAFE */
+
   if(
     ['GET','HEAD','OPTIONS']
     .includes(method)
@@ -302,17 +303,17 @@ function shouldBypassCsrf(req){
 
   }
 
-  const adminMultipartRoutes = [
+  /* ADMIN WAJIB CSRF */
 
-    '/itsiregar8008/settings',
+  if(
+    req.path.startsWith('/itsiregar8008')
+  ){
 
-    '/itsiregar8008/message/add',
+    return false;
 
-    '/itsiregar8008/message/delete',
+  }
 
-    '/itsiregar8008/messages/clear'
-
-  ];
+  /* API PUBLIC */
 
   const publicApiRoutes = [
 
@@ -320,17 +321,13 @@ function shouldBypassCsrf(req){
 
     '/track-click',
 
-    '/push/token'
+    '/push/token',
+
+    '/socket.io'
 
   ];
 
-  return [
-
-    ...adminMultipartRoutes,
-
-    ...publicApiRoutes
-
-  ].some(route =>
+  return publicApiRoutes.some(route =>
 
     req.path === route ||
 
@@ -375,11 +372,6 @@ app.use((req,res,next)=>{
     typeof req.csrfToken === 'function'
       ? req.csrfToken()
       : '';
-
-  res.locals.isApp =
-
-    req.headers['x-requested-with']
-      === 'com.omtogel.app';
 
   next();
 
@@ -517,10 +509,14 @@ app.use((req,res)=>{
 
 app.use((err, req, res, next) => {
 
+  /* CSRF */
+
   if(
     err &&
     err.code === 'EBADCSRFTOKEN'
   ){
+
+    /* API */
 
     if(
       req.originalUrl.startsWith('/api')
@@ -537,15 +533,21 @@ app.use((err, req, res, next) => {
 
     }
 
+    /* ADMIN */
+
     if(
       req.originalUrl.startsWith('/itsiregar8008')
     ){
 
+      req.session.destroy(()=>{});
+
       return res.redirect(
-        '/itsiregar8008/login'
+        '/itsiregar8008'
       );
 
     }
+
+    /* USER */
 
     return res.redirect('/');
 
