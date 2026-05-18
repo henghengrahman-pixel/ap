@@ -1,5 +1,3 @@
-<% layout('layouts/main-admin') %>
-
 <section class="admin-hero">
 
   <div>
@@ -155,7 +153,6 @@
         name="backgroundMain"
         value="<%= settings.backgroundMain || '' %>"
       >
-
     </label>
 
     <label>
@@ -166,7 +163,6 @@
         name="backgroundMobile"
         value="<%= settings.backgroundMobile || '' %>"
       >
-
     </label>
 
     <label>
@@ -177,7 +173,6 @@
         name="backgroundDesktop"
         value="<%= settings.backgroundDesktop || '' %>"
       >
-
     </label>
 
     <label>
@@ -188,7 +183,6 @@
         name="backgroundLogin"
         value="<%= settings.backgroundLogin || '' %>"
       >
-
     </label>
 
     <label>
@@ -199,7 +193,6 @@
         name="backgroundPopup"
         value="<%= settings.backgroundPopup || '' %>"
       >
-
     </label>
 
     <label>
@@ -210,7 +203,6 @@
         name="backgroundFooter"
         value="<%= settings.backgroundFooter || '' %>"
       >
-
     </label>
 
     <label>
@@ -221,7 +213,6 @@
         name="backgroundNavbar"
         value="<%= settings.backgroundNavbar || '' %>"
       >
-
     </label>
 
     <label>
@@ -232,7 +223,6 @@
         name="backgroundLoading"
         value="<%= settings.backgroundLoading || '' %>"
       >
-
     </label>
 
   </div>
@@ -262,7 +252,6 @@
         >
 
         <label>
-
           Judul
 
           <input
@@ -270,11 +259,9 @@
             name="slide<%= n %>Title"
             value="<%= slide.title || '' %>"
           >
-
         </label>
 
         <label>
-
           Gambar URL
 
           <input
@@ -282,11 +269,9 @@
             name="slide<%= n %>ImageUrl"
             value="<%= slide.imageUrl || '' %>"
           >
-
         </label>
 
         <label>
-
           Link
 
           <input
@@ -294,11 +279,9 @@
             name="slide<%= n %>Link"
             value="<%= slide.link || '' %>"
           >
-
         </label>
 
         <label>
-
           Urutan
 
           <input
@@ -306,7 +289,6 @@
             name="slide<%= n %>Order"
             value="<%= slide.order || n %>"
           >
-
         </label>
 
         <label class="check">
@@ -352,7 +334,6 @@
         >
 
         <label>
-
           Nama Tombol
 
           <input
@@ -360,11 +341,9 @@
             name="button<%= n %>Title"
             value="<%= btn.title || '' %>"
           >
-
         </label>
 
         <label>
-
           Link
 
           <input
@@ -372,11 +351,9 @@
             name="button<%= n %>Link"
             value="<%= btn.link || '' %>"
           >
-
         </label>
 
         <label>
-
           Icon
 
           <input
@@ -385,11 +362,9 @@
             value="<%= btn.icon || '' %>"
             placeholder="fa-solid fa-star"
           >
-
         </label>
 
         <label>
-
           Warna
 
           <select
@@ -419,7 +394,6 @@
         </label>
 
         <label>
-
           Urutan
 
           <input
@@ -427,7 +401,6 @@
             name="button<%= n %>Order"
             value="<%= btn.order || n %>"
           >
-
         </label>
 
         <label class="check">
@@ -448,164 +421,6 @@
 
   </div>
 
-  <h2>
-    Bottom Navbar
-  </h2>
-
-  <div class="admin-repeat">
-
-    <% for(let i = 0; i < 8; i++){ %>
-
-      <% const nav = (settings.bottomNav || [])[i] || {}; %>
-
-      <% const n = i + 1; %>
-
-      <section>
-
-        <h3>
-          Navbar <%= n %>
-        </h3>
-
-        <input
-          type="hidden"
-          name="nav<%= n %>Id"
-          value="<%= nav.id || '' %>"
-        >
-
-        <label>
-
-          Text
-
-          <input
-            type="text"
-            name="nav<%= n %>Title"
-            value="<%= nav.title || '' %>"
-          >
-
-        </label>
-
-        <label>
-
-          Icon
-
-          <input
-            type="text"
-            name="nav<%= n %>Icon"
-            value="<%= nav.icon || '' %>"
-          >
-
-        </label>
-
-        <label>
-
-          Link
-
-          <input
-            type="text"
-            name="nav<%= n %>Link"
-            value="<%= nav.link || '' %>"
-          >
-
-        </label>
-
-        <label>
-
-          Warna Active
-
-          <input
-            type="text"
-            name="nav<%= n %>ColorActive"
-            value="<%= nav.colorActive || '#d21717' %>"
-          >
-
-        </label>
-
-        <label>
-
-          Urutan
-
-          <input
-            type="number"
-            name="nav<%= n %>Order"
-            value="<%= nav.order || n %>"
-          >
-
-        </label>
-
-        <label class="check">
-
-          <input
-            type="checkbox"
-            name="nav<%= n %>Active"
-            <%= nav.active !== false ? 'checked' : '' %>
-          >
-
-          Aktif
-
-        </label>
-
-      </section>
-
-    <% } %>
-
-  </div>
-
-  <h2>
-    Popup
-  </h2>
-
-  <div class="admin-grid">
-
-    <label>
-
-      Gambar Popup URL
-
-      <input
-        type="text"
-        name="popupImageUrl"
-        value="<%= settings.popupImageUrl || '' %>"
-      >
-
-    </label>
-
-    <label>
-
-      Link Popup
-
-      <input
-        type="text"
-        name="popupLink"
-        value="<%= settings.popupLink || '' %>"
-      >
-
-    </label>
-
-    <label>
-
-      Timer Popup
-
-      <input
-        type="number"
-        name="popupTimer"
-        value="<%= settings.popupTimer || 1200 %>"
-      >
-
-    </label>
-
-    <label class="check">
-
-      <input
-        type="checkbox"
-        name="popupActive"
-        <%= settings.popupActive ? 'checked' : '' %>
-      >
-
-      Popup Aktif
-
-    </label>
-
-  </div>
-
   <button class="save-btn">
 
     <i class="fa-solid fa-floppy-disk"></i>
@@ -615,84 +430,3 @@
   </button>
 
 </form>
-
-<section
-  class="admin-card"
-  id="messages"
->
-
-  <h2>
-    Inbox Pesan
-  </h2>
-
-  <form
-    action="/PINKTIGER8008/message/add"
-    method="POST"
-    class="admin-grid"
-  >
-
-    <label>
-
-      Kategori
-
-      <input
-        type="text"
-        name="category"
-      >
-
-    </label>
-
-    <label>
-
-      Judul
-
-      <input
-        type="text"
-        name="title"
-        required
-      >
-
-    </label>
-
-    <label>
-
-      Image URL
-
-      <input
-        type="text"
-        name="imageUrl"
-      >
-
-    </label>
-
-    <label>
-
-      Link
-
-      <input
-        type="text"
-        name="link"
-      >
-
-    </label>
-
-    <label class="full">
-
-      Pesan
-
-      <textarea
-        name="message"
-        required
-      ></textarea>
-
-    </label>
-
-    <button class="save-btn">
-
-      Kirim Pesan
-
-    </button>
-
-  </form>
-
-</section>
