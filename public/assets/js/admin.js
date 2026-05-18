@@ -1,0 +1,1 @@
+(function(){document.querySelectorAll('input[name$="Url"],input[name$="URL"],input[name="logoUrl"],input[name="faviconUrl"],input[name="backgroundUrl"],input[name="backgroundMobileUrl"]').forEach(input=>{input.addEventListener('blur',()=>{const v=input.value.trim();if(v&&v!=='#'&&!/^https?:\/\//i.test(v)&&!v.startsWith('/'))input.value='https://'+v})})})();
