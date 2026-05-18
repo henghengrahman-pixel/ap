@@ -17,17 +17,33 @@ const webRoutes = require('./routes/web');
 const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
 
-const { DATA_DIR, ensureDir } = require('./helpers/json-db');
-const { apiLimiter } = require('./middleware/security');
-const { initFirebase } = require('./services/fcm');
+const {
+  DATA_DIR,
+  ensureDir
+} = require('./helpers/json-db');
+
+const {
+  apiLimiter
+} = require('./middleware/security');
+
+const {
+  initFirebase
+} = require('./services/fcm');
 
 const app = express();
-const server = http.createServer(app);
+
+const server =
+  http.createServer(app);
 
 const isProduction =
   process.env.NODE_ENV === 'production';
 
-const ROOT_DIR = process.cwd();
+/* =========================================
+   PATH
+========================================= */
+
+const ROOT_DIR =
+  process.cwd();
 
 const PUBLIC_DIR =
   path.join(ROOT_DIR, 'public');
@@ -126,9 +142,13 @@ app.use((req,res,next)=>{
 
   res.setHeader(
     'Cache-Control',
+
     req.path.startsWith('/api')
+
       ? 'no-store'
+
       : 'no-cache'
+
   );
 
   next();
@@ -370,8 +390,11 @@ app.use(
       ){
 
         res.setHeader(
+
           'Cache-Control',
+
           'no-store, no-cache, must-revalidate, proxy-revalidate'
+
         );
 
       }
@@ -466,7 +489,11 @@ app.use((req,res)=>{
 
 app.use((err,req,res,next)=>{
 
+  /* CSRF */
+
   if(err.code === 'EBADCSRFTOKEN'){
+
+    /* API */
 
     if(req.originalUrl.startsWith('/api')){
 
@@ -479,6 +506,120 @@ app.use((err,req,res,next)=>{
       });
 
     }
+
+    /* ADMIN */
+
+    if(
+      req.originalUrl.startsWith('/itsiregar8008')
+    ){
+
+      return res.status(403).send(`
+<!doctype html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
+<title>SESSION EXPIRED</title>
+
+<style>
+
+body{
+margin:0;
+background:#050505;
+color:#fff;
+min-height:100vh;
+display:grid;
+place-items:center;
+font-family:Arial;
+padding:20px;
+}
+
+.box{
+width:100%;
+max-width:520px;
+padding:30px;
+border-radius:28px;
+background:
+linear-gradient(
+180deg,
+#161616,
+#090909
+);
+border:1px solid rgba(255,255,255,.08);
+text-align:center;
+box-shadow:
+0 10px 34px rgba(0,0,0,.45);
+}
+
+h1{
+margin:0 0 14px;
+font-size:30px;
+font-weight:900;
+color:#ff4d4d;
+}
+
+p{
+margin:0 0 22px;
+line-height:1.8;
+font-size:15px;
+color:#d1d5db;
+}
+
+a{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+height:52px;
+padding:0 24px;
+border-radius:16px;
+background:
+linear-gradient(
+180deg,
+#ffffff,
+#bcbcbc
+);
+color:#050505;
+font-weight:900;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>SESSION EXPIRED</h1>
+
+<p>
+Session admin berubah atau expired.
+Refresh halaman admin lalu coba save kembali.
+</p>
+
+<a href="javascript:location.reload()">
+REFRESH HALAMAN
+</a>
+
+</div>
+
+</body>
+
+</html>
+`);
+
+    }
+
+    /* USER */
 
     return res.redirect('/');
 
@@ -519,22 +660,35 @@ padding:20px;
 }
 
 .box{
+width:100%;
 max-width:760px;
-background:#111;
-border:1px solid #333;
-border-radius:24px;
-padding:28px;
+padding:30px;
+border-radius:28px;
+background:
+linear-gradient(
+180deg,
+#161616,
+#090909
+);
+border:1px solid rgba(255,255,255,.08);
 text-align:center;
+box-shadow:
+0 10px 34px rgba(0,0,0,.45);
 }
 
 h1{
-margin:0 0 12px;
+margin:0 0 14px;
+font-size:32px;
+font-weight:900;
 color:#ff4d4d;
 }
 
 p{
-line-height:1.7;
+margin:0;
+line-height:1.8;
+font-size:15px;
 color:#d1d5db;
+word-break:break-word;
 }
 
 </style>
