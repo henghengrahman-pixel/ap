@@ -141,6 +141,52 @@ const DEFAULT_SETTINGS = {
 
   /*
   =========================
+  FEATURE CARD
+  =========================
+  */
+
+  featureCards: [
+
+    {
+      id: 'feature-1',
+      title: 'BONUS MEMBER',
+      image: '',
+      link: '#',
+      order: 1,
+      active: true
+    },
+
+    {
+      id: 'feature-2',
+      title: 'APK DOWNLOAD',
+      image: '',
+      link: '#',
+      order: 2,
+      active: true
+    },
+
+    {
+      id: 'feature-3',
+      title: 'EVENT SLOT',
+      image: '',
+      link: '#',
+      order: 3,
+      active: true
+    },
+
+    {
+      id: 'feature-4',
+      title: 'RTP LIVE',
+      image: '',
+      link: '#',
+      order: 4,
+      active: true
+    }
+
+  ],
+
+  /*
+  =========================
   BOTTOM NAV
   =========================
   */
@@ -350,6 +396,11 @@ async function getSettings() {
         Array.isArray(parsed.buttons)
           ? parsed.buttons
           : DEFAULT_SETTINGS.buttons,
+
+      featureCards:
+        Array.isArray(parsed.featureCards)
+          ? parsed.featureCards
+          : DEFAULT_SETTINGS.featureCards,
 
       bottomNav:
         Array.isArray(parsed.bottomNav)
