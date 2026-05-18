@@ -452,3 +452,31 @@ a{
     font-size:9px;
   }
 }
+.promo-slider,
+.slider-window{
+  width:100%;
+  overflow:hidden;
+  border-radius:16px;
+}
+
+.slides-track{
+  display:flex;
+  width:100%;
+  transition:transform .45s ease;
+}
+
+.slide-item{
+  min-width:100%;
+  width:100%;
+  flex:0 0 100%;
+}
+
+.slide-item img{
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:auto !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  background:#000;
+  border-radius:16px;
+}
