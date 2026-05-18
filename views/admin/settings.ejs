@@ -1,0 +1,124 @@
+<section class="admin-hero">
+  <div>
+    <span class="hero-badge">ADMIN URL : /PINKTIGER8008</span>
+    <h2>Setting Aplikasi Mobile</h2>
+    <p>Semua logo, background, slider, tombol utama, popup, footer, dan bottom navbar diatur dari panel ini.</p>
+  </div>
+  <b class="hero-counter"><%= messages.length %><small>Pesan</small></b>
+</section>
+<% if (typeof saved !== 'undefined' || (typeof query !== 'undefined' && query?.saved)) { %><div class="admin-alert">Setting berhasil disimpan.</div><% } %>
+<form action="/PINKTIGER8008/settings" method="POST" class="admin-card">
+  <div class="admin-tabs">
+    <button type="button" class="tab-btn active" data-tab="general">General</button>
+    <button type="button" class="tab-btn" data-tab="slider">Slider</button>
+    <button type="button" class="tab-btn" data-tab="buttons">Tombol</button>
+    <button type="button" class="tab-btn" data-tab="navbar">Navbar</button>
+    <button type="button" class="tab-btn" data-tab="popup">Popup</button>
+  </div>
+  <section class="tab-panel active" id="tab-general">
+    <div class="admin-section-title"><h2>General & Tampilan</h2></div>
+    <div class="admin-grid">
+      <label><span>Nama Website</span><input type="text" name="siteName" value="<%= settings.siteName || '' %>"></label>
+      <label><span>Subtitle</span><input type="text" name="subtitle" value="<%= settings.subtitle || '' %>"></label>
+      <label><span>Logo URL</span><input type="text" name="logoUrl" value="<%= settings.logoUrl || '' %>"></label>
+      <label><span>Favicon URL</span><input type="text" name="faviconUrl" value="<%= settings.faviconUrl || '' %>"></label>
+      <label><span>Loader Logo URL</span><input type="text" name="loaderLogoUrl" value="<%= settings.loaderLogoUrl || '' %>"></label>
+      <label><span>Loader Text</span><input type="text" name="loaderText" value="<%= settings.loaderText || '' %>"></label>
+      <label class="full"><span>Background Utama Mobile</span><input type="text" name="backgroundMain" value="<%= settings.backgroundMain || '' %>" placeholder="1 background saja untuk tampilan mobile"></label>
+      <label class="full"><span>Footer Text</span><input type="text" name="footerText" value="<%= settings.footerText || '' %>"></label>
+      <label class="full"><span>Meta Description</span><textarea name="siteDescription"><%= settings.siteDescription || '' %></textarea></label>
+      <label class="full"><span>Meta Keywords</span><textarea name="siteKeywords"><%= settings.siteKeywords || '' %></textarea></label>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-slider">
+    <div class="admin-section-title"><h2>Slider Promo</h2><button type="button" class="admin-add-btn" data-show="slide">+ Tambah Slider</button></div>
+    <div class="admin-repeat">
+      <% for(let i = 0; i < 10; i++){ const slide = (settings.sliders || [])[i] || {}; const n = i + 1; %>
+      <section class="item-card slide-card <%= (slide.title || slide.imageUrl || i===0) ? 'show' : '' %>">
+        <h3>Slide <%= n %></h3>
+        <input type="hidden" name="slide<%= n %>Id" value="<%= slide.id || '' %>">
+        <label><span>Judul</span><input type="text" name="slide<%= n %>Title" value="<%= slide.title || '' %>"></label>
+        <label><span>Gambar URL</span><input type="text" name="slide<%= n %>ImageUrl" value="<%= slide.imageUrl || '' %>"></label>
+        <label><span>Link</span><input type="text" name="slide<%= n %>Link" value="<%= slide.link || '' %>"></label>
+        <label><span>Urutan</span><input type="number" name="slide<%= n %>Order" value="<%= slide.order || n %>"></label>
+        <label class="check"><input type="checkbox" name="slide<%= n %>Active" <%= slide.active !== false ? 'checked' : '' %>> Aktif</label>
+      </section>
+      <% } %>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-buttons">
+    <div class="admin-section-title"><h2>Tombol Utama</h2><button type="button" class="admin-add-btn" data-show="button">+ Tambah Tombol</button></div>
+    <div class="admin-repeat">
+      <% for(let i = 0; i < 12; i++){ const btn = (settings.buttons || [])[i] || {}; const n = i + 1; %>
+      <section class="item-card button-card <%= (btn.title || i < 7) ? 'show' : '' %>">
+        <h3>Tombol <%= n %></h3>
+        <input type="hidden" name="button<%= n %>Id" value="<%= btn.id || '' %>">
+        <label><span>Nama Tombol</span><input type="text" name="button<%= n %>Title" value="<%= btn.title || '' %>"></label>
+        <label><span>Link</span><input type="text" name="button<%= n %>Link" value="<%= btn.link || '' %>"></label>
+        <label><span>Icon FontAwesome Optional</span><input type="text" name="button<%= n %>Icon" value="<%= btn.icon || '' %>" placeholder="contoh: fa-solid fa-star"></label>
+        <label><span>Warna</span><select name="button<%= n %>Color"><option value="silver" <%= btn.color !== 'red' ? 'selected' : '' %>>Silver</option><option value="red" <%= btn.color === 'red' ? 'selected' : '' %>>Red</option></select></label>
+        <label><span>Urutan</span><input type="number" name="button<%= n %>Order" value="<%= btn.order || n %>"></label>
+        <label class="check"><input type="checkbox" name="button<%= n %>Active" <%= btn.active !== false ? 'checked' : '' %>> Aktif</label>
+      </section>
+      <% } %>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-navbar">
+    <div class="admin-section-title"><h2>Bottom Navbar Fixed</h2></div>
+    <p class="admin-note">Icon navbar dikunci dari coding supaya desain tidak rusak. Admin hanya atur nama, link, dan aktif/nonaktif.</p>
+    <div class="admin-repeat nav-repeat">
+      <% const navLabels = ['HOME Refresh Halaman', 'DAFTAR', 'WHATSAPP', 'LIVE CHAT']; const navKeys = ['home','daftar','whatsapp','livechat']; for(let i = 0; i < 4; i++){ const nav = (settings.bottomNav || [])[i] || {}; const n = i + 1; %>
+      <section class="item-card show">
+        <h3><%= navLabels[i] %></h3>
+        <input type="hidden" name="nav<%= n %>Id" value="<%= nav.id || '' %>">
+        <label><span>Nama Menu</span><input type="text" name="nav<%= n %>Title" value="<%= nav.title || navLabels[i].replace(' Refresh Halaman','') %>"></label>
+        <label><span>Link</span><input type="text" name="nav<%= n %>Link" value="<%= navKeys[i] === 'home' ? '/' : (nav.link || '') %>" <%= navKeys[i] === 'home' ? 'readonly' : '' %>></label>
+        <label class="check"><input type="checkbox" name="nav<%= n %>Active" <%= nav.active !== false ? 'checked' : '' %>> Aktif</label>
+      </section>
+      <% } %>
+    </div>
+  </section>
+  <section class="tab-panel" id="tab-popup">
+    <div class="admin-section-title"><h2>Popup</h2></div>
+    <div class="admin-grid">
+      <label class="full"><span>Popup Image URL</span><input type="text" name="popupImageUrl" value="<%= settings.popupImageUrl || '' %>"></label>
+      <label><span>Popup Link</span><input type="text" name="popupLink" value="<%= settings.popupLink || '' %>"></label>
+      <label><span>Popup Timer ms</span><input type="number" name="popupTimer" value="<%= settings.popupTimer || 1200 %>"></label>
+      <label class="check"><input type="checkbox" name="popupActive" <%= settings.popupActive ? 'checked' : '' %>> Popup Aktif</label>
+    </div>
+  </section>
+  <button class="save-btn"><i class="fa-solid fa-floppy-disk"></i> Simpan Semua Setting</button>
+</form>
+<section class="admin-card message-card" id="messages">
+  <div class="admin-section-title"><h2>Pesan Inbox</h2></div>
+  <form action="/PINKTIGER8008/message/add" method="POST" class="admin-grid message-form">
+    <label><span>Kategori</span><input name="category" placeholder="INFO"></label>
+    <label><span>Judul</span><input name="title" required></label>
+    <label><span>Image URL</span><input name="imageUrl"></label>
+    <label><span>Link</span><input name="link"></label>
+    <label class="full"><span>Isi Pesan</span><textarea name="message" required></textarea></label>
+    <button class="save-btn full"><i class="fa-solid fa-paper-plane"></i> Tambah Pesan</button>
+  </form>
+  <div class="message-list">
+    <% if(messages.length){ messages.forEach(msg=>{ %>
+    <div class="message-item"><div><b><%= msg.title %></b><p><%= msg.message %></p></div><form action="/PINKTIGER8008/message/delete/<%= msg.id %>" method="POST"><button class="delete-btn">Hapus</button></form></div>
+    <% }) } else { %><div class="empty-box">Belum ada pesan.</div><% } %>
+  </div>
+</section>
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab)?.classList.add('active');
+  });
+});
+document.querySelectorAll('[data-show]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const cls = btn.dataset.show + '-card';
+    const hidden = Array.from(document.querySelectorAll('.'+cls)).find(x=>!x.classList.contains('show'));
+    if(hidden) hidden.classList.add('show');
+  });
+});
+</script>
