@@ -417,3 +417,264 @@ body{
     env(safe-area-inset-bottom);
 
 }
+/*
+====================================
+ADMIN ACCORDION FINAL
+====================================
+*/
+
+.accordion-btn{
+
+  cursor:pointer;
+
+  user-select:none;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease;
+
+  padding:18px 0;
+
+}
+
+.accordion-btn:hover{
+
+  border-color:
+    rgba(255,255,255,.18);
+
+}
+
+.accordion-btn i{
+
+  transition:
+    transform .25s ease;
+
+}
+
+.accordion-btn.active i{
+
+  transform:
+    rotate(180deg);
+
+}
+
+/*
+====================================
+ACCORDION CONTENT
+====================================
+*/
+
+.accordion-content{
+
+  overflow:hidden;
+
+  max-height:0;
+
+  opacity:0;
+
+  transition:
+    max-height .4s ease,
+    opacity .25s ease,
+    margin .25s ease;
+
+  margin-bottom:0;
+
+}
+
+.accordion-content.active{
+
+  max-height:12000px;
+
+  opacity:1;
+
+  margin-bottom:28px;
+
+}
+
+/*
+====================================
+ADMIN SECTION CARD
+====================================
+*/
+
+.admin-repeat section{
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,20,20,.96),
+      rgba(6,6,6,.98)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+
+}
+
+.admin-repeat section:hover{
+
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(255,255,255,.18);
+
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.35);
+
+}
+
+/*
+====================================
+ADMIN INPUT PREMIUM
+====================================
+*/
+
+input,
+textarea,
+select{
+
+  transition:
+    border-color .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+  border-color:
+    rgba(255,255,255,.28);
+
+  background:
+    rgba(20,20,20,.95);
+
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.05);
+
+}
+
+/*
+====================================
+SAVE BUTTON FINAL
+====================================
+*/
+
+.save-btn{
+
+  position:sticky;
+
+  bottom:14px;
+
+  z-index:999;
+
+  transition:
+    transform .18s ease,
+    filter .18s ease;
+
+}
+
+.save-btn:hover{
+
+  transform:
+    translateY(-2px);
+
+  filter:
+    brightness(1.08);
+
+}
+
+/*
+====================================
+ADMIN MOBILE
+====================================
+*/
+
+@media(max-width:700px){
+
+  .admin-card{
+
+    padding:16px;
+
+    border-radius:20px;
+
+  }
+
+  .admin-section-title{
+
+    margin:0 0 12px;
+
+  }
+
+  .admin-section-title h2{
+
+    font-size:18px;
+
+  }
+
+  .admin-grid,
+  .admin-repeat{
+
+    grid-template-columns:1fr;
+
+    gap:14px;
+
+  }
+
+  .admin-repeat section{
+
+    padding:14px;
+
+    border-radius:16px;
+
+  }
+
+}
+
+/*
+====================================
+ADMIN TOP GLOW
+====================================
+*/
+
+.admin-card{
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+.admin-card:before{
+
+  content:"";
+
+  position:absolute;
+
+  top:-120px;
+
+  right:-120px;
+
+  width:240px;
+
+  height:240px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.08),
+      transparent 70%
+    );
+
+  pointer-events:none;
+
+}
