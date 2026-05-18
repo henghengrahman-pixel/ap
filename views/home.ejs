@@ -26,7 +26,10 @@ const fallbackBanner =
   class="loader-screen"
   style="
     background-image:
-    linear-gradient(rgba(0,0,0,.90),rgba(0,0,0,.96))
+    linear-gradient(
+      rgba(0,0,0,.90),
+      rgba(0,0,0,.96)
+    )
     <% if(settings?.backgroundLoading){ %>,
     url('<%= settings.backgroundLoading %>')
     <% } %>;
@@ -66,12 +69,6 @@ const fallbackBanner =
   style="
     --bg-main:
     url('<%= settings?.backgroundMain || '' %>');
-
-    --bg-mobile:
-    url('<%= settings?.backgroundMobile || settings?.backgroundMain || '' %>');
-
-    --bg-desktop:
-    url('<%= settings?.backgroundDesktop || settings?.backgroundMain || '' %>');
 
     --bg-footer:
     url('<%= settings?.backgroundFooter || '' %>');
