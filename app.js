@@ -64,7 +64,11 @@ async function start() {
 
   app.disable('x-powered-by');
 
-  app.set('trust proxy', 1);
+  /*
+  ==========================
+  VIEW ENGINE
+  ==========================
+  */
 
   app.set(
     'view engine',
@@ -83,6 +87,12 @@ async function start() {
     'layouts/main'
   );
 
+  /*
+  ==========================
+  SECURITY
+  ==========================
+  */
+
   app.use(
     helmet({
       contentSecurityPolicy: false,
@@ -93,6 +103,12 @@ async function start() {
   app.use(compression());
 
   app.use(cors());
+
+  /*
+  ==========================
+  BODY PARSER
+  ==========================
+  */
 
   app.use(express.urlencoded({
     extended: true,
@@ -124,7 +140,7 @@ async function start() {
 
   /*
   ==========================
-  SESSION
+  SESSION FIX RAILWAY
   ==========================
   */
 
@@ -158,8 +174,7 @@ async function start() {
 
       cookie: {
 
-        secure:
-          process.env.NODE_ENV === 'production',
+        secure: false,
 
         httpOnly: true,
 
