@@ -43,13 +43,21 @@ module.exports = (req, res, next) => {
 
     /*
     =========================
-    INVALID SESSION
+    RESET SESSION
     =========================
     */
 
     if (req.session) {
 
       req.session.admin = false;
+
+      return req.session.save(() => {
+
+        return res.redirect(
+          '/PINKTIGER8008/login'
+        );
+
+      });
 
     }
 
