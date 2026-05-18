@@ -1,5 +1,261 @@
 <!doctype html>
 <html lang="id">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="/assets/css/style.css"></head>
-<body class="blank-frame-body"><div class="blank-card"><% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" alt="logo"><% } %><h1><%= settings.siteName || 'OMTOGEL' %></h1><p>Masukkan link utama dari admin agar halaman webview muncul penuh di area aplikasi.</p><span>Premium Mobile Webview Ready</span></div></body>
+<head>
+
+<meta charset="utf-8">
+
+<meta
+name="viewport"
+content="
+width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no,
+viewport-fit=cover
+"
+>
+
+<title>
+<%= settings.siteName || 'OMTOGEL' %>
+</title>
+
+<link
+rel="stylesheet"
+href="/assets/css/style.css"
+>
+
+<style>
+
+html,
+body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#050505;
+font-family:
+Inter,
+system-ui,
+sans-serif;
+}
+
+.blank-frame-body{
+position:fixed;
+inset:0;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:20px;
+
+background:
+linear-gradient(
+180deg,
+#090909,
+#050505
+);
+}
+
+.blank-card{
+width:100%;
+max-width:360px;
+
+padding:28px 24px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+180deg,
+rgba(18,18,18,.98),
+rgba(8,8,8,.98)
+);
+
+border:1px solid rgba(255,255,255,.06);
+
+text-align:center;
+
+box-shadow:
+0 10px 34px rgba(0,0,0,.42);
+}
+
+.blank-logo{
+width:88px;
+height:88px;
+
+margin:auto auto 18px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+145deg,
+#f3f3f3 0%,
+#8c8c8c 35%,
+#2c2c2c 60%,
+#f5c542 100%
+);
+
+padding:3px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.blank-logo-inner{
+width:100%;
+height:100%;
+
+border-radius:21px;
+
+background:#050505;
+
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.blank-logo img{
+width:54px;
+height:54px;
+object-fit:contain;
+}
+
+.blank-card h1{
+margin:0;
+
+font-size:24px;
+font-weight:900;
+
+letter-spacing:.5px;
+
+color:#fff;
+}
+
+.blank-card p{
+margin:14px 0 0;
+
+font-size:13px;
+line-height:1.7;
+
+color:#bfc3c8;
+}
+
+.blank-badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+margin-top:18px;
+
+padding:10px 16px;
+
+border-radius:999px;
+
+background:#111;
+
+border:1px solid rgba(255,255,255,.06);
+
+font-size:11px;
+font-weight:700;
+
+color:#fff;
+}
+
+.blank-loader{
+width:100%;
+height:4px;
+
+margin-top:18px;
+
+border-radius:999px;
+
+overflow:hidden;
+
+background:#1b1b1b;
+}
+
+.blank-loader span{
+display:block;
+
+width:40%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#ffffff,
+transparent
+);
+
+animation:loading .8s linear infinite;
+}
+
+@keyframes loading{
+0%{
+transform:translateX(-120%);
+}
+100%{
+transform:translateX(280%);
+}
+}
+
+</style>
+
+</head>
+
+<body class="blank-frame-body">
+
+<div class="blank-card">
+
+<div class="blank-logo">
+
+<div class="blank-logo-inner">
+
+<% if(settings.logoUrl){ %>
+
+<img
+src="<%= settings.logoUrl %>"
+alt="logo"
+onerror="this.style.display='none'"
+>
+
+<% } else { %>
+
+<i
+class="fa-solid fa-house"
+style="
+font-size:30px;
+color:#fff;
+"
+></i>
+
+<% } %>
+
+</div>
+
+</div>
+
+<h1>
+<%= settings.siteName || 'OMTOGEL' %>
+</h1>
+
+<p>
+Masukkan link utama dari admin agar halaman webview tampil penuh di aplikasi.
+</p>
+
+<div class="blank-loader">
+<span></span>
+</div>
+
+<div class="blank-badge">
+Premium Mobile Webview
+</div>
+
+</div>
+
+</body>
 </html>
