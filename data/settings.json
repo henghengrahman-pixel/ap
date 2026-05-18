@@ -1,0 +1,21 @@
+{
+  "siteName": "OMTOGEL",
+  "siteDescription": "OMTOGEL Premium Webview App",
+  "siteKeywords": "omtogel, webview, live draw, whatsapp, inbox",
+  "logoUrl": "",
+  "faviconUrl": "",
+  "mainWebviewUrl": "/blank-frame",
+  "liveDrawUrl": "#",
+  "whatsappUrl": "#",
+  "inboxUrl": "/inbox-frame",
+  "menuCards": [
+    { "title": "PREDIKSI TOGEL", "desc": "Update angka dan info pilihan", "image": "", "link": "#" },
+    { "title": "RTP SLOT", "desc": "Cek performa game favorit", "image": "", "link": "#" },
+    { "title": "KELUHAN MEMBER", "desc": "Bantuan cepat untuk member", "image": "", "link": "#" },
+    { "title": "PROMO", "desc": "Promo terbaru hari ini", "image": "", "link": "#" },
+    { "title": "LIVE CASINO", "desc": "Masuk ke arena live casino", "image": "", "link": "#" },
+    { "title": "SPORTBOOK", "desc": "Pasaran bola dan olahraga", "image": "", "link": "#" },
+    { "title": "BUKTI JACKPOT", "desc": "Kemenangan member terbaru", "image": "", "link": "#" },
+    { "title": "JADWAL PASARAN", "desc": "Informasi pasaran lengkap", "image": "", "link": "#" }
+  ]
+}

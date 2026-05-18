@@ -1,0 +1,130 @@
+<div class="admin-wrap">
+  <aside class="admin-side">
+    <div class="admin-brand"><i class="fa-solid fa-gem"></i><div><b>OMTOGEL</b><span>Premium Control</span></div></div>
+    <a href="#settings"><i class="fa-solid fa-sliders"></i> Settings</a>
+    <a href="#menus"><i class="fa-solid fa-layer-group"></i> Popup Menu</a>
+    <a href="#messages"><i class="fa-solid fa-bell"></i> Inbox Push</a>
+    <a href="/" target="_blank"><i class="fa-solid fa-mobile-screen"></i> Lihat App</a>
+    <a href="/itsiregar8008/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </aside>
+
+  <main class="admin-main">
+    <section class="admin-hero">
+      <div>
+        <span>PREMIUM MOBILE WEBVIEW</span>
+        <h2>Webview App Control Center</h2>
+        <p>Atur branding, PWA, webview URL, bottom navbar, popup menu, promo, SEO, Firebase, dan inbox member dari satu panel.</p>
+      </div>
+      <div class="admin-stat-grid">
+        <div><b><%= messages.length %></b><small>Inbox</small></div>
+        <div><b><%= Object.values(analytics.clicks || {}).reduce((a,b)=>a+b,0) %></b><small>Klik Menu</small></div>
+      </div>
+    </section>
+
+    <% if(typeof saved !== 'undefined'){ %><div class="admin-alert">Setting berhasil disimpan.</div><% } %>
+
+    <form id="settings" action="/itsiregar8008/settings" method="POST" enctype="multipart/form-data" class="admin-card">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <h2>Branding, SEO & PWA</h2>
+      <div class="admin-grid">
+        <label>Nama Aplikasi<input name="siteName" value="<%= settings.siteName || '' %>" placeholder="OMTOGEL"></label>
+        <label>Theme Color<input name="themeColor" value="<%= settings.themeColor || '#050505' %>" placeholder="#050505"></label>
+        <label>Accent Gold/Silver<input name="accentColor" value="<%= settings.accentColor || '#f5c542' %>" placeholder="#f5c542"></label>
+        <label>Navbar Color<input name="navbarColor" value="<%= settings.navbarColor || '#090909' %>" placeholder="#090909"></label>
+        <label>Glass Opacity<input name="glassOpacity" value="<%= settings.glassOpacity || '0.78' %>" placeholder="0.78"></label>
+        <label>Radius<input name="radius" value="<%= settings.radius || '22' %>" placeholder="22"></label>
+        <label>Animation Speed<input name="animationSpeed" value="<%= settings.animationSpeed || '220' %>" placeholder="220"></label>
+        <label>Logo URL<input name="logoUrl" value="<%= settings.logoUrl || '' %>" placeholder="https://domain/logo.png"></label>
+        <label>Upload Logo<input type="file" name="logoUrl" accept="image/*"></label>
+        <label>Favicon URL<input name="faviconUrl" value="<%= settings.faviconUrl || '' %>"></label>
+        <label>Upload Favicon<input type="file" name="faviconUrl" accept="image/*"></label>
+        <label>App Icon URL<input name="appIconUrl" value="<%= settings.appIconUrl || '' %>"></label>
+        <label>Upload App Icon<input type="file" name="appIconUrl" accept="image/*"></label>
+        <label>Splash Image URL<input name="splashImageUrl" value="<%= settings.splashImageUrl || '' %>"></label>
+        <label>Upload Splash<input type="file" name="splashImageUrl" accept="image/*"></label>
+        <label class="full">Meta Description<textarea name="siteDescription"><%= settings.siteDescription || '' %></textarea></label>
+        <label class="full">Meta Keywords<textarea name="siteKeywords"><%= settings.siteKeywords || '' %></textarea></label>
+        <label class="full">Running Text<textarea name="runningText"><%= settings.runningText || '' %></textarea></label>
+        <label class="full">Footer Text<input name="footerText" value="<%= settings.footerText || '' %>"></label>
+      </div>
+
+      <h2 class="section-title">Background, Promo & Social</h2>
+      <div class="admin-grid">
+        <label>Background Desktop URL<input name="backgroundDesktopUrl" value="<%= settings.backgroundDesktopUrl || '' %>"></label>
+        <label>Upload Background Desktop<input type="file" name="backgroundDesktopUrl" accept="image/*"></label>
+        <label>Background Mobile URL<input name="backgroundMobileUrl" value="<%= settings.backgroundMobileUrl || '' %>"></label>
+        <label>Upload Background Mobile<input type="file" name="backgroundMobileUrl" accept="image/*"></label>
+        <label>Popup Promo Image URL<input name="popupPromoImageUrl" value="<%= settings.popupPromoImageUrl || '' %>"></label>
+        <label>Upload Popup Promo<input type="file" name="popupPromoImageUrl" accept="image/*"></label>
+        <label class="full">Popup Promo Link<input name="popupPromoLink" value="<%= settings.popupPromoLink || '' %>"></label>
+        <label>Telegram<input name="socialTelegram" value="<%= settings.socialTelegram || '' %>"></label>
+        <label>Instagram<input name="socialInstagram" value="<%= settings.socialInstagram || '' %>"></label>
+        <label>WhatsApp Social<input name="socialWhatsapp" value="<%= settings.socialWhatsapp || '' %>"></label>
+      </div>
+
+      <h2 class="section-title">Webview & Bottom Navbar</h2>
+      <div class="admin-grid">
+        <label class="full">Webview URL Utama / Home<input name="mainWebviewUrl" value="<%= settings.mainWebviewUrl || '' %>" placeholder="https://rtppomtogel.online/ atau /blank-frame"></label>
+        <label>Link LIVEDRAW<input name="liveDrawUrl" value="<%= settings.liveDrawUrl || '' %>"></label>
+        <label>Link WHATSAPP<input name="whatsappUrl" value="<%= settings.whatsappUrl || '' %>"></label>
+        <label>Link INBOX<input name="inboxUrl" value="<%= settings.inboxUrl || '/inbox-frame' %>"></label>
+        <label>Link Register<input name="registerUrl" value="<%= settings.registerUrl || '' %>"></label>
+        <label>Link Login<input name="loginUrl" value="<%= settings.loginUrl || '' %>"></label>
+      </div>
+
+      <h2 id="menus" class="section-title">Popup Menu Card 1 - 8</h2>
+      <div class="admin-note">Drag bagian card untuk mengurutkan secara visual saat edit. Setelah urut, simpan setting.</div>
+      <div class="menu-admin-grid" data-sortable-menu>
+        <% for(let i=0;i<8;i++){ const card = settings.menuCards[i] || {}; const n = i + 1; %>
+          <section class="menu-admin-card" draggable="true">
+            <div class="menu-admin-title"><i class="fa-solid fa-grip-vertical"></i> Card <%= n %></div>
+            <label><span>Aktif</span><input type="checkbox" name="menuCard<%= n %>Active" <%= card.active !== false ? 'checked' : '' %>></label>
+            <label>Judul<input name="menuCard<%= n %>Title" value="<%= card.title || '' %>"></label>
+            <label>Deskripsi<input name="menuCard<%= n %>Desc" value="<%= card.desc || '' %>"></label>
+            <label>Icon FontAwesome<input name="menuCard<%= n %>Icon" value="<%= card.icon || 'fa-circle' %>" placeholder="fa-gift"></label>
+            <label>Link Tujuan<input name="menuCard<%= n %>Link" value="<%= card.link || '' %>"></label>
+            <label>Image URL<input name="menuCard<%= n %>Image" value="<%= card.image || '' %>"></label>
+            <label>Upload Gambar<input type="file" name="menuCard<%= n %>Image" accept="image/*"></label>
+            <div class="preview-row"><% if(card.image){ %><img src="<%= card.image %>" alt="preview"><% } %><span>Rekomendasi 900x320</span></div>
+          </section>
+        <% } %>
+      </div>
+
+      <h2 class="section-title">Firebase Web Config</h2>
+      <div class="admin-grid">
+        <label>API Key<input name="firebaseApiKey" value="<%= settings.firebaseApiKey || '' %>"></label>
+        <label>Auth Domain<input name="firebaseAuthDomain" value="<%= settings.firebaseAuthDomain || '' %>"></label>
+        <label>Project ID<input name="firebaseProjectId" value="<%= settings.firebaseProjectId || '' %>"></label>
+        <label>Storage Bucket<input name="firebaseStorageBucket" value="<%= settings.firebaseStorageBucket || '' %>"></label>
+        <label>Sender ID<input name="firebaseMessagingSenderId" value="<%= settings.firebaseMessagingSenderId || '' %>"></label>
+        <label>App ID<input name="firebaseAppId" value="<%= settings.firebaseAppId || '' %>"></label>
+        <label class="full">VAPID Key<input name="firebaseVapidKey" value="<%= settings.firebaseVapidKey || '' %>"></label>
+      </div>
+
+      <button class="save-btn"><i class="fa-solid fa-floppy-disk"></i> Simpan Semua Setting</button>
+    </form>
+
+    <form id="messages" action="/itsiregar8008/message/add" method="POST" enctype="multipart/form-data" class="admin-card">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <h2>Inbox & Push Notification</h2>
+      <div class="admin-grid">
+        <label>Kategori<input name="category" placeholder="INFO / PROMO / UPDATE"></label>
+        <label>Judul Pesan<input name="title" placeholder="Judul pesan" required></label>
+        <label>Image URL<input name="imageUrl" placeholder="Opsional: https://..."></label>
+        <label>Upload Gambar Pesan<input type="file" name="messageImageFile" accept="image/*"></label>
+        <label>Link<input name="link" placeholder="Opsional: https://..."></label>
+        <label class="full">Isi Pesan<textarea name="message" placeholder="Tulis pesan untuk member" required></textarea></label>
+      </div>
+      <button class="save-btn"><i class="fa-solid fa-paper-plane"></i> Kirim Inbox + Push</button>
+    </form>
+
+    <section class="admin-card">
+      <div class="card-head"><h2>Riwayat Pesan</h2><form action="/itsiregar8008/messages/clear" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="delete-btn">Hapus Semua</button></form></div>
+      <div class="message-admin-list">
+        <% if(messages.length){ messages.forEach(msg=>{ %>
+          <div class="message-admin-item"><div><small><%= msg.category || 'INFO' %> • <%= msg.date || '' %></small><strong><%= msg.title %></strong><p><%= msg.message %></p></div><form action="/itsiregar8008/message/delete/<%= msg.id %>" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="delete-btn">Hapus</button></form></div>
+        <% }) } else { %><div class="empty-box">Belum ada pesan.</div><% } %>
+      </div>
+    </section>
+  </main>
+</div>

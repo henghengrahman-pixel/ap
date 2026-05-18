@@ -1,0 +1,77 @@
+<% const unreadCount = messages.filter(m => !m.read).length; %>
+<% const bgDesktop = settings.backgroundDesktopUrl || ''; %>
+<% const bgMobile = settings.backgroundMobileUrl || bgDesktop; %>
+<% const fallbackImg = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#050505"/><stop offset=".52" stop-color="#202124"/><stop offset="1" stop-color="#050505"/></linearGradient></defs><rect width="900" height="320" fill="url(#g)"/><rect x="18" y="18" width="864" height="284" rx="34" fill="none" stroke="#cfd2d6" stroke-width="4" opacity=".8"/><text x="50" y="145" fill="#f4f4f4" font-family="Arial" font-size="54" font-weight="900">OMTOGEL MENU</text><text x="54" y="205" fill="#bfc3c8" font-family="Arial" font-size="30" font-weight="700">Atur gambar, judul dan link dari admin</text></svg>'); %>
+<% const menuCards = Array.isArray(settings.menuCards) ? settings.menuCards.filter(c => c.active !== false) : []; %>
+
+<div id="loader" class="loader-screen">
+  <div class="loader-orbit"></div>
+  <div class="loader-box">
+    <% if(settings.splashImageUrl || settings.logoUrl){ %>
+      <img src="<%= settings.splashImageUrl || settings.logoUrl %>" alt="<%= settings.siteName || 'OMTOGEL' %>" onerror="this.style.display='none'">
+    <% } else { %>
+      <strong><%= settings.siteName || 'OMTOGEL' %></strong>
+    <% } %>
+    <div class="loader-line"><span></span></div>
+    <p>MEMUAT APLIKASI...</p>
+  </div>
+</div>
+
+<div class="webview-app" style="--bg-desktop:url('<%= bgDesktop %>');--bg-mobile:url('<%= bgMobile %>')">
+  <div id="frameSkeleton" class="frame-skeleton"><span></span><b></b><i></i></div>
+  <main class="webview-area">
+    <iframe id="mainFrame" src="<%= settings.mainWebviewUrl || '/blank-frame' %>" title="<%= settings.siteName || 'OMTOGEL' %>" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-read; clipboard-write; fullscreen; payment; autoplay; geolocation"></iframe>
+  </main>
+
+  <% if(settings.runningText){ %>
+    <div class="app-ticker"><span><%= settings.runningText %></span></div>
+  <% } %>
+
+  <div id="installPrompt" class="install-prompt" hidden>
+    <div><b>Install Aplikasi</b><small>Tambahkan ke layar utama agar terasa seperti APK.</small></div>
+    <button type="button" id="installBtn">INSTALL</button>
+    <button type="button" id="installClose" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <div id="popupBackdrop" class="popup-backdrop" aria-hidden="true"></div>
+  <aside id="menuPopup" class="menu-popup" aria-label="Menu popup">
+    <div class="popup-shine"></div>
+    <div class="popup-head">
+      <div class="brand-mini">
+        <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" alt="logo"><% } else { %><i class="fa-solid fa-gem"></i><% } %>
+        <div><b><%= settings.siteName || 'OMTOGEL' %></b><span>Premium Menu</span></div>
+      </div>
+      <button type="button" id="closeMenuBtn" aria-label="Tutup menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="menu-grid">
+      <% for(let i=0;i<menuCards.length;i++){ const card = menuCards[i] || {}; %>
+        <a href="<%= card.link || '#' %>" data-track="menu:<%= card.title || ('Menu ' + (i+1)) %>" data-menu-link="<%= card.link || '#' %>" class="menu-card">
+          <img src="<%= card.image || fallbackImg %>" alt="<%= card.title || ('Menu ' + (i+1)) %>" loading="lazy" onerror="this.src='<%= fallbackImg %>'">
+          <div class="menu-card-copy">
+            <span><i class="fa-solid <%= card.icon || 'fa-circle' %>"></i></span>
+            <h3><%= card.title || ('MENU ' + (i+1)) %></h3>
+            <p><%= card.desc || 'Atur dari admin' %></p>
+          </div>
+        </a>
+      <% } %>
+    </div>
+    <footer class="popup-foot"><%= settings.footerText || 'OMTOGEL Premium App' %></footer>
+  </aside>
+
+  <% if(settings.popupPromoImageUrl){ %>
+    <div id="promoPopup" class="promo-popup">
+      <button type="button" id="promoClose" aria-label="Tutup promo"><i class="fa-solid fa-xmark"></i></button>
+      <a href="<%= settings.popupPromoLink || '#' %>" data-menu-link="<%= settings.popupPromoLink || '#' %>"><img src="<%= settings.popupPromoImageUrl %>" alt="Promo"></a>
+    </div>
+  <% } %>
+
+  <nav class="bottom-nav" aria-label="Menu bawah">
+    <button type="button" id="openMenuBtn" class="bottom-item"><i class="fa-solid fa-bars-staggered nav-icon"></i><span>MENU</span></button>
+    <button type="button" class="bottom-item" data-track="bottom:livedraw" data-frame-url="<%= settings.liveDrawUrl || '#' %>"><i class="fa-solid fa-table-cells-large nav-icon"></i><span>LIVEDRAW</span></button>
+    <button type="button" class="bottom-logo" id="homeFrame" aria-label="Home">
+      <% if(settings.logoUrl){ %><img src="<%= settings.logoUrl %>" alt="Home" onerror="this.outerHTML='<i class=&quot;fa-solid fa-house&quot;></i>'"><% } else { %><i class="fa-solid fa-house"></i><% } %>
+    </button>
+    <button type="button" class="bottom-item" data-track="bottom:whatsapp" data-frame-url="<%= settings.whatsappUrl || '#' %>"><i class="fa-brands fa-whatsapp nav-icon"></i><span>WHATSAPP</span></button>
+    <button type="button" class="bottom-item" data-track="bottom:inbox" data-frame-url="<%= settings.inboxUrl || '/inbox-frame' %>"><i class="fa-solid fa-envelope nav-icon"></i><span>INBOX</span><em data-inbox-badge style="<%= unreadCount ? '' : 'display:none' %>"><%= unreadCount %></em></button>
+  </nav>
+</div>
