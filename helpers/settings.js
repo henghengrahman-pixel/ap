@@ -6,7 +6,9 @@ const DATA_DIR =
   path.join(process.cwd(), 'data');
 
 if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.mkdirSync(DATA_DIR, {
+    recursive: true
+  });
 }
 
 const SETTINGS_FILE = path.join(
@@ -20,13 +22,17 @@ const DEFAULT_SETTINGS = {
 
   subtitle: 'Premium Webview App',
 
+  siteDescription: '',
+
+  siteKeywords: '',
+
   logoUrl: '',
 
   faviconUrl: '',
 
   footerText: '© OMTOGEL',
 
-  loaderLogo: '',
+  loaderLogoUrl: '',
 
   loaderText: 'MEMUAT APLIKASI...',
 
@@ -44,20 +50,103 @@ const DEFAULT_SETTINGS = {
 
   backgroundNavbar: '',
 
-  backgroundLoading: ''
+  backgroundLoading: '',
+
+  popupImageUrl: '',
+
+  popupLink: '#',
+
+  popupTimer: 1200,
+
+  popupActive: false,
+
+  sliders: [],
+
+  buttons: [],
+
+  bottomNav: []
 
 };
 
-function ensureSettingsFile() {
+function ensureFile() {
 
   if (!fs.existsSync(SETTINGS_FILE)) {
 
     fs.writeFileSync(
       SETTINGS_FILE,
-      JSON.stringify(DEFAULT_SETTINGS, null, 2)
+      JSON.stringify(
+        DEFAULT_SETTINGS,
+        null,
+        2
+      )
     );
 
   }
+
+}
+
+function cleanText(value = '', fallback = '') {
+
+  const result = String(value || '')
+    .replace(/<[^>]*>?/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return result || fallback;
+
+}
+
+function cleanUrl(value = '', fallback = '') {
+
+  const url = cleanText(value);
+
+  if (!url) {
+    return fallback;
+  }
+
+  return url;
+
+}
+
+function toBool(value) {
+
+  return (
+    value === true ||
+    value === 'true' ||
+    value === '1' ||
+    value === 'on'
+  );
+
+}
+
+function toInt(value, fallback = 0) {
+
+  const num = parseInt(value);
+
+  return Number.isNaN(num)
+    ? fallback
+    : num;
+
+}
+
+function readCollection(
+  prefix,
+  body,
+  limit,
+  callback
+) {
+
+  const result = [];
+
+  for (let i = 1; i <= limit; i++) {
+
+    result.push(
+      callback(i)
+    );
+
+  }
+
+  return result;
 
 }
 
@@ -65,7 +154,7 @@ async function getSettings() {
 
   try {
 
-    ensureSettingsFile();
+    ensureFile();
 
     const raw = fs.readFileSync(
       SETTINGS_FILE,
@@ -79,7 +168,7 @@ async function getSettings() {
 
   } catch (err) {
 
-    console.error('GET SETTINGS ERROR', err);
+    console.error(err);
 
     return DEFAULT_SETTINGS;
 
@@ -91,9 +180,10 @@ async function saveSettings(data = {}) {
 
   try {
 
-    ensureSettingsFile();
+    ensureFile();
 
-    const current = await getSettings();
+    const current =
+      await getSettings();
 
     const updated = {
       ...current,
@@ -102,14 +192,18 @@ async function saveSettings(data = {}) {
 
     fs.writeFileSync(
       SETTINGS_FILE,
-      JSON.stringify(updated, null, 2)
+      JSON.stringify(
+        updated,
+        null,
+        2
+      )
     );
 
     return updated;
 
   } catch (err) {
 
-    console.error('SAVE SETTINGS ERROR', err);
+    console.error(err);
 
     return DEFAULT_SETTINGS;
 
@@ -118,6 +212,19 @@ async function saveSettings(data = {}) {
 }
 
 module.exports = {
+
   getSettings,
-  saveSettings
+
+  saveSettings,
+
+  cleanText,
+
+  cleanUrl,
+
+  toBool,
+
+  toInt,
+
+  readCollection
+
 };
