@@ -1,144 +1,98 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
 <meta charset="UTF-8">
 
 <meta
   name="viewport"
-  content="
-    width=device-width,
-    initial-scale=1,
-    maximum-scale=1,
-    user-scalable=no,
-    viewport-fit=cover
-  "
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
 >
 
-<title>
-  <%= settings?.siteName || title || 'OMTOGEL' %>
-</title>
+<title><%= settings?.siteName || title || 'OMTOGEL' %></title>
 
-<meta
-  name="description"
-  content="<%= settings?.siteDescription || 'Aplikasi OMTOGEL' %>"
->
+<meta name="description" content="<%= settings?.siteDescription || 'Aplikasi OMTOGEL' %>">
+<meta name="keywords" content="<%= settings?.siteKeywords || 'omtogel' %>">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="<%= settings?.siteName || 'OMTOGEL' %>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="format-detection" content="telephone=no">
 
-<meta
-  name="keywords"
-  content="<%= settings?.siteKeywords || 'omtogel' %>"
->
-
-<meta
-  name="theme-color"
-  content="#000000"
->
-
-<meta
-  name="mobile-web-app-capable"
-  content="yes"
->
-
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes"
->
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black-translucent"
->
-
-<meta
-  name="apple-mobile-web-app-title"
-  content="<%= settings?.siteName || 'OMTOGEL' %>"
->
-
-<meta
-  http-equiv="X-UA-Compatible"
-  content="IE=edge"
->
-
-<meta
-  name="format-detection"
-  content="telephone=no"
->
-
-<link
-  rel="manifest"
-  href="/manifest.webmanifest"
->
+<link rel="manifest" href="/manifest.webmanifest">
 
 <% if(settings?.faviconUrl || settings?.logoUrl){ %>
-
-<link
-  rel="icon"
-  href="<%= settings.faviconUrl || settings.logoUrl %>"
->
-
-<link
-  rel="apple-touch-icon"
-  href="<%= settings.faviconUrl || settings.logoUrl %>"
->
-
+<link rel="icon" href="<%= settings.faviconUrl || settings.logoUrl %>">
+<link rel="apple-touch-icon" href="<%= settings.faviconUrl || settings.logoUrl %>">
 <% } %>
 
-<link
-  rel="preconnect"
-  href="https://cdnjs.cloudflare.com"
->
-
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 >
-
-<link
-  rel="stylesheet"
-  href="/assets/css/style.css?v=11"
->
+<link rel="stylesheet" href="/assets/css/style.css?v=12">
 
 <style>
-
-html{
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
   background:#000;
+  overscroll-behavior:none;
+  -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  background:#000;
+  color:#fff;
+  font-family:Arial, Helvetica, sans-serif;
 }
-
 </style>
-
 </head>
 
 <body>
 
-<%- body %>
+<div class="app-shell">
+  <%- body %>
+</div>
 
 <script>
+(function(){
 
-if(
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('/sw.js').catch(function(){});
+    });
+  }
 
-  'serviceWorker' in navigator
+  history.replaceState({ page: location.pathname === '/' ? 'home' : 'internal' }, '', location.href);
 
-){
+  window.addEventListener('popstate', function(){
 
-  window.addEventListener(
-    'load',
-    () => {
-
-      navigator
-      .serviceWorker
-      .register('/sw.js')
-      .catch(() => {});
-
+    if(location.pathname !== '/'){
+      window.location.href = '/';
+      return;
     }
-  );
 
-}
+    const exitApp = confirm('Apakah kamu yakin ingin keluar aplikasi?');
 
+    if(!exitApp){
+      history.pushState({ page: 'home' }, '', location.href);
+      return;
+    }
+
+    window.close();
+
+  });
+
+  setTimeout(function(){
+    history.pushState({ page: location.pathname === '/' ? 'home' : 'internal' }, '', location.href);
+  }, 300);
+
+})();
 </script>
 
 </body>
