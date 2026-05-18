@@ -1,0 +1,153 @@
+<div class="admin-wrap">
+  <aside class="admin-side">
+    <div class="admin-brand"><i class="fa-solid fa-gem"></i><div><b>OMTOGEL</b><span>Launcher Control</span></div></div>
+    <a href="#branding"><i class="fa-solid fa-sliders"></i> Branding</a>
+    <a href="#slides"><i class="fa-solid fa-images"></i> Slide Foto</a>
+    <a href="#buttons"><i class="fa-solid fa-square"></i> Tombol App</a>
+    <a href="#bottom"><i class="fa-solid fa-mobile-screen"></i> Bottom Menu</a>
+    <a href="#messages"><i class="fa-solid fa-bell"></i> Inbox Push</a>
+    <a href="/" target="_blank"><i class="fa-solid fa-eye"></i> Lihat App</a>
+    <a href="/itsiregar8008/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </aside>
+
+  <main class="admin-main">
+    <section class="admin-hero">
+      <div>
+        <span>PREMIUM MOBILE LAUNCHER</span>
+        <h2>OMTOGEL App Control Center</h2>
+        <p>Atur logo, background, slide foto, tombol login/daftar, tombol launcher, bottom menu, warna, SEO, dan inbox dari satu panel.</p>
+      </div>
+      <div class="admin-stat-grid">
+        <div><b><%= messages.length %></b><small>Inbox</small></div>
+        <div><b><%= Object.values(analytics.clicks || {}).reduce((a,b)=>a+b,0) %></b><small>Klik Menu</small></div>
+      </div>
+    </section>
+
+    <% if(saved){ %><div class="admin-alert">Setting berhasil disimpan.</div><% } %>
+    <% if(error){ %><div class="admin-alert admin-alert-error"><%= error %></div><% } %>
+
+    <form id="branding" action="/itsiregar8008/settings" method="POST" enctype="multipart/form-data" class="admin-card admin-settings-form" autocomplete="off">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <h2>Branding, SEO & Warna</h2>
+      <div class="admin-grid">
+        <label>Nama Aplikasi<input name="siteName" value="<%= settings.siteName || '' %>" placeholder="OMTOGEL"></label>
+        <label>Theme Color<input name="themeColor" value="<%= settings.themeColor || '#050505' %>" placeholder="#050505"></label>
+        <label>Accent Color<input name="accentColor" value="<%= settings.accentColor || '#f5c542' %>" placeholder="#f5c542"></label>
+        <label>Warna Tombol Merah<input name="buttonFeaturedColor" value="<%= settings.buttonFeaturedColor || '#d00000' %>" placeholder="#d00000"></label>
+        <label>Warna Teks Tombol<input name="buttonTextColor" value="<%= settings.buttonTextColor || '#ffffff' %>" placeholder="#ffffff"></label>
+        <label>Radius Tombol<input name="radius" value="<%= settings.radius || '24' %>" placeholder="24"></label>
+        <label>Animation Speed<input name="animationSpeed" value="<%= settings.animationSpeed || '180' %>" placeholder="180"></label>
+        <label>Logo URL<input name="logoUrl" value="<%= settings.logoUrl || '' %>" placeholder="https://domain/logo.png"></label>
+        <label>Upload Logo<input type="file" name="logoUrl" accept="image/*"></label>
+        <label>Favicon URL<input name="faviconUrl" value="<%= settings.faviconUrl || '' %>"></label>
+        <label>Upload Favicon<input type="file" name="faviconUrl" accept="image/*"></label>
+        <label>App Icon URL<input name="appIconUrl" value="<%= settings.appIconUrl || '' %>"></label>
+        <label>Upload App Icon<input type="file" name="appIconUrl" accept="image/*"></label>
+        <label>Splash Image URL<input name="splashImageUrl" value="<%= settings.splashImageUrl || '' %>"></label>
+        <label>Upload Splash<input type="file" name="splashImageUrl" accept="image/*"></label>
+        <label class="full">Meta Description<textarea name="siteDescription"><%= settings.siteDescription || '' %></textarea></label>
+        <label class="full">Meta Keywords<textarea name="siteKeywords"><%= settings.siteKeywords || '' %></textarea></label>
+        <label class="full">Footer Text<input name="footerText" value="<%= settings.footerText || '' %>"></label>
+      </div>
+
+      <h2 class="section-title">Background</h2>
+      <div class="admin-grid">
+        <label>Background Desktop URL<input name="backgroundDesktopUrl" value="<%= settings.backgroundDesktopUrl || '' %>"></label>
+        <label>Upload Background Desktop<input type="file" name="backgroundDesktopUrl" accept="image/*"></label>
+        <label>Background Mobile URL<input name="backgroundMobileUrl" value="<%= settings.backgroundMobileUrl || '' %>"></label>
+        <label>Upload Background Mobile<input type="file" name="backgroundMobileUrl" accept="image/*"></label>
+        <label>Banner Lama URL Opsional<input name="heroBannerUrl" value="<%= settings.heroBannerUrl || '' %>"></label>
+        <label>Upload Banner Lama<input type="file" name="heroBannerUrl" accept="image/*"></label>
+        <label class="full">Banner Lama Link<input name="heroBannerLink" value="<%= settings.heroBannerLink || '' %>"></label>
+      </div>
+
+      <h2 id="slides" class="section-title">Slide Foto Aplikasi</h2>
+      <div class="admin-note">LOGIN dan DAFTAR bisa diarahkan dari slide foto. Rekomendasi gambar 900x320 atau 1200x430.</div>
+      <div class="menu-admin-grid">
+        <% for(let i=0;i<6;i++){ const slide = (settings.sliders && settings.sliders[i]) || {}; const n = i + 1; %>
+          <section class="menu-admin-card">
+            <div class="menu-admin-title">Slide <%= n %></div>
+            <label><span>Aktif</span><input type="checkbox" name="slide<%= n %>Active" <%= slide.active !== false ? 'checked' : '' %>></label>
+            <label>Link Slide<input name="slide<%= n %>Link" value="<%= slide.link || '' %>" placeholder="https://... / login / daftar"></label>
+            <label>Image URL<input name="slide<%= n %>Image" value="<%= slide.image || '' %>"></label>
+            <label>Upload Gambar<input type="file" name="slide<%= n %>Image" accept="image/*"></label>
+            <div class="preview-row"><% if(slide.image){ %><img src="<%= slide.image %>" alt="preview"><% } %><span>Slide foto aplikasi</span></div>
+          </section>
+        <% } %>
+      </div>
+
+      <h2 class="section-title">Link Cepat Default</h2>
+      <div class="admin-grid">
+        <label>LOGIN<input name="loginUrl" value="<%= settings.loginUrl || '' %>"></label>
+        <label>DAFTAR<input name="registerUrl" value="<%= settings.registerUrl || '' %>"></label>
+        <label>RTP SLOT<input name="rtpUrl" value="<%= settings.rtpUrl || '' %>"></label>
+        <label>PROMOSI<input name="promoUrl" value="<%= settings.promoUrl || '' %>"></label>
+        <label>BUKTI JP<input name="buktiJpUrl" value="<%= settings.buktiJpUrl || '' %>"></label>
+        <label>PREDIKSI TOGEL<input name="prediksiUrl" value="<%= settings.prediksiUrl || '' %>"></label>
+        <label>LINK ALTERNATIF<input name="alternatifUrl" value="<%= settings.alternatifUrl || '' %>"></label>
+        <label>WHATSAPP<input name="whatsappUrl" value="<%= settings.whatsappUrl || '' %>"></label>
+        <label>LIVE CHAT<input name="liveChatUrl" value="<%= settings.liveChatUrl || '' %>"></label>
+        <label>LIVE DRAW<input name="liveDrawUrl" value="<%= settings.liveDrawUrl || '' %>"></label>
+      </div>
+
+      <h2 id="buttons" class="section-title">Tombol Launcher</h2>
+      <div class="admin-note">Tombol hanya bacaan, tanpa emoticon/icon. Centang Featured untuk tombol merah seperti DAFTAR.</div>
+      <div class="menu-admin-grid">
+        <% for(let i=0;i<12;i++){ const btn = (settings.launcherButtons && settings.launcherButtons[i]) || {}; const n = i + 1; %>
+          <section class="menu-admin-card">
+            <div class="menu-admin-title">Tombol <%= n %></div>
+            <label><span>Aktif</span><input type="checkbox" name="button<%= n %>Active" <%= btn.active !== false ? 'checked' : '' %>></label>
+            <label><span>Featured Merah</span><input type="checkbox" name="button<%= n %>Featured" <%= btn.featured ? 'checked' : '' %>></label>
+            <label>Nama Tombol<input name="button<%= n %>Title" value="<%= btn.title || '' %>" placeholder="LOGIN"></label>
+            <label>Link Tujuan<input name="button<%= n %>Link" value="<%= btn.link || '' %>" placeholder="https://..."></label>
+          </section>
+        <% } %>
+      </div>
+
+      <h2 id="bottom" class="section-title">Bottom Navigation</h2>
+      <div class="admin-grid">
+        <label>HOME<input name="bottomHomeUrl" value="<%= settings.bottomHomeUrl || '/' %>"></label>
+        <label>DAFTAR<input name="bottomDaftarUrl" value="<%= settings.bottomDaftarUrl || settings.registerUrl || '' %>"></label>
+        <label>WHATSAPP<input name="bottomWhatsappUrl" value="<%= settings.bottomWhatsappUrl || settings.whatsappUrl || '' %>"></label>
+        <label>LIVE CHAT<input name="bottomLiveChatUrl" value="<%= settings.bottomLiveChatUrl || settings.liveChatUrl || '' %>"></label>
+      </div>
+
+      <h2 class="section-title">Firebase Web Config</h2>
+      <div class="admin-grid">
+        <label>API Key<input name="firebaseApiKey" value="<%= settings.firebaseApiKey || '' %>"></label>
+        <label>Auth Domain<input name="firebaseAuthDomain" value="<%= settings.firebaseAuthDomain || '' %>"></label>
+        <label>Project ID<input name="firebaseProjectId" value="<%= settings.firebaseProjectId || '' %>"></label>
+        <label>Storage Bucket<input name="firebaseStorageBucket" value="<%= settings.firebaseStorageBucket || '' %>"></label>
+        <label>Sender ID<input name="firebaseMessagingSenderId" value="<%= settings.firebaseMessagingSenderId || '' %>"></label>
+        <label>App ID<input name="firebaseAppId" value="<%= settings.firebaseAppId || '' %>"></label>
+        <label class="full">VAPID Key<input name="firebaseVapidKey" value="<%= settings.firebaseVapidKey || '' %>"></label>
+      </div>
+
+      <button class="save-btn"><i class="fa-solid fa-floppy-disk"></i> Simpan Semua Setting</button>
+    </form>
+
+    <form id="messages" action="/itsiregar8008/message/add" method="POST" enctype="multipart/form-data" class="admin-card">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <h2>Inbox & Push Notification</h2>
+      <div class="admin-grid">
+        <label>Kategori<input name="category" placeholder="INFO / PROMO / UPDATE"></label>
+        <label>Judul Pesan<input name="title" placeholder="Judul pesan" required></label>
+        <label>Image URL<input name="imageUrl" placeholder="Opsional: https://..."></label>
+        <label>Upload Gambar Pesan<input type="file" name="messageImageFile" accept="image/*"></label>
+        <label>Link<input name="link" placeholder="Opsional: https://..."></label>
+        <label class="full">Isi Pesan<textarea name="message" placeholder="Tulis pesan untuk member" required></textarea></label>
+      </div>
+      <button class="save-btn"><i class="fa-solid fa-paper-plane"></i> Kirim Inbox + Push</button>
+    </form>
+
+    <section class="admin-card">
+      <div class="card-head"><h2>Riwayat Pesan</h2><form action="/itsiregar8008/messages/clear" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="delete-btn">Hapus Semua</button></form></div>
+      <div class="message-admin-list">
+        <% if(messages.length){ messages.forEach(msg=>{ %>
+          <div class="message-admin-item"><div><small><%= msg.category || 'INFO' %> • <%= msg.date || '' %></small><strong><%= msg.title %></strong><p><%= msg.message %></p></div><form action="/itsiregar8008/message/delete/<%= msg.id %>" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="delete-btn">Hapus</button></form></div>
+        <% }) } else { %><div class="empty-box">Belum ada pesan.</div><% } %>
+      </div>
+    </section>
+  </main>
+</div>

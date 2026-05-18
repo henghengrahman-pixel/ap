@@ -1,0 +1,42 @@
+{
+  "siteName": "OMTOGEL",
+  "siteDescription": "OMTOGEL Premium Launcher App",
+  "siteKeywords": "omtogel, launcher app, rtp slot, promosi, login, daftar",
+  "footerText": "Copyright © 2024 Aplikasi OMTOGEL. All Right Reserved",
+  "logoUrl": "",
+  "faviconUrl": "",
+  "appIconUrl": "",
+  "splashImageUrl": "",
+  "backgroundDesktopUrl": "",
+  "backgroundMobileUrl": "",
+  "heroBannerUrl": "",
+  "heroBannerLink": "#",
+  "loginUrl": "#",
+  "registerUrl": "#",
+  "rtpUrl": "#",
+  "promoUrl": "#",
+  "buktiJpUrl": "#",
+  "prediksiUrl": "#",
+  "alternatifUrl": "#",
+  "whatsappUrl": "#",
+  "liveChatUrl": "#",
+  "liveDrawUrl": "#",
+  "themeColor": "#050505",
+  "accentColor": "#f5c542",
+  "buttonTextColor": "#ffffff",
+  "buttonFeaturedColor": "#d00000",
+  "sliders": [
+    { "image": "", "link": "#", "active": true },
+    { "image": "", "link": "#", "active": true },
+    { "image": "", "link": "#", "active": true }
+  ],
+  "launcherButtons": [
+    { "title": "RTP SLOT", "link": "#", "active": true },
+    { "title": "PROMOSI", "link": "#", "active": true },
+    { "title": "LOGIN", "link": "#", "active": true },
+    { "title": "BUKTI JP", "link": "#", "active": true },
+    { "title": "DAFTAR", "link": "#", "active": true, "featured": true },
+    { "title": "PREDIKSI TOGEL", "link": "#", "active": true },
+    { "title": "LINK ALTERNATIF", "link": "#", "active": true }
+  ]
+}

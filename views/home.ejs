@@ -1,0 +1,80 @@
+<% const unreadCount = Array.isArray(messages) ? messages.filter(m => !m.read).length : 0; %>
+<% const bgDesktop = settings.backgroundDesktopUrl || ''; %>
+<% const bgMobile = settings.backgroundMobileUrl || bgDesktop; %>
+<% const activeSlides = Array.isArray(settings.sliders) ? settings.sliders.filter(s => s && s.active !== false && s.image) : []; %>
+<% const buttons = Array.isArray(settings.launcherButtons) ? settings.launcherButtons.filter(b => b && b.active !== false) : []; %>
+
+<div id="loader" class="loader-screen">
+  <div class="loader-box">
+    <% if(settings.splashImageUrl || settings.logoUrl){ %>
+      <img src="<%= settings.splashImageUrl || settings.logoUrl %>" alt="<%= settings.siteName || 'OMTOGEL' %>" onerror="this.style.display='none'">
+    <% } else { %>
+      <strong><%= settings.siteName || 'OMTOGEL' %></strong>
+    <% } %>
+    <div class="loader-line"><span></span></div>
+  </div>
+</div>
+
+<main class="launcher-app" style="--bg-desktop:url('<%= bgDesktop %>');--bg-mobile:url('<%= bgMobile %>');--featured:<%= settings.buttonFeaturedColor || '#d00000' %>;--btn-text:<%= settings.buttonTextColor || '#ffffff' %>">
+  <section class="launcher-scroll">
+    <header class="brand-header">
+      <% if(settings.logoUrl){ %>
+        <img class="brand-logo" src="<%= settings.logoUrl %>" alt="<%= settings.siteName || 'OMTOGEL' %>">
+      <% } else { %>
+        <h1><%= settings.siteName || 'OMTOGEL' %></h1>
+      <% } %>
+    </header>
+
+    <section class="hero-slider" data-slider>
+      <% if(activeSlides.length){ %>
+        <% activeSlides.forEach((slide, index) => { %>
+          <a href="<%= slide.link || '#' %>" class="hero-slide <%= index === 0 ? 'active' : '' %>" data-open-url="<%= slide.link || '#' %>" aria-label="Slide <%= index + 1 %>">
+            <img src="<%= slide.image %>" alt="Slide <%= index + 1 %>" loading="<%= index === 0 ? 'eager' : 'lazy' %>">
+          </a>
+        <% }) %>
+      <% } else if(settings.heroBannerUrl){ %>
+        <a href="<%= settings.heroBannerLink || '#' %>" class="hero-slide active" data-open-url="<%= settings.heroBannerLink || '#' %>">
+          <img src="<%= settings.heroBannerUrl %>" alt="Banner" loading="eager">
+        </a>
+      <% } else { %>
+        <div class="hero-fallback hero-slide active">
+          <div class="fallback-badge"><%= settings.siteName || 'OMTOGEL' %></div>
+          <strong>PREMIUM MOBILE APP</strong>
+          <span>Upload slide foto dari admin</span>
+        </div>
+      <% } %>
+      <% if(activeSlides.length > 1){ %>
+        <div class="slider-dots">
+          <% activeSlides.forEach((_, index) => { %>
+            <button type="button" class="<%= index === 0 ? 'active' : '' %>" data-dot="<%= index %>" aria-label="Slide <%= index + 1 %>"></button>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
+
+    <section class="launcher-buttons">
+      <% if(buttons.length){ %>
+        <% buttons.forEach((btn) => { %>
+          <a href="<%= btn.link || '#' %>" class="launcher-btn <%= btn.featured ? 'featured' : '' %>" data-open-url="<%= btn.link || '#' %>"><%= btn.title || 'MENU' %></a>
+        <% }) %>
+      <% } else { %>
+        <a href="#" class="launcher-btn">RTP SLOT</a>
+        <a href="#" class="launcher-btn">PROMOSI</a>
+        <a href="#" class="launcher-btn">LOGIN</a>
+        <a href="#" class="launcher-btn">BUKTI JP</a>
+        <a href="#" class="launcher-btn featured">DAFTAR</a>
+        <a href="#" class="launcher-btn">PREDIKSI TOGEL</a>
+      <% } %>
+    </section>
+
+    <footer class="launcher-footer"><%= settings.footerText || 'Copyright © 2024 Aplikasi OMTOGEL. All Right Reserved' %></footer>
+  </section>
+
+  <nav class="launcher-bottom" aria-label="Menu bawah">
+    <a href="<%= settings.bottomHomeUrl || '/' %>" data-open-url="<%= settings.bottomHomeUrl || '/' %>" class="bottom-link active"><span>HOME</span></a>
+    <a href="<%= settings.bottomDaftarUrl || settings.registerUrl || '#' %>" data-open-url="<%= settings.bottomDaftarUrl || settings.registerUrl || '#' %>" class="bottom-link"><span>DAFTAR</span></a>
+    <a href="<%= settings.bottomWhatsappUrl || settings.whatsappUrl || '#' %>" data-open-url="<%= settings.bottomWhatsappUrl || settings.whatsappUrl || '#' %>" class="bottom-link"><span>WHATSAPP</span></a>
+    <a href="<%= settings.bottomLiveChatUrl || settings.liveChatUrl || '#' %>" data-open-url="<%= settings.bottomLiveChatUrl || settings.liveChatUrl || '#' %>" class="bottom-link"><span>LIVE CHAT</span></a>
+    <% if(unreadCount){ %><em class="bottom-badge"><%= unreadCount %></em><% } %>
+  </nav>
+</main>
