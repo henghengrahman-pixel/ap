@@ -39,6 +39,12 @@ const CACHE_DIR =
 const TEMP_DIR =
   path.join(DATA_DIR, 'temp');
 
+/*
+==================================
+ENSURE DIR
+==================================
+*/
+
 [
   PUBLIC_DIR,
   ASSET_DIR,
@@ -65,9 +71,20 @@ async function start() {
   app.disable('x-powered-by');
 
   /*
-  ==========================
+  ==================================
+  TRUST PROXY
+  ==================================
+  */
+
+  app.set(
+    'trust proxy',
+    1
+  );
+
+  /*
+  ==================================
   VIEW ENGINE
-  ==========================
+  ==================================
   */
 
   app.set(
@@ -88,9 +105,9 @@ async function start() {
   );
 
   /*
-  ==========================
+  ==================================
   SECURITY
-  ==========================
+  ==================================
   */
 
   app.use(
@@ -105,9 +122,9 @@ async function start() {
   app.use(cors());
 
   /*
-  ==========================
+  ==================================
   BODY PARSER
-  ==========================
+  ==================================
   */
 
   app.use(express.urlencoded({
@@ -122,9 +139,9 @@ async function start() {
   app.use(methodOverride('_method'));
 
   /*
-  ==========================
-  STATIC FILES
-  ==========================
+  ==================================
+  STATIC
+  ==================================
   */
 
   app.use(
@@ -139,46 +156,37 @@ async function start() {
   );
 
   /*
-  ==========================
-  SESSION FIX RAILWAY
-  ==========================
+  ==================================
+  SESSION FINAL FIX
+  ==================================
   */
 
   app.use(
+
     session({
 
-      name: 'omtogel.sid',
+      name:
+        'omtogel.sid',
 
       secret:
         process.env.SESSION_SECRET ||
         'OMTOGEL_SECRET',
 
-      resave: false,
+      resave:false,
 
-      saveUninitialized: false,
+      saveUninitialized:false,
 
-      store: new FileStore({
+      rolling:true,
 
-        path: SESSION_DIR,
+      proxy:true,
 
-        retries: 1,
+      cookie:{
 
-        ttl:
-          60 * 60 * 24 * 7,
+        secure:false,
 
-        reapSyncFallback: true,
+        httpOnly:true,
 
-        logFn: () => {}
-
-      }),
-
-      cookie: {
-
-        secure: false,
-
-        httpOnly: true,
-
-        sameSite: 'lax',
+        sameSite:'lax',
 
         maxAge:
           1000 *
@@ -187,15 +195,34 @@ async function start() {
           24 *
           7
 
-      }
+      },
+
+      store:new FileStore({
+
+        path:SESSION_DIR,
+
+        ttl:
+          60 *
+          60 *
+          24 *
+          7,
+
+        retries:1,
+
+        reapSyncFallback:true,
+
+        logFn:()=>{}
+
+      })
 
     })
+
   );
 
   /*
-  ==========================
+  ==================================
   GLOBAL
-  ==========================
+  ==================================
   */
 
   app.use((req, res, next) => {
@@ -209,14 +236,16 @@ async function start() {
   });
 
   /*
-  ==========================
+  ==================================
   HEALTH
-  ==========================
+  ==================================
   */
 
   app.get('/ping', (req, res) => {
 
-    return res.status(200).send('OK');
+    return res
+      .status(200)
+      .send('OK');
 
   });
 
@@ -224,7 +253,7 @@ async function start() {
 
     return res.json({
 
-      ok: true,
+      ok:true,
 
       uptime:
         process.uptime(),
@@ -237,12 +266,15 @@ async function start() {
   });
 
   /*
-  ==========================
+  ==================================
   ROUTES
-  ==========================
+  ==================================
   */
 
-  app.use('/api', apiRoutes);
+  app.use(
+    '/api',
+    apiRoutes
+  );
 
   app.use(
     '/PINKTIGER8008',
@@ -251,7 +283,7 @@ async function start() {
 
   app.use(
     '/pinktiger8008',
-    (req, res) => {
+    (req,res)=>{
 
       return res.redirect(
         '/PINKTIGER8008' +
@@ -265,23 +297,26 @@ async function start() {
     }
   );
 
-  app.use('/', webRoutes);
+  app.use(
+    '/',
+    webRoutes
+  );
 
   /*
-  ==========================
+  ==================================
   404
-  ==========================
+  ==================================
   */
 
-  app.use((req, res) => {
+  app.use((req,res)=>{
 
-    if (
+    if(
       req.originalUrl.startsWith('/api')
-    ) {
+    ){
 
       return res.status(404).json({
 
-        success: false,
+        success:false,
 
         message:
           'API not found'
@@ -291,37 +326,45 @@ async function start() {
     }
 
     return res.status(404).render(
+
       'simple',
+
       {
-        title: '404',
+
+        title:'404',
+
         message:
           'Halaman tidak ditemukan.',
-        settings: {}
+
+        settings:{}
+
       }
+
     );
 
   });
 
   /*
-  ==========================
+  ==================================
   ERROR
-  ==========================
+  ==================================
   */
 
-  app.use((err, req, res, next) => {
+  app.use((err,req,res,next)=>{
 
     console.error(
-      'SERVER ERROR:',
-      err
+      'SERVER ERROR:'
     );
 
-    if (
+    console.error(err);
+
+    if(
       req.originalUrl.startsWith('/api')
-    ) {
+    ){
 
       return res.status(500).json({
 
-        success: false,
+        success:false,
 
         message:
           err.message ||
@@ -332,28 +375,36 @@ async function start() {
     }
 
     return res.status(500).render(
+
       'simple',
+
       {
-        title: 'SERVER ERROR',
+
+        title:
+          'SERVER ERROR',
+
         message:
           err.message ||
           'Server error',
-        settings: {}
+
+        settings:{}
+
       }
+
     );
 
   });
 
   /*
-  ==========================
+  ==================================
   START
-  ==========================
+  ==================================
   */
 
   const PORT =
     process.env.PORT || 8080;
 
-  app.listen(PORT, () => {
+  app.listen(PORT,()=>{
 
     console.log(
       '======================================'
@@ -383,7 +434,7 @@ async function start() {
 
 }
 
-start().catch(err => {
+start().catch(err=>{
 
   console.error(
     'FAILED START APP'
