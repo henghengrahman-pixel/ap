@@ -2,7 +2,7 @@
 
   <div>
 
-    <span>
+    <span class="hero-badge">
       ADMIN URL :
       /PINKTIGER8008
     </span>
@@ -14,14 +14,14 @@
     <p>
       Semua logo, background,
       slider, tombol utama,
-      popup, footer, dan
-      bottom navbar diatur
-      dari sini memakai URL/link.
+      feature card, popup,
+      footer, dan bottom navbar
+      diatur dari panel ini.
     </p>
 
   </div>
 
-  <b>
+  <b class="hero-counter">
     <%= messages.length %> Pesan
   </b>
 
@@ -33,14 +33,25 @@
   class="admin-card"
 >
 
-  <h2>
-    General
-  </h2>
+  <!-- ===================== -->
+  <!-- GENERAL -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      General Setting
+    </h2>
+
+  </div>
 
   <div class="admin-grid">
 
     <label>
-      Nama Website
+
+      <span>
+        Nama Website
+      </span>
 
       <input
         type="text"
@@ -51,7 +62,10 @@
     </label>
 
     <label>
-      Subtitle
+
+      <span>
+        Subtitle
+      </span>
 
       <input
         type="text"
@@ -62,7 +76,10 @@
     </label>
 
     <label>
-      Logo URL
+
+      <span>
+        Logo URL
+      </span>
 
       <input
         type="text"
@@ -73,7 +90,10 @@
     </label>
 
     <label>
-      Favicon URL
+
+      <span>
+        Favicon URL
+      </span>
 
       <input
         type="text"
@@ -84,7 +104,10 @@
     </label>
 
     <label>
-      Loader Logo URL
+
+      <span>
+        Loader Logo URL
+      </span>
 
       <input
         type="text"
@@ -95,7 +118,10 @@
     </label>
 
     <label>
-      Loader Text
+
+      <span>
+        Loader Text
+      </span>
 
       <input
         type="text"
@@ -107,7 +133,9 @@
 
     <label class="full">
 
-      Footer Text
+      <span>
+        Footer Text
+      </span>
 
       <input
         type="text"
@@ -119,7 +147,9 @@
 
     <label class="full">
 
-      Meta Description
+      <span>
+        Meta Description
+      </span>
 
       <textarea
         name="siteDescription"
@@ -129,7 +159,9 @@
 
     <label class="full">
 
-      Meta Keywords
+      <span>
+        Meta Keywords
+      </span>
 
       <textarea
         name="siteKeywords"
@@ -139,97 +171,117 @@
 
   </div>
 
-  <h2>
-    Background URL
-  </h2>
+  <!-- ===================== -->
+  <!-- BACKGROUND -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      Background Mobile
+    </h2>
+
+  </div>
 
   <div class="admin-grid">
 
-    <label>
-      Background Utama
+    <label class="full">
+
+      <span>
+        Background Utama
+      </span>
 
       <input
         type="text"
         name="backgroundMain"
         value="<%= settings.backgroundMain || '' %>"
       >
+
     </label>
 
     <label>
-      Background Mobile
 
-      <input
-        type="text"
-        name="backgroundMobile"
-        value="<%= settings.backgroundMobile || '' %>"
-      >
-    </label>
-
-    <label>
-      Background Desktop
-
-      <input
-        type="text"
-        name="backgroundDesktop"
-        value="<%= settings.backgroundDesktop || '' %>"
-      >
-    </label>
-
-    <label>
-      Background Login
+      <span>
+        Background Login
+      </span>
 
       <input
         type="text"
         name="backgroundLogin"
         value="<%= settings.backgroundLogin || '' %>"
       >
+
     </label>
 
     <label>
-      Background Popup
+
+      <span>
+        Background Popup
+      </span>
 
       <input
         type="text"
         name="backgroundPopup"
         value="<%= settings.backgroundPopup || '' %>"
       >
+
     </label>
 
     <label>
-      Background Footer
+
+      <span>
+        Background Footer
+      </span>
 
       <input
         type="text"
         name="backgroundFooter"
         value="<%= settings.backgroundFooter || '' %>"
       >
+
     </label>
 
     <label>
-      Background Navbar
+
+      <span>
+        Background Navbar
+      </span>
 
       <input
         type="text"
         name="backgroundNavbar"
         value="<%= settings.backgroundNavbar || '' %>"
       >
+
     </label>
 
     <label>
-      Background Loading
+
+      <span>
+        Background Loading
+      </span>
 
       <input
         type="text"
         name="backgroundLoading"
         value="<%= settings.backgroundLoading || '' %>"
       >
+
     </label>
 
   </div>
 
-  <h2>
-    Slider Promo
-  </h2>
+  <!-- ===================== -->
+  <!-- SLIDER -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      Slider Promo
+    </h2>
+
+  </div>
 
   <div class="admin-repeat">
 
@@ -252,43 +304,59 @@
         >
 
         <label>
-          Judul
+
+          <span>
+            Judul
+          </span>
 
           <input
             type="text"
             name="slide<%= n %>Title"
             value="<%= slide.title || '' %>"
           >
+
         </label>
 
         <label>
-          Gambar URL
+
+          <span>
+            Gambar URL
+          </span>
 
           <input
             type="text"
             name="slide<%= n %>ImageUrl"
             value="<%= slide.imageUrl || '' %>"
           >
+
         </label>
 
         <label>
-          Link
+
+          <span>
+            Link
+          </span>
 
           <input
             type="text"
             name="slide<%= n %>Link"
             value="<%= slide.link || '' %>"
           >
+
         </label>
 
         <label>
-          Urutan
+
+          <span>
+            Urutan
+          </span>
 
           <input
             type="number"
             name="slide<%= n %>Order"
             value="<%= slide.order || n %>"
           >
+
         </label>
 
         <label class="check">
@@ -309,9 +377,17 @@
 
   </div>
 
-  <h2>
-    Tombol Utama
-  </h2>
+  <!-- ===================== -->
+  <!-- BUTTON -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      Tombol Utama
+    </h2>
+
+  </div>
 
   <div class="admin-repeat">
 
@@ -334,38 +410,52 @@
         >
 
         <label>
-          Nama Tombol
+
+          <span>
+            Nama Tombol
+          </span>
 
           <input
             type="text"
             name="button<%= n %>Title"
             value="<%= btn.title || '' %>"
           >
+
         </label>
 
         <label>
-          Link
+
+          <span>
+            Link
+          </span>
 
           <input
             type="text"
             name="button<%= n %>Link"
             value="<%= btn.link || '' %>"
           >
+
         </label>
 
         <label>
-          Icon
+
+          <span>
+            Icon
+          </span>
 
           <input
             type="text"
             name="button<%= n %>Icon"
             value="<%= btn.icon || '' %>"
-            placeholder="fa-solid fa-star"
           >
+
         </label>
 
         <label>
-          Warna
+
+          <span>
+            Warna
+          </span>
 
           <select
             name="button<%= n %>Color"
@@ -377,7 +467,7 @@
               ? 'selected'
               : '' %>
             >
-              Silver Chrome
+              Silver
             </option>
 
             <option
@@ -386,7 +476,7 @@
               ? 'selected'
               : '' %>
             >
-              Merah Daftar
+              Red
             </option>
 
           </select>
@@ -394,13 +484,17 @@
         </label>
 
         <label>
-          Urutan
+
+          <span>
+            Urutan
+          </span>
 
           <input
             type="number"
             name="button<%= n %>Order"
             value="<%= btn.order || n %>"
           >
+
         </label>
 
         <label class="check">
@@ -420,6 +514,306 @@
     <% } %>
 
   </div>
+
+  <!-- ===================== -->
+  <!-- FEATURE CARD -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      Feature Card
+    </h2>
+
+  </div>
+
+  <div class="admin-repeat">
+
+    <% for(let i = 0; i < 12; i++){ %>
+
+      <% const feature = (settings.featureCards || [])[i] || {}; %>
+
+      <% const n = i + 1; %>
+
+      <section>
+
+        <h3>
+          Feature <%= n %>
+        </h3>
+
+        <input
+          type="hidden"
+          name="feature<%= n %>Id"
+          value="<%= feature.id || '' %>"
+        >
+
+        <label>
+
+          <span>
+            Judul
+          </span>
+
+          <input
+            type="text"
+            name="feature<%= n %>Title"
+            value="<%= feature.title || '' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Gambar URL
+          </span>
+
+          <input
+            type="text"
+            name="feature<%= n %>Image"
+            value="<%= feature.image || '' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Link
+          </span>
+
+          <input
+            type="text"
+            name="feature<%= n %>Link"
+            value="<%= feature.link || '' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Urutan
+          </span>
+
+          <input
+            type="number"
+            name="feature<%= n %>Order"
+            value="<%= feature.order || n %>"
+          >
+
+        </label>
+
+        <label class="check">
+
+          <input
+            type="checkbox"
+            name="feature<%= n %>Active"
+            <%= feature.active !== false ? 'checked' : '' %>
+          >
+
+          Aktif
+
+        </label>
+
+      </section>
+
+    <% } %>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- BOTTOM NAV -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      Bottom Navbar
+    </h2>
+
+  </div>
+
+  <div class="admin-repeat">
+
+    <% for(let i = 0; i < 8; i++){ %>
+
+      <% const nav = (settings.bottomNav || [])[i] || {}; %>
+
+      <% const n = i + 1; %>
+
+      <section>
+
+        <h3>
+          Navbar <%= n %>
+        </h3>
+
+        <input
+          type="hidden"
+          name="nav<%= n %>Id"
+          value="<%= nav.id || '' %>"
+        >
+
+        <label>
+
+          <span>
+            Nama
+          </span>
+
+          <input
+            type="text"
+            name="nav<%= n %>Title"
+            value="<%= nav.title || '' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Icon
+          </span>
+
+          <input
+            type="text"
+            name="nav<%= n %>Icon"
+            value="<%= nav.icon || '' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Link
+          </span>
+
+          <input
+            type="text"
+            name="nav<%= n %>Link"
+            value="<%= nav.link || '' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Warna Active
+          </span>
+
+          <input
+            type="text"
+            name="nav<%= n %>ColorActive"
+            value="<%= nav.colorActive || '#d21717' %>"
+          >
+
+        </label>
+
+        <label>
+
+          <span>
+            Urutan
+          </span>
+
+          <input
+            type="number"
+            name="nav<%= n %>Order"
+            value="<%= nav.order || n %>"
+          >
+
+        </label>
+
+        <label class="check">
+
+          <input
+            type="checkbox"
+            name="nav<%= n %>Active"
+            <%= nav.active !== false ? 'checked' : '' %>
+          >
+
+          Aktif
+
+        </label>
+
+      </section>
+
+    <% } %>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- POPUP -->
+  <!-- ===================== -->
+
+  <div class="admin-section-title">
+
+    <h2>
+      Popup
+    </h2>
+
+  </div>
+
+  <div class="admin-grid">
+
+    <label class="full">
+
+      <span>
+        Popup Image URL
+      </span>
+
+      <input
+        type="text"
+        name="popupImageUrl"
+        value="<%= settings.popupImageUrl || '' %>"
+      >
+
+    </label>
+
+    <label>
+
+      <span>
+        Popup Link
+      </span>
+
+      <input
+        type="text"
+        name="popupLink"
+        value="<%= settings.popupLink || '' %>"
+      >
+
+    </label>
+
+    <label>
+
+      <span>
+        Popup Timer
+      </span>
+
+      <input
+        type="number"
+        name="popupTimer"
+        value="<%= settings.popupTimer || 1200 %>"
+      >
+
+    </label>
+
+    <label class="check">
+
+      <input
+        type="checkbox"
+        name="popupActive"
+        <%= settings.popupActive ? 'checked' : '' %>
+      >
+
+      Popup Aktif
+
+    </label>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- SAVE -->
+  <!-- ===================== -->
 
   <button class="save-btn">
 
