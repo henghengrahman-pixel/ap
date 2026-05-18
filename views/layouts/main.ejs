@@ -1,30 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
 <title><%= settings?.siteName || title || 'OMTOGEL' %></title>
+
 <meta name="description" content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>">
 <meta name="keywords" content="<%= settings?.siteKeywords || 'omtogel' %>">
 <meta name="theme-color" content="<%= settings?.themeColor || '#050505' %>">
+<meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="<%= settings?.siteName || 'OMTOGEL' %>">
+
 <meta property="og:title" content="<%= settings?.siteName || 'OMTOGEL' %>">
 <meta property="og:description" content="<%= settings?.siteDescription || 'OMTOGEL Premium App' %>">
 <meta property="og:image" content="<%= settings?.appIconUrl || settings?.logoUrl || '' %>">
+
 <link rel="manifest" href="/manifest.json">
-<% if(settings?.faviconUrl || settings?.logoUrl){ %><link rel="icon" href="<%= settings.faviconUrl || settings.logoUrl %>"><% } %>
-<% if(settings?.appIconUrl || settings?.logoUrl){ %><link rel="apple-touch-icon" href="<%= settings.appIconUrl || settings.logoUrl %>"><% } %>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<% if(settings?.faviconUrl || settings?.logoUrl){ %>
+<link rel="icon" href="<%= settings.faviconUrl || settings.logoUrl %>">
+<% } %>
+
+<% if(settings?.appIconUrl || settings?.logoUrl){ %>
+<link rel="apple-touch-icon" href="<%= settings.appIconUrl || settings.logoUrl %>">
+<% } %>
+
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
 <link rel="stylesheet" href="/assets/css/style.css">
-<script>window.__APP_SETTINGS__=<%- JSON.stringify(settings || {}) %>; window.__CSRF_TOKEN__='<%= csrfToken || '' %>';</script>
+
+<script>
+window.__APP_SETTINGS__ = <%- JSON.stringify(settings || {}) %>;
+window.__CSRF_TOKEN__ = '<%= csrfToken || '' %>';
+</script>
+
 <script src="/socket.io/socket.io.js" defer></script>
 <script src="/assets/js/app.js" defer></script>
 </head>
-<body style="--theme:<%= settings?.themeColor || '#050505' %>;--accent:<%= settings?.accentColor || '#f5c542' %>;--glass-alpha:<%= settings?.glassOpacity || '0.78' %>;--radius:<%= settings?.radius || '22' %>px;--speed:<%= settings?.animationSpeed || '220' %>ms">
+
+<body
+  style="
+    --theme:<%= settings?.themeColor || '#050505' %>;
+    --accent:<%= settings?.accentColor || '#f5c542' %>;
+    --radius:<%= settings?.radius || '22' %>px;
+    --speed:<%= settings?.animationSpeed || '180' %>ms;
+  "
+>
 <%- body %>
 </body>
 </html>
