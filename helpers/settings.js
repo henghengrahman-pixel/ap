@@ -6,67 +6,196 @@ const DATA_DIR =
   path.join(process.cwd(), 'data');
 
 if (!fs.existsSync(DATA_DIR)) {
+
   fs.mkdirSync(DATA_DIR, {
     recursive: true
   });
+
 }
 
-const SETTINGS_FILE = path.join(
-  DATA_DIR,
-  'settings.json'
-);
+const SETTINGS_FILE =
+  path.join(
+    DATA_DIR,
+    'settings.json'
+  );
 
 const DEFAULT_SETTINGS = {
 
-  siteName: 'OMTOGEL',
+  siteName:
+    'OMTOGEL',
 
-  subtitle: 'Premium Webview App',
+  subtitle:
+    'Premium Webview App',
 
-  siteDescription: '',
+  siteDescription:
+    '',
 
-  siteKeywords: '',
+  siteKeywords:
+    '',
 
-  logoUrl: '',
+  logoUrl:
+    '',
 
-  faviconUrl: '',
+  faviconUrl:
+    '',
 
-  footerText: '© OMTOGEL',
+  footerText:
+    '© OMTOGEL',
 
-  loaderLogoUrl: '',
+  loaderLogoUrl:
+    '',
 
-  loaderText: 'MEMUAT APLIKASI...',
+  loaderText:
+    'MEMUAT APLIKASI...',
 
-  backgroundMain: '',
+  /*
+  =========================
+  BACKGROUND
+  =========================
+  */
 
-  backgroundMobile: '',
+  backgroundMain:
+    '',
 
-  backgroundDesktop: '',
+  backgroundLogin:
+    '',
 
-  backgroundLogin: '',
+  backgroundPopup:
+    '',
 
-  backgroundPopup: '',
+  backgroundFooter:
+    '',
 
-  backgroundFooter: '',
+  backgroundNavbar:
+    '',
 
-  backgroundNavbar: '',
+  backgroundLoading:
+    '',
 
-  backgroundLoading: '',
+  /*
+  =========================
+  POPUP
+  =========================
+  */
 
-  popupImageUrl: '',
+  popupImageUrl:
+    '',
 
-  popupLink: '#',
+  popupLink:
+    '#',
 
-  popupTimer: 1200,
+  popupTimer:
+    1200,
 
-  popupActive: false,
+  popupActive:
+    false,
 
-  sliders: [],
+  /*
+  =========================
+  SLIDER
+  =========================
+  */
 
-  buttons: [],
+  sliders: [
 
-  bottomNav: []
+    {
+      id: 'slide-1',
+      title: 'Slide 1',
+      imageUrl: '',
+      link: '#',
+      order: 1,
+      active: true
+    }
+
+  ],
+
+  /*
+  =========================
+  BUTTON
+  =========================
+  */
+
+  buttons: [
+
+    {
+      id: 'btn-1',
+      title: 'LOGIN',
+      link: '#',
+      icon: '',
+      color: 'silver',
+      order: 1,
+      active: true
+    },
+
+    {
+      id: 'btn-2',
+      title: 'DAFTAR',
+      link: '#',
+      icon: '',
+      color: 'red',
+      order: 2,
+      active: true
+    }
+
+  ],
+
+  /*
+  =========================
+  BOTTOM NAV
+  =========================
+  */
+
+  bottomNav: [
+
+    {
+      id: 'nav-1',
+      title: 'HOME',
+      icon: 'fa-solid fa-house',
+      link: '/',
+      colorActive: '#d21717',
+      order: 1,
+      active: true
+    },
+
+    {
+      id: 'nav-2',
+      title: 'DAFTAR',
+      icon: 'fa-solid fa-user-plus',
+      link: '#',
+      colorActive: '#d21717',
+      order: 2,
+      active: true
+    },
+
+    {
+      id: 'nav-3',
+      title: 'WHATSAPP',
+      icon: 'fa-brands fa-whatsapp',
+      link: '#',
+      colorActive: '#d21717',
+      order: 3,
+      active: true
+    },
+
+    {
+      id: 'nav-4',
+      title: 'LIVE CHAT',
+      icon: 'fa-regular fa-comments',
+      link: '#',
+      colorActive: '#d21717',
+      order: 4,
+      active: true
+    }
+
+  ]
 
 };
+
+/*
+=========================
+ENSURE FILE
+=========================
+*/
 
 function ensureFile() {
 
@@ -85,23 +214,39 @@ function ensureFile() {
 
 }
 
-function cleanText(value = '', fallback = '') {
+/*
+=========================
+SANITIZE
+=========================
+*/
 
-  const result = String(value || '')
-    .replace(/<[^>]*>?/gm, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+function cleanText(
+  value = '',
+  fallback = ''
+) {
+
+  const result =
+    String(value || '')
+      .replace(/<[^>]*>?/gm, '')
+      .replace(/\s+/g, ' ')
+      .trim();
 
   return result || fallback;
 
 }
 
-function cleanUrl(value = '', fallback = '') {
+function cleanUrl(
+  value = '',
+  fallback = ''
+) {
 
-  const url = cleanText(value);
+  const url =
+    cleanText(value);
 
   if (!url) {
+
     return fallback;
+
   }
 
   return url;
@@ -111,23 +256,38 @@ function cleanUrl(value = '', fallback = '') {
 function toBool(value) {
 
   return (
+
     value === true ||
+
     value === 'true' ||
+
     value === '1' ||
+
     value === 'on'
+
   );
 
 }
 
-function toInt(value, fallback = 0) {
+function toInt(
+  value,
+  fallback = 0
+) {
 
-  const num = parseInt(value);
+  const num =
+    parseInt(value);
 
   return Number.isNaN(num)
     ? fallback
     : num;
 
 }
+
+/*
+=========================
+COLLECTION
+=========================
+*/
 
 function readCollection(
   prefix,
@@ -138,7 +298,11 @@ function readCollection(
 
   const result = [];
 
-  for (let i = 1; i <= limit; i++) {
+  for (
+    let i = 1;
+    i <= limit;
+    i++
+  ) {
 
     result.push(
       callback(i)
@@ -150,23 +314,55 @@ function readCollection(
 
 }
 
+/*
+=========================
+READ SETTINGS
+=========================
+*/
+
 async function getSettings() {
 
   try {
 
     ensureFile();
 
-    const raw = fs.readFileSync(
-      SETTINGS_FILE,
-      'utf8'
-    );
+    const raw =
+      fs.readFileSync(
+        SETTINGS_FILE,
+        'utf8'
+      );
+
+    const parsed =
+      JSON.parse(raw || '{}');
 
     return {
+
       ...DEFAULT_SETTINGS,
-      ...JSON.parse(raw || '{}')
+
+      ...parsed,
+
+      sliders:
+        Array.isArray(parsed.sliders)
+          ? parsed.sliders
+          : DEFAULT_SETTINGS.sliders,
+
+      buttons:
+        Array.isArray(parsed.buttons)
+          ? parsed.buttons
+          : DEFAULT_SETTINGS.buttons,
+
+      bottomNav:
+        Array.isArray(parsed.bottomNav)
+          ? parsed.bottomNav
+          : DEFAULT_SETTINGS.bottomNav
+
     };
 
   } catch (err) {
+
+    console.error(
+      'GET SETTINGS ERROR'
+    );
 
     console.error(err);
 
@@ -176,7 +372,15 @@ async function getSettings() {
 
 }
 
-async function saveSettings(data = {}) {
+/*
+=========================
+SAVE SETTINGS
+=========================
+*/
+
+async function saveSettings(
+  data = {}
+) {
 
   try {
 
@@ -186,12 +390,21 @@ async function saveSettings(data = {}) {
       await getSettings();
 
     const updated = {
+
       ...current,
-      ...data
+
+      ...data,
+
+      updatedAt:
+        Date.now()
+
     };
 
+    const tempFile =
+      SETTINGS_FILE + '.tmp';
+
     fs.writeFileSync(
-      SETTINGS_FILE,
+      tempFile,
       JSON.stringify(
         updated,
         null,
@@ -199,9 +412,18 @@ async function saveSettings(data = {}) {
       )
     );
 
+    fs.renameSync(
+      tempFile,
+      SETTINGS_FILE
+    );
+
     return updated;
 
   } catch (err) {
+
+    console.error(
+      'SAVE SETTINGS ERROR'
+    );
 
     console.error(err);
 
