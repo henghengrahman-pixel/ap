@@ -250,15 +250,7 @@ if(process.env.MONGO_URI){
         24 *
         7,
 
-      autoRemove:'native',
-
-      crypto:
-        process.env.MONGO_STORE_SECRET
-          ? {
-              secret:
-                process.env.MONGO_STORE_SECRET
-            }
-          : undefined
+      autoRemove:'native'
 
     });
 
@@ -284,35 +276,88 @@ app.use(
 ========================================= */
 
 const csrfProtection = csurf({
-  cookie: false,
-  ignoreMethods: ['GET', 'HEAD', 'OPTIONS']
+
+  cookie:false,
+
+  ignoreMethods:[
+    'GET',
+    'HEAD',
+    'OPTIONS'
+  ]
+
 });
 
-function shouldBypassCsrf(req) {
-  const method = String(req.method || 'GET').toUpperCase();
-  if (['GET', 'HEAD', 'OPTIONS'].includes(method)) return true;
+function shouldBypassCsrf(req){
+
+  const method =
+    String(req.method || 'GET')
+      .toUpperCase();
+
+  if(
+    ['GET','HEAD','OPTIONS']
+    .includes(method)
+  ){
+
+    return true;
+
+  }
 
   const adminMultipartRoutes = [
+
     '/itsiregar8008/settings',
+
     '/itsiregar8008/message/add',
+
     '/itsiregar8008/message/delete',
+
     '/itsiregar8008/messages/clear'
+
   ];
 
   const publicApiRoutes = [
+
     '/api',
+
     '/track-click',
+
     '/push/token'
+
   ];
 
-  return [...adminMultipartRoutes, ...publicApiRoutes].some((route) =>
-    req.path === route || req.path.startsWith(`${route}/`)
+  return [
+
+    ...adminMultipartRoutes,
+
+    ...publicApiRoutes
+
+  ].some(route =>
+
+    req.path === route ||
+
+    req.path.startsWith(
+      `${route}/`
+    )
+
   );
+
 }
 
-app.use((req, res, next) => {
-  if (shouldBypassCsrf(req)) return next();
-  return csrfProtection(req, res, next);
+app.use((req,res,next)=>{
+
+  if(
+    shouldBypassCsrf(req)
+  ){
+
+    return next();
+
+  }
+
+  return csrfProtection(
+    req,
+    res,
+    next
+  );
+
 });
 
 /* =========================================
@@ -471,85 +516,131 @@ app.use((req,res)=>{
 ========================================= */
 
 app.use((err, req, res, next) => {
-  if (err && err.code === 'EBADCSRFTOKEN') {
-    if (req.originalUrl.startsWith('/api')) {
+
+  if(
+    err &&
+    err.code === 'EBADCSRFTOKEN'
+  ){
+
+    if(
+      req.originalUrl.startsWith('/api')
+    ){
+
       return res.status(403).json({
-        success: false,
-        message: 'CSRF token tidak valid. Refresh halaman lalu coba lagi.'
+
+        success:false,
+
+        message:
+          'CSRF token tidak valid. Refresh halaman lalu coba lagi.'
+
       });
+
     }
 
-    if (req.originalUrl.startsWith('/itsiregar8008')) {
-      return res.status(403).send(`<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SESSION EXPIRED</title>
-<style>
-body{margin:0;background:#050505;color:#fff;min-height:100vh;display:grid;place-items:center;font-family:Arial,sans-serif;padding:20px}
-.box{width:100%;max-width:520px;padding:30px;border-radius:28px;background:linear-gradient(180deg,#161616,#090909);border:1px solid rgba(255,255,255,.08);text-align:center;box-shadow:0 10px 34px rgba(0,0,0,.45)}
-h1{margin:0 0 14px;font-size:28px;font-weight:900;color:#ff4d4d}
-p{margin:0 0 22px;line-height:1.8;font-size:15px;color:#d1d5db}
-a{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 24px;border-radius:16px;background:linear-gradient(180deg,#fff,#bcbcbc);color:#050505;font-weight:900;text-decoration:none}
-</style>
-</head>
-<body>
-<div class="box">
-<h1>SESSION EXPIRED</h1>
-<p>Session admin berubah atau expired. Refresh halaman admin lalu coba save kembali.</p>
-<a href="javascript:location.reload()">REFRESH HALAMAN</a>
-</div>
-</body>
-</html>`);
+    if(
+      req.originalUrl.startsWith('/itsiregar8008')
+    ){
+
+      return res.redirect(
+        '/itsiregar8008/login'
+      );
+
     }
 
-    return res.status(403).send(`<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SESSION EXPIRED</title>
-<style>
-body{margin:0;background:#050505;color:#fff;min-height:100vh;display:grid;place-items:center;font-family:Arial,sans-serif;padding:20px}
-.box{width:100%;max-width:500px;padding:28px;border-radius:28px;background:linear-gradient(180deg,#161616,#090909);border:1px solid rgba(255,255,255,.08);text-align:center;box-shadow:0 10px 34px rgba(0,0,0,.45)}
-h1{margin:0 0 14px;font-size:28px;font-weight:900;color:#ff4d4d}
-p{margin:0 0 22px;line-height:1.8;font-size:15px;color:#d1d5db}
-button{height:52px;padding:0 24px;border:0;border-radius:16px;background:linear-gradient(180deg,#fff,#bcbcbc);color:#050505;font-weight:900}
-</style>
-</head>
-<body>
-<div class="box">
-<h1>SESSION EXPIRED</h1>
-<p>Refresh halaman lalu coba kembali.</p>
-<button onclick="location.reload()">REFRESH</button>
-</div>
-</body>
-</html>`);
+    return res.redirect('/');
+
   }
 
-  console.error('SERVER ERROR:', err);
+  console.error(
+    'SERVER ERROR:',
+    err
+  );
 
-  return res.status(500).send(`<!doctype html>
+  return res.status(500).send(`
+<!doctype html>
+
 <html lang="id">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
 <title>SERVER ERROR</title>
+
 <style>
-body{margin:0;background:#050505;color:#fff;min-height:100vh;display:grid;place-items:center;font-family:Arial,sans-serif;padding:20px}
-.box{width:100%;max-width:760px;padding:30px;border-radius:28px;background:linear-gradient(180deg,#161616,#090909);border:1px solid rgba(255,255,255,.08);text-align:center;box-shadow:0 10px 34px rgba(0,0,0,.45)}
-h1{margin:0 0 14px;font-size:32px;font-weight:900;color:#ff4d4d}
-p{margin:0;line-height:1.8;font-size:15px;color:#d1d5db;word-break:break-word}
+
+body{
+margin:0;
+background:#050505;
+color:#fff;
+min-height:100vh;
+display:grid;
+place-items:center;
+font-family:Arial,sans-serif;
+padding:20px;
+}
+
+.box{
+width:100%;
+max-width:760px;
+padding:30px;
+border-radius:28px;
+background:
+linear-gradient(
+180deg,
+#161616,
+#090909
+);
+border:1px solid rgba(255,255,255,.08);
+text-align:center;
+box-shadow:
+0 10px 34px rgba(0,0,0,.45);
+}
+
+h1{
+margin:0 0 14px;
+font-size:32px;
+font-weight:900;
+color:#ff4d4d;
+}
+
+p{
+margin:0;
+line-height:1.8;
+font-size:15px;
+color:#d1d5db;
+word-break:break-word;
+}
+
 </style>
+
 </head>
+
 <body>
+
 <div class="box">
+
 <h1>SERVER ERROR</h1>
-<p>${String(err.message || 'Unknown error')}</p>
+
+<p>
+${String(
+  err.message ||
+  'Unknown error'
+)}
+</p>
+
 </div>
+
 </body>
-</html>`);
+
+</html>
+`);
+
 });
 
 /* =========================================
