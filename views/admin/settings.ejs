@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-page">
+  <aside class="sidebar">
+    <h2>ADMIN</h2>
+    <a href="/pinktiger8008">Dashboard</a>
+    <a class="active" href="/pinktiger8008/settings">Pengaturan</a>
+    <a href="/pinktiger8008/sliders">Slider Foto</a>
+    <a href="/" target="_blank">Lihat Website</a>
+    <form method="post" action="/pinktiger8008/logout"><button>Logout</button></form>
+  </aside>
+  <main class="admin-main">
+    <h1>Pengaturan Aplikasi</h1>
+    <% if (saved) { %><div class="alert success">Pengaturan berhasil disimpan.</div><% } %>
+    <form class="panel form-panel" method="post" action="/pinktiger8008/settings">
+      <h2>Branding</h2>
+      <div class="form-grid">
+        <label>Nama Website<input name="siteName" value="<%= settings.siteName || '' %>"></label>
+        <label>Logo URL<input name="logoUrl" value="<%= settings.logoUrl || '' %>" placeholder="https://.../logo.png"></label>
+        <label>Background Mobile URL<input name="backgroundUrl" value="<%= settings.backgroundUrl || '' %>" placeholder="https://.../background.jpg"></label>
+        <label>Footer Text<input name="footerText" value="<%= settings.footerText || '' %>"></label>
+      </div>
+      <h2>Bottom Navigation</h2>
+      <div class="form-grid four">
+        <label>Home Nama<input name="bottomHomeName" value="<%= settings.bottomHomeName || 'HOME' %>"></label>
+        <label>Home Link<input name="bottomHomeLink" value="<%= settings.bottomHomeLink || '/' %>"></label>
+        <label>Daftar Nama<input name="bottomRegisterName" value="<%= settings.bottomRegisterName || 'DAFTAR' %>"></label>
+        <label>Daftar Link<input name="bottomRegisterLink" value="<%= settings.bottomRegisterLink || '#' %>"></label>
+        <label>WhatsApp Nama<input name="bottomWhatsappName" value="<%= settings.bottomWhatsappName || 'WHATSAPP' %>"></label>
+        <label>WhatsApp Link<input name="bottomWhatsappLink" value="<%= settings.bottomWhatsappLink || '#' %>"></label>
+        <label>Livechat Nama<input name="bottomLivechatName" value="<%= settings.bottomLivechatName || 'LIVE CHAT' %>"></label>
+        <label>Livechat Link<input name="bottomLivechatLink" value="<%= settings.bottomLivechatLink || '#' %>"></label>
+      </div>
+      <h2>Button Utama</h2>
+      <div id="buttonsArea" class="rows-editor">
+        <% (settings.buttons || []).forEach(function(btn, i){ %>
+          <div class="edit-row">
+            <input name="buttonName" value="<%= btn.name || '' %>" placeholder="Nama tombol">
+            <input name="buttonLink" value="<%= btn.link || '' %>" placeholder="Link tombol">
+            <select name="buttonColor"><option value="silver" <%= btn.color !== 'red' ? 'selected' : '' %>>Silver</option><option value="red" <%= btn.color === 'red' ? 'selected' : '' %>>Merah</option></select>
+            <label class="check"><input type="checkbox" name="buttonActive" value="<%= i %>" <%= btn.active !== false ? 'checked' : '' %>> Aktif</label>
+          </div>
+        <% }) %>
+      </div>
+      <button type="button" class="secondary" onclick="addButtonRow()">+ Tambah Button</button>
+      <button class="save-btn" type="submit">SIMPAN PENGATURAN</button>
+    </form>
+  </main>
+  <script>
+    function addButtonRow(){
+      const area = document.getElementById('buttonsArea');
+      const i = area.children.length;
+      const div = document.createElement('div');
+      div.className = 'edit-row';
+      div.innerHTML = `<input name="buttonName" placeholder="Nama tombol"><input name="buttonLink" placeholder="Link tombol"><select name="buttonColor"><option value="silver">Silver</option><option value="red">Merah</option></select><label class="check"><input type="checkbox" name="buttonActive" value="${i}" checked> Aktif</label>`;
+      area.appendChild(div);
+    }
+  </script>
+</body>
+</html>

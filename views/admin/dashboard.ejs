@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-page">
+  <aside class="sidebar">
+    <h2><%= settings.siteName || 'OMTOGEL' %></h2>
+    <a class="active" href="/pinktiger8008">Dashboard</a>
+    <a href="/pinktiger8008/settings">Pengaturan</a>
+    <a href="/pinktiger8008/sliders">Slider Foto</a>
+    <a href="/" target="_blank">Lihat Website</a>
+    <form method="post" action="/pinktiger8008/logout"><button>Logout</button></form>
+  </aside>
+  <main class="admin-main">
+    <h1>Dashboard Admin</h1>
+    <div class="stats-grid">
+      <div class="stat"><b><%= (settings.buttons || []).length %></b><span>Total Button</span></div>
+      <div class="stat"><b><%= (sliders || []).length %></b><span>Total Slider</span></div>
+      <div class="stat"><b>DATA_DIR</b><span>Aktif tersimpan di Railway Volume</span></div>
+    </div>
+    <section class="panel">
+      <h2>Status Project</h2>
+      <p>Website webview siap deploy. Semua logo, background, slider, nama tombol, dan link tombol bisa diatur dari admin.</p>
+      <div class="quick-actions">
+        <a href="/pinktiger8008/settings">Edit Pengaturan</a>
+        <a href="/pinktiger8008/sliders">Edit Slider</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
