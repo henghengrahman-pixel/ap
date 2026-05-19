@@ -1,0 +1,14 @@
+<nav class="bottom-nav">
+  <a href="<%= settings.bottomHomeLink || '/' %>" class="nav-item" onclick="if((this.getAttribute('href')||'/')==='/'){event.preventDefault();location.href='/';}">
+    <span class="nav-icon">⌂</span><span><%= settings.bottomHomeName || 'HOME' %></span>
+  </a>
+  <a href="<%= settings.bottomRegisterLink || '#' %>" class="nav-item">
+    <span class="nav-icon">♟</span><span><%= settings.bottomRegisterName || 'DAFTAR' %></span>
+  </a>
+  <a href="<%= settings.bottomWhatsappLink || '#' %>" class="nav-item">
+    <span class="nav-icon">◉</span><span><%= settings.bottomWhatsappName || 'WHATSAPP' %></span>
+  </a>
+  <a href="<%= settings.bottomLivechatLink || '#' %>" class="nav-item">
+    <span class="nav-icon">▱</span><span><%= settings.bottomLivechatName || 'LIVE CHAT' %></span>
+  </a>
+</nav>

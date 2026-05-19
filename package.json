@@ -1,0 +1,25 @@
+{
+  "name": "omtogel-webview-mobile-app",
+  "version": "1.0.0",
+  "description": "OMTOGEL mobile webview app with admin settings, Railway DATA_DIR storage, EJS frontend.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "connect-session-file-store": "^1.5.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

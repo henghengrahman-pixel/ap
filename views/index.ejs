@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title><%= settings.siteName || 'OMTOGEL' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="app-shell" style="--mobile-bg:url('<%= settings.backgroundUrl || '' %>')">
+    <section class="app-card">
+      <header class="app-logo-wrap">
+        <% if (settings.logoUrl) { %>
+          <img src="<%= settings.logoUrl %>" class="app-logo" alt="<%= settings.siteName || 'Logo' %>" onerror="this.style.display='none'">
+        <% } else { %>
+          <div class="text-logo"><%= settings.siteName || 'OMTOGEL' %></div>
+        <% } %>
+      </header>
+
+      <%- include('partials/slider', { sliders }) %>
+
+      <section class="button-grid">
+        <% (settings.buttons || []).filter(b => b.active !== false).forEach(function(btn){ %>
+          <a class="main-btn <%= btn.color === 'red' ? 'btn-red' : 'btn-silver' %>" href="<%= btn.link || '#' %>">
+            <%= btn.name || 'BUTTON' %>
+          </a>
+        <% }) %>
+      </section>
+
+      <footer class="app-footer"><%= settings.footerText || '' %></footer>
+    </section>
+  </main>
+
+  <%- include('partials/bottom-nav', { settings }) %>
+  <script src="/js/slider.js"></script>
+</body>
+</html>
